@@ -1,0 +1,67 @@
+solow-projects CMS engine
+
+[Description]
+    This is a cms engine. Meaning it's not a functionl cms on it's own.
+    This engine will create a cms enabled website, using data input from the user.
+    The user will be able to choose from preset templates, built from partials, and alter them using stored partials.
+    You can either choose to set up the config in the engine, or generate an installation file to be added to the website.
+    After setting up the layout, this engine will generate a website.
+    The website can be uploaded, and added content to.
+    Everything will be fully customizable. There will be a backup module, to store the website's current state.
+    There will be several plugins available, such as a news system, forum, guestbook, contact form and so on.
+    Certain options can be enabled/ disabled from the master server, and will be hosted on this server as well.
+    Users will be able to purchase extra functionality. Automatic updates will be available,
+    as well as manual (both remote) updates.
+    User managment will be enabled, and you'll be able to give a user a certain 'status'.
+    These are: Administrator[Full access and rights], Moderator[Controlled access and rights], user[Controlled access and rights].
+    All rights, and access rights can be changed per user, or predefined per status.   
+    When creating new pages, there will be 'prebuilt modules' available. Such as a mail form, database storage,
+    date picker, records per page, and so on.
+    Another possibility will be creating categories. When creating a menu item, you'll be able to add
+    multiple pages to this menu item. Or just a nother subcategory. All of these can be fully altered.          
+[/description]
+
+[Requirements]
+    - Templating engine.
+        * Simple to create, basic layouts. Specified places to store different types.
+        * A menu template will have tags, wrapping a certain element with information about it.
+        Example menu: 
+        
+            <template_info>
+                <author>Your Name</author>
+                <template>Template/ theme name</template>
+                <version>Your version</version>
+                <!-- And so on -->   
+            </template_info>
+            
+            <template_item name="menuName" type="menu" repeat="No">
+            <ul class="menu_ul">
+                <template_item name="menuItemName" type="menuItem" repeat="Yes"> 
+                <li class="menuItem_li">
+                    <a href="<template_var name="link_location" />" target="<template_var name="link_target" />">
+                        <template_var name="link_name" />
+                    </a>             
+                </li>
+                </template_item>     
+            </ul>
+            </template_item>
+        
+        * The same thing applies to css, as you'll be able to link specific styling to items.
+        * When adding a css to your template, all colors, font sizes/ families and so on, will be replaced by defvars.
+        * a defvar (Default variable) means, it sets the value to {defaultValue} so that this can be changed.
+        * This gives the user full control over font size, color, and so on, without editing the html/css.  
+        * The same thing applies to images. The user will be able to simply edit the images without any html knowledge.
+        * Css will have a certain styling convention, as multiple stylesheets can and probably will apply to one template.
+        * E.g.: 
+            .type_tag type_tag a {} (translates to: .menu_ul menuItem_li a {})
+        * All stripped html items, and css items, will be stored in partials, and compiled back together after setup.
+        
+         
+    - Paging
+        * All pages will be stored in the database.
+        * Categories will be linked using parent/child relationships.
+        * It's possible to use a different layout for every page. This will be stored using page alterations>template.
+        * If you simply want one color to change, it will just apply the specific change to the template.
+        * Otherwise there will be a full template loaded.
+        * Every page has page specific details, such as keywords, description, etc.
+[/Requirements]
