@@ -1,0 +1,56 @@
+@CHARSET "ISO-8859-1";
+
+body 
+{
+    font-size: 10px;
+    background: #c2e4f1 url(../images/background_gradient.png) repeat-x;
+}
+
+* 
+{
+    margin: 0;
+    padding: 0;
+}
+p {
+    padding: .5em;
+    font-size: 1.2em;
+}
+#pageWrapper {
+    width: 79em;
+    margin: 1em auto;
+    padding: .5em;
+}
+#header {
+    background: #dff1f7;
+    height: 7.5em;
+}
+#nav {
+    background: url(../images/menu_bg.png) repeat-x;
+    height: 3.0em;
+}
+#sidebar {
+    background: #ccc;
+    float: right;
+    width: 17em;
+    height: 40.9em;
+    margin: 0 0 .5em .5em;
+    padding: .5em;
+}
+#main {
+    background: #fff;
+    min-height: 40em;
+    padding: .9em;
+}
+#subNav,#adminMenu,#userForm {
+    background: #fff;
+    width: 17em;
+    height: 10em;
+    margin: 0 0 .5em 0;
+}
+#footer {
+    color: #393939;
+    text-align: center;
+    clear: both;
+    height: 2.5em;
+    margin: 0;
+}
