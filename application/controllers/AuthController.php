@@ -40,6 +40,7 @@ class AuthController extends Zend_Controller_Action
 
     public function init()
     {
+        $this->view->SetTheme('default');
         /* Initialize action controller here */
     }
 

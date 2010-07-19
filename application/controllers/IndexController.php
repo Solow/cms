@@ -5,9 +5,7 @@ class IndexController extends Zend_Controller_Action
 
     public function init()
     {
-        $this->view->layout()->setLayout('default');
-        $this->view->SetTheme();
-
+        $this->view->SetTheme('default');
         /* Initialize action controller here */
     }
 

@@ -1,8 +1,12 @@
+<?php
+    echo '<?xml version="1.0" encoding="UTF-8" ?>';
+    echo $this->doctype();
+?>
 <html>
 <head>
-    <title>ZfCms</title>
+    <title><?php echo $this->headTitle; ?></title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <link href="css/style.css" media="all" rel="stylesheet" type="text/css" />
+    <?php $this->headLink()->appendStylesheet($this->basePath.'/css/default.css'); echo $this->headLink();?>
 </head>
 <body>
     <div id="pageWrapper">
@@ -32,7 +36,7 @@
                 Some description
             </h2>
             <p>
-                Content goes here.
+                <?php echo $this->layout()->content; ?>
             </p>
         </div>
         <div id="footer">
