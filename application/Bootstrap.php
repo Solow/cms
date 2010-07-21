@@ -2,14 +2,11 @@
 
 class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 {
-    /*
-    public function _initTheme()
+    protected function _initDoctype()
     {
-        $themePath = rtrim(Zend_Controller_Front::getInstance()->getBaseUrl(),'/themes');
-        $this->bootstrap('view');
-        $view = $this->getResource('view');
-        $view->layout()->setLayoutPath($themePath);
+        $doctypeHelper = new Zend_View_Helper_Doctype();
+        $doctypeHelper->doctype('XHTML1_STRICT');
     }
-    */
+
 }
 

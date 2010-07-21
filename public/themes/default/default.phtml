@@ -1,13 +1,15 @@
 <?php
-    echo '<?xml version="1.0" encoding="UTF-8" ?>';
-    echo $this->doctype();
+    echo $this->head()
+            ->meta('Author', 'Wesley Overdijk')
+            ->addCss($this->themePath.'/css/default.css')
+            ->titleSeperator(' - ')
+            ->appendTitle('Some random page title.')
+            ->setContentType()
+            ->appendTitle('An adition to the page title')
+            //This would normally kill the 2 page titles (overwrite them)
+            #->setTitle('I killed the 2 appended titles lol')
+            ->disableCache();
 ?>
-<html>
-<head>
-    <title><?php echo $this->headTitle; ?></title>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <?php $this->headLink()->appendStylesheet($this->basePath.'/css/default.css'); echo $this->headLink();?>
-</head>
 <body>
     <div id="pageWrapper">
         <div id="header">
