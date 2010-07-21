@@ -8,7 +8,7 @@ class Solow_Css_Parser
     protected $errors = array();
     
     public function __construct($cssString)
-    {                               
+    {       
         $this->extractCss($cssString);
     }   
     
