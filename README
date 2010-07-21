@@ -1,0 +1,29 @@
+NOTES TO SELF:
+
+- pages
+
+id
+page
+title
+description
+keywords
+parrent //0=mainPage
+theme //int = theme id. string parrent = parrent theme
+
+
+
+
+- themes
+
+id
+theme
+
+
+
+
+I should leave the head section of a theme to the cms application.
+Themes can set aditional stylesheets, and js files via the api:
+
+$this->theme->addCss($path);
+$this->theme->addJs($path);
+$this->theme->setTitle($title);
