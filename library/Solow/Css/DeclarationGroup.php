@@ -3,12 +3,12 @@ class Solow_Css_DeclarationGroup
 {
     protected $properties = array();  
     
-    public function __construct($selector, $declarations)
+    public function __construct($declarations)
     {
-        $this->setProperties($selector, $declarations);   
+        $this->setProperties($declarations);   
     }
     
-    protected function setProperties($selector, $declarations)
+    protected function setProperties($declarations)
     {        
         $properties = $this->getCleanedProperties($declarations);             
         foreach($properties as $property)
@@ -34,12 +34,12 @@ class Solow_Css_DeclarationGroup
         unset($this->properties[$property]);
     }
     
-    public function getParsedProperties($spacing="    ")
+    public function getRenderedProperties($spacing="    ")
     {
         $temp="";
         foreach($this->properties as $property => $propertyObject)
         {
-            $temp.=$spacing.$propertyObject->parseProperty().PHP_EOL;    
+            $temp.=$spacing.$propertyObject->renderProperty().PHP_EOL;
         }
         return $temp;
     }

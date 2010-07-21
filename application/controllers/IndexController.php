@@ -27,7 +27,5 @@ class IndexController extends Zend_Controller_Action
             $this->view->message = 'You\'re currently not logged in. <a href="'.$url.'">Login</a>';
         }
     }
-
-
 }
 

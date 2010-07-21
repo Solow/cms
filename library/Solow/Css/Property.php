@@ -10,7 +10,7 @@ class Solow_Css_Property
         $this->value = $value;
     }
     
-    public function parseProperty()
+    public function renderProperty()
     {
         return $this->property.": ".$this->value.";";
     }

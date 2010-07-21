@@ -5,6 +5,7 @@ class Solow_Css_Parser
     protected $variables = array();
     protected $constants = array();      
     protected $_spacing = '    ';
+    protected $errors = array();
     
     public function __construct($cssString)
     {                               
@@ -13,32 +14,51 @@ class Solow_Css_Parser
     
     public function __toString()
     {
-        return ''.$this->parseStylesheet();  
-    }  
+        return $this->renderStylesheet();
+    }
+
+    protected function addError($error, $type="Warning")
+    {
+        $this->errors[] = $type.": ".$error;
+    }
+
+    public function getErrors()
+    {
+        return $this->errors;
+    }
     
-    public function parseStylesheet()
+    public function renderStylesheet()
     {
         $temp = "";
         foreach($this->declerationGroups as $selector=>$declerationGroup)
         {
             $temp.=$selector.PHP_EOL."{".PHP_EOL;
-            $parsedProperties=$declerationGroup->getParsedProperties();                   
-            $parsedProperties = preg_replace_callback('/var\(([^)]+)\)/', array($this, "getVariableRegex"), $parsedProperties);
-            $parsedProperties = preg_replace_callback('/constant\(([^)]+)\)/', array($this, "getConstantRegex"), $parsedProperties);
-            $temp .= substr($parsedProperties, 0, -1);
+            $renderedProperties=$declerationGroup->getRenderedProperties();
+            $renderedProperties = preg_replace_callback('/var\(([^)]+)\)/', array($this, "getVarRegex"), $renderedProperties);
+            $temp .= substr($renderedProperties, 0, -1);
             $temp.=PHP_EOL."}".PHP_EOL.PHP_EOL;
         }
         return $temp;         
     }
     
-    protected function getVariableRegex($match)
-    {         
-        return $this->variables[$match[1]];   
-    }
-    
-    protected function getConstantRegex($match)
-    {         
-        return $this->constants[$match[1]];   
+    protected function getVarRegex($match)
+    {
+        if(isset($this->constants[$match[1]]) || isset($this->variables[$match[1]]))
+        {
+            if(isset($this->constants[$match[1]]))
+            {
+                return $this->constants[$match[1]];
+            }
+            else
+            {
+                return $this->variables[$match[1]];
+            }
+        }
+        else
+        {
+            $this->addError('Non existant constant, or variable requested: <strong>'.$match[1].'</strong>');
+            return '';
+        }
     }
     
     protected function extractCss($cssString)
@@ -49,15 +69,15 @@ class Solow_Css_Parser
             $tag=trim($tag);
             if(strtolower($tag) == "@variables")
             {
-                $this->setVariables($tag, $matches[2][$key]);        
+                $this->setVariables($matches[2][$key]);        
             }
-            elseif(strtolower($tag) == "@define")
+            elseif(strtolower($tag) == "@constants")
             {
-                $this->setConstants($tag, $matches[2][$key]);        
+                $this->setConstants($matches[2][$key]);        
             }  
             else
             {
-                $this->setDeclerationGroup($tag, $matches[2][$key]);    
+                $this->setDeclerationGroup($tag, $matches[2][$key]);
             }         
         }
     }
@@ -69,7 +89,7 @@ class Solow_Css_Parser
     
     public function setDeclerationGroup($tag, $string)
     {
-        $this->declerationGroups[$tag] = new Solow_Css_DeclarationGroup($tag, $string);   
+        $this->declerationGroups[$tag] = new Solow_Css_DeclarationGroup($string);   
     }
     
     public function removeDeclerationGroup($tag)
@@ -87,7 +107,7 @@ class Solow_Css_Parser
         $this->declerationGroups[$declerationGroup]->removeProperty($property);  
     }
     
-    protected function setVariables($selector, $declarations)
+    protected function setVariables($declarations)
     {                        
         $properties = $this->getCleanedProperties($declarations);
         foreach($properties as $property)
@@ -97,7 +117,7 @@ class Solow_Css_Parser
         }                                                 
     }
     
-    protected function setConstants($selector, $declarations)
+    protected function setConstants($declarations)
     {                        
         $properties = $this->getCleanedProperties($declarations);
         foreach($properties as $property)
