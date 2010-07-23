@@ -86,13 +86,15 @@ abstract class Solow_Db_Mapper_Abstract
     {
         if(array_key_exists('table', $value))
         {
-            $table = $value['table'];    
+            if($value['table'] != 'current')
+            {
+                $this->setDbTable($value['table']);
+            }
         }
         else
         {
             Throw new Exception('No table assigned in '.__CLASS__.' on line '.__LINE__);            
         }  
-        $this->setDbTable($table);
         $select = $this->getDbTable()->select();
         if(array_key_exists('what', $value))
         {

@@ -8,5 +8,15 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
         $doctypeHelper->doctype('XHTML1_STRICT');
     }
 
+    protected function _initRouter()
+    {
+        $this->bootstrap('frontController');
+        $frontController = $this->getResource('frontController');
+        $router = $frontController->getRouter();
+        $router->addRoute(
+            'aName',
+            new Solow_Controller_Router_Route_DbRoute()
+        );
+    }
 }
 

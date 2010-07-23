@@ -1,7 +1,7 @@
 <?php
 class Solow_Css_Parser
 {                    
-    protected $declerationGroups = array();
+    protected $decelerationGroups = array();
     protected $variables = array();
     protected $constants = array();      
     protected $_spacing = '    ';
@@ -30,10 +30,10 @@ class Solow_Css_Parser
     public function renderStylesheet()
     {
         $temp = "";
-        foreach($this->declerationGroups as $selector=>$declerationGroup)
+        foreach($this->decelerationGroups as $selector=>$decelerationGroup)
         {
             $temp.=$selector.PHP_EOL."{".PHP_EOL;
-            $renderedProperties=$declerationGroup->getRenderedProperties();
+            $renderedProperties=$decelerationGroup->getRenderedProperties();
             $renderedProperties = preg_replace_callback('/var\(([^)]+)\)/', array($this, "getVarRegex"), $renderedProperties);
             $temp .= substr($renderedProperties, 0, -1);
             $temp.=PHP_EOL."}".PHP_EOL.PHP_EOL;
@@ -77,7 +77,7 @@ class Solow_Css_Parser
             }  
             else
             {
-                $this->setDeclerationGroup($tag, $matches[2][$key]);
+                $this->setDecelerationGroup($tag, $matches[2][$key]);
             }         
         }
     }
@@ -87,19 +87,19 @@ class Solow_Css_Parser
         $this->_spacing = $spacing;
     }
     
-    public function setDeclerationGroup($tag, $string)
+    public function setDecelerationGroup($tag, $string)
     {
-        $this->declerationGroups[$tag] = new Solow_Css_DeclarationGroup($string);   
+        $this->decelerationGroups[$tag] = new Solow_Css_DecelerationGroup($string);
     }
     
-    public function removeDeclerationGroup($tag)
+    public function removeDecelerationGroup($tag)
     {
-        unset($this->declerationGroups[$tag]);
+        unset($this->decelerationGroups[$tag]);
     }                    
     
     public function setProperty($declerationGroup, $property, $value)
     {
-        $this->declerationGroups[$declerationGroup]->setProperty($property, $value);  
+        $this->decelerationGroups[$declerationGroup]->setProperty($property, $value);
     }
     
     public function removeProperty($declerationGroup, $property)

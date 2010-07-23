@@ -1,16 +1,16 @@
 <?php
-class Solow_Css_DeclarationGroup
+class Solow_Css_DecelerationGroup
 {
     protected $properties = array();  
     
-    public function __construct($declarations)
+    public function __construct($decelarations)
     {
-        $this->setProperties($declarations);   
+        $this->setProperties($decelarations);
     }
     
-    protected function setProperties($declarations)
+    protected function setProperties($decelarations)
     {        
-        $properties = $this->getCleanedProperties($declarations);             
+        $properties = $this->getCleanedProperties($decelarations);
         foreach($properties as $property)
         {
             $propertyValue = explode(':',$property, 2);
@@ -18,9 +18,9 @@ class Solow_Css_DeclarationGroup
         }                                                 
     }
     
-    protected function getCleanedProperties($declarations)
+    protected function getCleanedProperties($decelarations)
     {
-        $properties = array_filter(array_map('trim', explode(";", $declarations)));
+        $properties = array_filter(array_map('trim', explode(";", $decelarations)));
         return $properties;
     }
     
