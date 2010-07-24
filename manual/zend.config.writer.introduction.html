@@ -1,0 +1,243 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+                      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
+    <title>Zend_Config_Writer - Zend Framework Manual</title>
+
+</head>
+<body>
+<table width="100%">
+    <tr valign="top">
+        <td width="85%">
+            <table width="100%">
+                <tr>
+                    <td width="25%" style="text-align: left;">
+                    <a href="zend.config.writer.html">Zend_Config_Writer</a>
+                    </td>
+
+                    <td width="50%" style="text-align: center;">
+                        <div class="up"><span class="up"><a href="zend.config.writer.html">Zend_Config_Writer</a></span><br />
+                        <span class="home"><a href="manual.html">Programmer's Reference Guide</a></span></div>
+                    </td>
+
+                    <td width="25%" style="text-align: right;">
+                        <div class="next" style="text-align: right; float: right;"><a href="zend.console.getopt.html">Zend_Console_Getopt</a></div>
+                    </td>
+                </tr>
+            </table>
+<hr />
+<div id="zend.config.writer.introduction" class="section"><div class="info"><h1 class="title">Zend_Config_Writer</h1></div>
+    
+
+    <p class="para">
+        <span class="classname">Zend_Config_Writer</span> gives you the ability to write config
+        files out of <span class="classname">Zend_Config</span> objects. It works with an
+        adapter-less system and thus is very easy to use. By default
+        <span class="classname">Zend_Config_Writer</span> ships with three adapters, which are all
+        file-based. You instantiate a writer with specific options, which
+        can be <em class="emphasis">filename</em> and <em class="emphasis">config</em>. Then
+        you call the  <span class="methodname">write()</span> method of the writer and the config
+        file is created. You can also give <var class="varname">$filename</var> and
+        <var class="varname">$config</var> directly to the  <span class="methodname">write()</span> method.
+        Currently the following writers are shipped with
+        <span class="classname">Zend_Config_Writer</span>:
+    </p>
+
+    <ul class="itemizedlist">
+        <li class="listitem">
+            <p class="para">
+                <span class="classname">Zend_Config_Writer_Array</span>
+            </p>
+        </li>
+
+        <li class="listitem">
+            <p class="para">
+                <span class="classname">Zend_Config_Writer_Ini</span>
+            </p>
+        </li>
+
+        <li class="listitem">
+            <p class="para">
+                <span class="classname">Zend_Config_Writer_Xml</span>
+            </p>
+        </li>
+    </ul>
+
+    <p class="para">
+        The <acronym class="acronym">INI</acronym> writer has two modes for rendering with regard to sections.
+        By default the top-level configuration is always written into section names.
+        By calling <strong class="command">$writer-&gt;setRenderWithoutSections();</strong> all options are written
+        into the global namespace of the <acronym class="acronym">INI</acronym> file and no sections are applied.
+    </p>
+
+    <p class="para">
+        As an addition <span class="classname">Zend_Config_Writer_Ini</span> has an additional
+        option parameter <em class="emphasis">nestSeparator</em>, which defines with which
+        character the single nodes are separated. The default is a single dot,
+        like it is accepted by <span class="classname">Zend_Config_Ini</span> by default.
+    </p>
+
+    <p class="para">
+        When modifying or creating a <span class="classname">Zend_Config</span> object, there are
+        some things to know. To create or modify a value, you simply say set
+        the parameter of the <span class="classname">Zend_Config</span> object via the parameter
+        accessor (<em class="emphasis">-&gt;</em>). To create a section in the root or to
+        create a branch, you just create a new array
+        (&quot;<strong class="command">$config-&gt;branch = array();</strong>&quot;). To define which section
+        extends another one, you call the  <span class="methodname">setExtend()</span> method
+        on the root <span class="classname">Zend_Config</span> object.
+    </p>
+
+    <div class="example"><div class="info"><p><b>Example #1 Using Zend_Config_Writer</b></p></div>
+        
+
+        <div class="example-contents"><p>
+            This example illustrates the basic use of
+            <span class="classname">Zend_Config_Writer_Xml</span> to create a new config file:
+        </p></div>
+
+        <div class="programlisting php"><div class="phpcode"><div class="php" style="font-family: monospace;"><ol><li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;"><span style="color: #808080; font-style: italic;">// Create the config object</span></div></li>
+<li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;"><span style="color: #0000ff;">$config</span> = <span style="color: #000000; font-weight: bold;">new</span> Zend_Config<span style="color: #66cc66;">&#40;</span><a href="http://www.php.net/array"><span style="color: #000066;">array</span></a><span style="color: #66cc66;">&#40;</span><span style="color: #66cc66;">&#41;</span>, <span style="color: #000000; font-weight: bold;">true</span><span style="color: #66cc66;">&#41;</span>;</div></li>
+<li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;"><span style="color: #0000ff;">$config</span>-&gt;<span style="color: #006600;">production</span> = <a href="http://www.php.net/array"><span style="color: #000066;">array</span></a><span style="color: #66cc66;">&#40;</span><span style="color: #66cc66;">&#41;</span>;</div></li>
+<li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;"><span style="color: #0000ff;">$config</span>-&gt;<span style="color: #006600;">staging</span>&nbsp; &nbsp; = <a href="http://www.php.net/array"><span style="color: #000066;">array</span></a><span style="color: #66cc66;">&#40;</span><span style="color: #66cc66;">&#41;</span>;</div></li>
+<li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;">&nbsp;</div></li>
+<li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;"><span style="color: #0000ff;">$config</span>-&gt;<span style="color: #006600;">setExtend</span><span style="color: #66cc66;">&#40;</span><span style="color: #ff0000;">'staging'</span>, <span style="color: #ff0000;">'production'</span><span style="color: #66cc66;">&#41;</span>;</div></li>
+<li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;">&nbsp;</div></li>
+<li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;"><span style="color: #0000ff;">$config</span>-&gt;<span style="color: #006600;">production</span>-&gt;<span style="color: #006600;">db</span> = <a href="http://www.php.net/array"><span style="color: #000066;">array</span></a><span style="color: #66cc66;">&#40;</span><span style="color: #66cc66;">&#41;</span>;</div></li>
+<li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;"><span style="color: #0000ff;">$config</span>-&gt;<span style="color: #006600;">production</span>-&gt;<span style="color: #006600;">db</span>-&gt;<span style="color: #006600;">hostname</span> = <span style="color: #ff0000;">'localhost'</span>;</div></li>
+<li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;"><span style="color: #0000ff;">$config</span>-&gt;<span style="color: #006600;">production</span>-&gt;<span style="color: #006600;">db</span>-&gt;<span style="color: #006600;">username</span> = <span style="color: #ff0000;">'production'</span>;</div></li>
+<li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;">&nbsp;</div></li>
+<li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;"><span style="color: #0000ff;">$config</span>-&gt;<span style="color: #006600;">staging</span>-&gt;<span style="color: #006600;">db</span> = <a href="http://www.php.net/array"><span style="color: #000066;">array</span></a><span style="color: #66cc66;">&#40;</span><span style="color: #66cc66;">&#41;</span>;</div></li>
+<li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;"><span style="color: #0000ff;">$config</span>-&gt;<span style="color: #006600;">staging</span>-&gt;<span style="color: #006600;">db</span>-&gt;<span style="color: #006600;">username</span> = <span style="color: #ff0000;">'staging'</span>;</div></li>
+<li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;">&nbsp;</div></li>
+<li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;"><span style="color: #808080; font-style: italic;">// Write the config file in one of the following ways:</span></div></li>
+<li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;"><span style="color: #808080; font-style: italic;">// a)</span></div></li>
+<li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;"><span style="color: #0000ff;">$writer</span> = <span style="color: #000000; font-weight: bold;">new</span> Zend_Config_Writer_Xml<span style="color: #66cc66;">&#40;</span><a href="http://www.php.net/array"><span style="color: #000066;">array</span></a><span style="color: #66cc66;">&#40;</span><span style="color: #ff0000;">'config'</span>&nbsp; &nbsp;=&gt; <span style="color: #0000ff;">$config</span>,</div></li>
+<li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<span style="color: #ff0000;">'filename'</span> =&gt; <span style="color: #ff0000;">'config.xml'</span><span style="color: #66cc66;">&#41;</span><span style="color: #66cc66;">&#41;</span>;</div></li>
+<li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;"><span style="color: #0000ff;">$writer</span>-&gt;<span style="color: #006600;">write</span><span style="color: #66cc66;">&#40;</span><span style="color: #66cc66;">&#41;</span>;</div></li>
+<li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;">&nbsp;</div></li>
+<li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;"><span style="color: #808080; font-style: italic;">// b)</span></div></li>
+<li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;"><span style="color: #0000ff;">$writer</span> = <span style="color: #000000; font-weight: bold;">new</span> Zend_Config_Writer_Xml<span style="color: #66cc66;">&#40;</span><span style="color: #66cc66;">&#41;</span>;</div></li>
+<li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;"><span style="color: #0000ff;">$writer</span>-&gt;<span style="color: #006600;">setConfig</span><span style="color: #66cc66;">&#40;</span><span style="color: #0000ff;">$config</span><span style="color: #66cc66;">&#41;</span></div></li>
+<li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;">&nbsp; &nbsp; &nbsp; &nbsp;-&gt;<span style="color: #006600;">setFilename</span><span style="color: #66cc66;">&#40;</span><span style="color: #ff0000;">'config.xml'</span><span style="color: #66cc66;">&#41;</span></div></li>
+<li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;">&nbsp; &nbsp; &nbsp; &nbsp;-&gt;<span style="color: #006600;">write</span><span style="color: #66cc66;">&#40;</span><span style="color: #66cc66;">&#41;</span>;</div></li>
+<li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;">&nbsp;</div></li>
+<li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;"><span style="color: #808080; font-style: italic;">// c)</span></div></li>
+<li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;"><span style="color: #0000ff;">$writer</span> = <span style="color: #000000; font-weight: bold;">new</span> Zend_Config_Writer_Xml<span style="color: #66cc66;">&#40;</span><span style="color: #66cc66;">&#41;</span>;</div></li>
+<li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;"><span style="color: #0000ff;">$writer</span>-&gt;<span style="color: #006600;">write</span><span style="color: #66cc66;">&#40;</span><span style="color: #ff0000;">'config.xml'</span>, <span style="color: #0000ff;">$config</span><span style="color: #66cc66;">&#41;</span>;</div></li></ol></div></div></div>
+
+
+        <div class="example-contents"><p>
+            This will create an <acronym class="acronym">XML</acronym> config file with the sections production
+            and staging, where staging extends production.
+        </p></div>
+    </div>
+
+    <div class="example"><div class="info"><p><b>Example #2 Modifying an Existing Config</b></p></div>
+        
+
+        <div class="example-contents"><p>
+            This example demonstrates how to edit an existing config file.
+        </p></div>
+
+        <div class="programlisting php"><div class="phpcode"><div class="php" style="font-family: monospace;"><ol><li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;"><span style="color: #808080; font-style: italic;">// Load all sections from an existing config file, while skipping the extends.</span></div></li>
+<li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;"><span style="color: #0000ff;">$config</span> = <span style="color: #000000; font-weight: bold;">new</span> Zend_Config_Ini<span style="color: #66cc66;">&#40;</span><span style="color: #ff0000;">'config.ini'</span>,</div></li>
+<li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #000000; font-weight: bold;">null</span>,</div></li>
+<li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <a href="http://www.php.net/array"><span style="color: #000066;">array</span></a><span style="color: #66cc66;">&#40;</span><span style="color: #ff0000;">'skipExtends'</span>&nbsp; &nbsp; &nbsp; &nbsp; =&gt; <span style="color: #000000; font-weight: bold;">true</span>,</div></li>
+<li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #ff0000;">'allowModifications'</span> =&gt; <span style="color: #000000; font-weight: bold;">true</span><span style="color: #66cc66;">&#41;</span><span style="color: #66cc66;">&#41;</span>;</div></li>
+<li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;">&nbsp;</div></li>
+<li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;"><span style="color: #808080; font-style: italic;">// Modify a value</span></div></li>
+<li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;"><span style="color: #0000ff;">$config</span>-&gt;<span style="color: #006600;">production</span>-&gt;<span style="color: #006600;">hostname</span> = <span style="color: #ff0000;">'foobar'</span>;</div></li>
+<li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;">&nbsp;</div></li>
+<li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;"><span style="color: #808080; font-style: italic;">// Write the config file</span></div></li>
+<li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;"><span style="color: #0000ff;">$writer</span> = <span style="color: #000000; font-weight: bold;">new</span> Zend_Config_Writer_Ini<span style="color: #66cc66;">&#40;</span><a href="http://www.php.net/array"><span style="color: #000066;">array</span></a><span style="color: #66cc66;">&#40;</span><span style="color: #ff0000;">'config'</span>&nbsp; &nbsp;=&gt; <span style="color: #0000ff;">$config</span>,</div></li>
+<li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<span style="color: #ff0000;">'filename'</span> =&gt; <span style="color: #ff0000;">'config.ini'</span><span style="color: #66cc66;">&#41;</span><span style="color: #66cc66;">&#41;</span>;</div></li>
+<li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;"><span style="color: #0000ff;">$writer</span>-&gt;<span style="color: #006600;">write</span><span style="color: #66cc66;">&#40;</span><span style="color: #66cc66;">&#41;</span>;</div></li></ol></div></div></div>
+
+    </div>
+
+    <blockquote><p><b class="note">Note</b>: <span class="info"><b>Loading a Config File</b><br /></span>
+        
+
+        
+            When loading an existing config file for modifications it is very
+            important to load all sections and to skip the extends, so that
+            no values are merged. This is done by giving the
+            <em class="emphasis">skipExtends</em> as option to the constructor.
+        <br />
+    </p></blockquote>
+
+    <p class="para">
+        For all the File-Based writers (<acronym class="acronym">INI</acronym>, <acronym class="acronym">XML</acronym> and
+        <acronym class="acronym">PHP</acronym> Array) internally the  <span class="methodname">render()</span> is used to
+        build the configuration string. This method can be used from the outside also if you need
+        to access the string-representation of the configuration data.
+    </p>
+</div>
+        <hr />
+
+            <table width="100%">
+                <tr>
+                    <td width="25%" style="text-align: left;">
+                    <a href="zend.config.writer.html">Zend_Config_Writer</a>
+                    </td>
+
+                    <td width="50%" style="text-align: center;">
+                        <div class="up"><span class="up"><a href="zend.config.writer.html">Zend_Config_Writer</a></span><br />
+                        <span class="home"><a href="manual.html">Programmer's Reference Guide</a></span></div>
+                    </td>
+
+                    <td width="25%" style="text-align: right;">
+                        <div class="next" style="text-align: right; float: right;"><a href="zend.console.getopt.html">Zend_Console_Getopt</a></div>
+                    </td>
+                </tr>
+            </table>
+</td>
+        <td style="font-size: smaller;" width="15%"> <style type="text/css">
+#leftbar {
+	float: left;
+	width: 186px;
+	padding: 5px;
+	font-size: smaller;
+}
+ul.toc {
+	margin: 0px 5px 5px 5px;
+	padding: 0px;
+}
+ul.toc li {
+	font-size: 85%;
+	margin: 1px 0 1px 1px;
+	padding: 1px 0 1px 11px;
+	list-style-type: none;
+	background-repeat: no-repeat;
+	background-position: center left;
+}
+ul.toc li.header {
+	font-size: 115%;
+	padding: 5px 0px 5px 11px;
+	border-bottom: 1px solid #cccccc;
+	margin-bottom: 5px;
+}
+ul.toc li.active {
+	font-weight: bold;
+}
+ul.toc li a {
+	text-decoration: none;
+}
+ul.toc li a:hover {
+	text-decoration: underline;
+}
+</style>
+ <ul class="toc">
+  <li class="header home"><a href="manual.html">Programmer's Reference Guide</a></li>
+  <li class="header up"><a href="manual.html">Programmer's Reference Guide</a></li>
+  <li class="header up"><a href="reference.html">Zend Framework Reference</a></li>
+  <li class="header up"><a href="zend.config.writer.html">Zend_Config_Writer</a></li>
+  <li class="active"><a href="zend.config.writer.introduction.html">Zend_Config_Writer</a></li>
+ </ul>
+ </td>
+    </tr>
+</table>
+</body>
+</html>

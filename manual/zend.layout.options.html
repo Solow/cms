@@ -1,0 +1,309 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+                      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
+    <title>Zend_Layout Configuration Options - Zend Framework Manual</title>
+
+</head>
+<body>
+<table width="100%">
+    <tr valign="top">
+        <td width="85%">
+            <table width="100%">
+                <tr>
+                    <td width="25%" style="text-align: left;">
+                    <a href="zend.layout.quickstart.html">Zend_Layout Quick Start</a>
+                    </td>
+
+                    <td width="50%" style="text-align: center;">
+                        <div class="up"><span class="up"><a href="zend.layout.html">Zend_Layout</a></span><br />
+                        <span class="home"><a href="manual.html">Programmer's Reference Guide</a></span></div>
+                    </td>
+
+                    <td width="25%" style="text-align: right;">
+                        <div class="next" style="text-align: right; float: right;"><a href="zend.layout.advanced.html">Zend_Layout Advanced Usage</a></div>
+                    </td>
+                </tr>
+            </table>
+<hr />
+<div id="zend.layout.options" class="section"><div class="info"><h1 class="title">Zend_Layout Configuration Options</h1></div>
+    
+
+    <p class="para">
+        <span class="classname">Zend_Layout</span> has a variety of configuration options. These
+        may be set by calling the appropriate accessors, passing an array or
+        <span class="classname">Zend_Config</span> object to the constructor or
+         <span class="methodname">startMvc()</span>, passing an array of options to
+         <span class="methodname">setOptions()</span>, or passing a <span class="classname">Zend_Config</span>
+        object to  <span class="methodname">setConfig()</span>.
+    </p>
+
+    <ul class="itemizedlist">
+        <li class="listitem">
+            <p class="para">
+                <em class="emphasis">layout</em>: the layout to use. Uses the
+                current inflector to resolve the name provided to the
+                appropriate layout view script. By default, this value is
+                &#039;layout&#039; and resolves to &#039;layout.phtml&#039;. Accessors
+                are  <span class="methodname">setLayout()</span> and  <span class="methodname">getLayout()</span>.
+            </p>
+        </li>
+
+        <li class="listitem">
+            <p class="para">
+                <em class="emphasis">layoutPath</em>: the base path to layout view
+                scripts. Accessors are  <span class="methodname">setLayoutPath()</span> and
+                 <span class="methodname">getLayoutPath()</span>.
+            </p>
+        </li>
+
+        <li class="listitem">
+            <p class="para">
+                <em class="emphasis">contentKey</em>: the layout variable used for
+                default content (when used with the <acronym class="acronym">MVC</acronym>). Default value is
+                &#039;content&#039;. Accessors are  <span class="methodname">setContentKey()</span> and
+                 <span class="methodname">getContentKey()</span>.
+            </p>
+        </li>
+
+        <li class="listitem">
+            <p class="para">
+                <em class="emphasis">mvcSuccessfulActionOnly</em>: when using the
+                <acronym class="acronym">MVC</acronym>, if an action throws an exception and this flag is
+                <b><tt>TRUE</tt></b>, the layout will not be rendered (this is to prevent
+                double-rendering of the layout when the <a href="zend.controller.plugins.html#zend.controller.plugins.standard.errorhandler" class="link">ErrorHandler
+                    plugin</a> is in use). By default, the flat is <b><tt>TRUE</tt></b>.
+                Accessors are  <span class="methodname">setMvcSuccessfulActionOnly()</span> and
+                 <span class="methodname">getMvcSuccessfulActionOnly()</span>.
+            </p>
+        </li>
+
+        <li class="listitem">
+            <p class="para">
+                <em class="emphasis">view</em>: the view object to use when rendering. When used with the
+                <acronym class="acronym">MVC</acronym>, <span class="classname">Zend_Layout</span> will attempt to use the
+                view object registered with <a href="zend.controller.actionhelpers.html#zend.controller.actionhelpers.viewrenderer" class="link">the ViewRenderer</a> if
+                no view object has been passed to it explicitly. Accessors are
+                 <span class="methodname">setView()</span> and  <span class="methodname">getView()</span>.
+            </p>
+        </li>
+
+        <li class="listitem">
+            <p class="para">
+                <em class="emphasis">helperClass</em>: the action helper class to use
+                when using <span class="classname">Zend_Layout</span> with the <acronym class="acronym">MVC</acronym>
+                components. By default, this is
+                <span class="classname">Zend_Layout_Controller_Action_Helper_Layout</span>.
+                Accessors are  <span class="methodname">setHelperClass()</span> and
+                 <span class="methodname">getHelperClass()</span>.
+            </p>
+        </li>
+
+        <li class="listitem">
+            <p class="para">
+                <em class="emphasis">pluginClass</em>: the front controller plugin
+                class to use when using <span class="classname">Zend_Layout</span> with the
+                <acronym class="acronym">MVC</acronym> components. By default, this is
+                <span class="classname">Zend_Layout_Controller_Plugin_Layout</span>. Accessors
+                are  <span class="methodname">setPluginClass()</span> and
+                 <span class="methodname">getPluginClass()</span>.
+            </p>
+        </li>
+
+        <li class="listitem">
+            <p class="para">
+                <em class="emphasis">inflector</em>: the inflector to use when
+                resolving layout names to layout view script paths; see <a href="zend.layout.advanced.html#zend.layout.advanced.inflector" class="link">the
+                    <span class="classname">Zend_Layout</span> inflector documentation for more
+                    details</a>. Accessors are  <span class="methodname">setInflector()</span>
+                and  <span class="methodname">getInflector()</span>.
+            </p>
+        </li>
+    </ul>
+
+    <blockquote><p><b class="note">Note</b>: <span class="info"><b>helperClass and pluginClass must be passed to startMvc()</b><br /></span>
+        
+
+        
+            In order for the <code class="code">helperClass</code> and
+            <code class="code">pluginClass</code> settings to have effect, they must be
+            passed in as options to  <span class="methodname">startMvc()</span>; if set later, they
+            have no affect.
+        <br />
+    </p></blockquote>
+
+    <div class="section" id="zend.layout.options.examples" name="zend.layout.options.examples"><div class="info"><h1 class="title">Examples</h1></div>
+        
+
+        <p class="para">
+            The following examples assume the following <var class="varname">$options</var>
+            array and <var class="varname">$config</var> object:
+        </p>
+
+        <div class="programlisting php"><div class="phpcode"><div class="php" style="font-family: monospace;"><ol><li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;"><span style="color: #0000ff;">$options</span> = <a href="http://www.php.net/array"><span style="color: #000066;">array</span></a><span style="color: #66cc66;">&#40;</span></div></li>
+<li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;">&nbsp; &nbsp; <span style="color: #ff0000;">'layout'</span>&nbsp; &nbsp; &nbsp;=&gt; <span style="color: #ff0000;">'foo'</span>,</div></li>
+<li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;">&nbsp; &nbsp; <span style="color: #ff0000;">'layoutPath'</span> =&gt; <span style="color: #ff0000;">'/path/to/layouts'</span>,</div></li>
+<li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;">&nbsp; &nbsp; <span style="color: #ff0000;">'contentKey'</span> =&gt; <span style="color: #ff0000;">'CONTENT'</span>,&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<span style="color: #808080; font-style: italic;">// ignored when MVC not used</span></div></li>
+<li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;"><span style="color: #66cc66;">&#41;</span>;</div></li></ol></div></div></div>
+
+
+        <div class="programlisting php"><div class="phpcode"><div class="php" style="font-family: monospace;"><ol><li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;"><span style="color: #808080; font-style: italic;">/**</span></div></li>
+<li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;"><span style="color: #808080; font-style: italic;">[layout]</span></div></li>
+<li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;"><span style="color: #808080; font-style: italic;">layout = &quot;foo&quot;</span></div></li>
+<li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;"><span style="color: #808080; font-style: italic;">layoutPath = &quot;/path/to/layouts&quot;</span></div></li>
+<li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;"><span style="color: #808080; font-style: italic;">contentKey = &quot;CONTENT&quot;</span></div></li>
+<li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;"><span style="color: #808080; font-style: italic;">*/</span></div></li>
+<li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;"><span style="color: #0000ff;">$config</span> = <span style="color: #000000; font-weight: bold;">new</span> Zend_Config_Ini<span style="color: #66cc66;">&#40;</span><span style="color: #ff0000;">'/path/to/layout.ini'</span>, <span style="color: #ff0000;">'layout'</span><span style="color: #66cc66;">&#41;</span>;</div></li></ol></div></div></div>
+
+
+        <div class="example"><div class="info"><p><b>Example #1 Passing options to the constructor or startMvc()</b></p></div>
+            
+
+            <div class="example-contents"><p>
+                Both the constructor and the  <span class="methodname">startMvc()</span> static
+                method can accept either an array of options or a
+                <span class="classname">Zend_Config</span> object with options in order to
+                configure the <span class="classname">Zend_Layout</span> instance.
+            </p></div>
+
+            <div class="example-contents"><p>
+                First, let&#039;s look at passing an array:
+            </p></div>
+
+            <div class="programlisting php"><div class="phpcode"><div class="php" style="font-family: monospace;"><ol><li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;"><span style="color: #808080; font-style: italic;">// Using constructor:</span></div></li>
+<li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;"><span style="color: #0000ff;">$layout</span> = <span style="color: #000000; font-weight: bold;">new</span> Zend_Layout<span style="color: #66cc66;">&#40;</span><span style="color: #0000ff;">$options</span><span style="color: #66cc66;">&#41;</span>;</div></li>
+<li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;">&nbsp;</div></li>
+<li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;"><span style="color: #808080; font-style: italic;">// Using startMvc():</span></div></li>
+<li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;"><span style="color: #0000ff;">$layout</span> = Zend_Layout::<span style="color: #006600;">startMvc</span><span style="color: #66cc66;">&#40;</span><span style="color: #0000ff;">$options</span><span style="color: #66cc66;">&#41;</span>;</div></li></ol></div></div></div>
+
+
+            <div class="example-contents"><p>
+                And now using a config object:
+            </p></div>
+
+            <div class="programlisting php"><div class="phpcode"><div class="php" style="font-family: monospace;"><ol><li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;"><span style="color: #0000ff;">$config</span> = <span style="color: #000000; font-weight: bold;">new</span> Zend_Config_Ini<span style="color: #66cc66;">&#40;</span><span style="color: #ff0000;">'/path/to/layout.ini'</span>, <span style="color: #ff0000;">'layout'</span><span style="color: #66cc66;">&#41;</span>;</div></li>
+<li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;">&nbsp;</div></li>
+<li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;"><span style="color: #808080; font-style: italic;">// Using constructor:</span></div></li>
+<li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;"><span style="color: #0000ff;">$layout</span> = <span style="color: #000000; font-weight: bold;">new</span> Zend_Layout<span style="color: #66cc66;">&#40;</span><span style="color: #0000ff;">$config</span><span style="color: #66cc66;">&#41;</span>;</div></li>
+<li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;">&nbsp;</div></li>
+<li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;"><span style="color: #808080; font-style: italic;">// Using startMvc():</span></div></li>
+<li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;"><span style="color: #0000ff;">$layout</span> = Zend_Layout::<span style="color: #006600;">startMvc</span><span style="color: #66cc66;">&#40;</span><span style="color: #0000ff;">$config</span><span style="color: #66cc66;">&#41;</span>;</div></li></ol></div></div></div>
+
+
+            <div class="example-contents"><p>
+                Basically, this is the easiest way to customize your
+                <span class="classname">Zend_Layout</span> instance.
+            </p></div>
+        </div>
+
+        <div class="example"><div class="info"><p><b>Example #2 Using setOption() and setConfig()</b></p></div>
+            
+
+            <div class="example-contents"><p>
+                Sometimes you need to configure the <span class="classname">Zend_Layout</span>
+                object after it has already been instantiated;
+                 <span class="methodname">setOptions()</span> and  <span class="methodname">setConfig()</span> give
+                you a quick and easy way to do so:
+            </p></div>
+
+            <div class="programlisting php"><div class="phpcode"><div class="php" style="font-family: monospace;"><ol><li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;"><span style="color: #808080; font-style: italic;">// Using an array of options:</span></div></li>
+<li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;"><span style="color: #0000ff;">$layout</span>-&gt;<span style="color: #006600;">setOptions</span><span style="color: #66cc66;">&#40;</span><span style="color: #0000ff;">$options</span><span style="color: #66cc66;">&#41;</span>;</div></li>
+<li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;">&nbsp;</div></li>
+<li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;"><span style="color: #808080; font-style: italic;">// Using a Zend_Config object:</span></div></li>
+<li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;"><span style="color: #0000ff;">$layout</span>-&gt;<span style="color: #006600;">setConfig</span><span style="color: #66cc66;">&#40;</span><span style="color: #0000ff;">$options</span><span style="color: #66cc66;">&#41;</span>;</div></li></ol></div></div></div>
+
+
+            <div class="example-contents"><p>
+                Note, however, that certain options, such as
+                <code class="code">pluginClass</code> and <code class="code">helperClass</code>, will have
+                no affect when passed using this method; they need to be passed
+                to the constructor or  <span class="methodname">startMvc()</span> method.
+            </p></div>
+        </div>
+
+        <div class="example"><div class="info"><p><b>Example #3 Using Accessors</b></p></div>
+            
+
+            <div class="example-contents"><p>
+                Finally, you can also configure your <span class="classname">Zend_Layout</span>
+                instance via accessors. All accessors implement a fluent
+                interface, meaning their calls may be chained:
+            </p></div>
+
+            <div class="programlisting php"><div class="phpcode"><div class="php" style="font-family: monospace;"><ol><li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;"><span style="color: #0000ff;">$layout</span>-&gt;<span style="color: #006600;">setLayout</span><span style="color: #66cc66;">&#40;</span><span style="color: #ff0000;">'foo'</span><span style="color: #66cc66;">&#41;</span></div></li>
+<li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;">&nbsp; &nbsp; &nbsp; &nbsp;-&gt;<span style="color: #006600;">setLayoutPath</span><span style="color: #66cc66;">&#40;</span><span style="color: #ff0000;">'/path/to/layouts'</span><span style="color: #66cc66;">&#41;</span></div></li>
+<li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;">&nbsp; &nbsp; &nbsp; &nbsp;-&gt;<span style="color: #006600;">setContentKey</span><span style="color: #66cc66;">&#40;</span><span style="color: #ff0000;">'CONTENT'</span><span style="color: #66cc66;">&#41;</span>;</div></li></ol></div></div></div>
+
+        </div>
+    </div>
+</div>
+        <hr />
+
+            <table width="100%">
+                <tr>
+                    <td width="25%" style="text-align: left;">
+                    <a href="zend.layout.quickstart.html">Zend_Layout Quick Start</a>
+                    </td>
+
+                    <td width="50%" style="text-align: center;">
+                        <div class="up"><span class="up"><a href="zend.layout.html">Zend_Layout</a></span><br />
+                        <span class="home"><a href="manual.html">Programmer's Reference Guide</a></span></div>
+                    </td>
+
+                    <td width="25%" style="text-align: right;">
+                        <div class="next" style="text-align: right; float: right;"><a href="zend.layout.advanced.html">Zend_Layout Advanced Usage</a></div>
+                    </td>
+                </tr>
+            </table>
+</td>
+        <td style="font-size: smaller;" width="15%"> <style type="text/css">
+#leftbar {
+	float: left;
+	width: 186px;
+	padding: 5px;
+	font-size: smaller;
+}
+ul.toc {
+	margin: 0px 5px 5px 5px;
+	padding: 0px;
+}
+ul.toc li {
+	font-size: 85%;
+	margin: 1px 0 1px 1px;
+	padding: 1px 0 1px 11px;
+	list-style-type: none;
+	background-repeat: no-repeat;
+	background-position: center left;
+}
+ul.toc li.header {
+	font-size: 115%;
+	padding: 5px 0px 5px 11px;
+	border-bottom: 1px solid #cccccc;
+	margin-bottom: 5px;
+}
+ul.toc li.active {
+	font-weight: bold;
+}
+ul.toc li a {
+	text-decoration: none;
+}
+ul.toc li a:hover {
+	text-decoration: underline;
+}
+</style>
+ <ul class="toc">
+  <li class="header home"><a href="manual.html">Programmer's Reference Guide</a></li>
+  <li class="header up"><a href="manual.html">Programmer's Reference Guide</a></li>
+  <li class="header up"><a href="reference.html">Zend Framework Reference</a></li>
+  <li class="header up"><a href="zend.layout.html">Zend_Layout</a></li>
+  <li><a href="zend.layout.introduction.html">Introduction</a></li>
+  <li><a href="zend.layout.quickstart.html">Zend_Layout Quick Start</a></li>
+  <li class="active"><a href="zend.layout.options.html">Zend_Layout Configuration Options</a></li>
+  <li><a href="zend.layout.advanced.html">Zend_Layout Advanced Usage</a></li>
+ </ul>
+ </td>
+    </tr>
+</table>
+</body>
+</html>

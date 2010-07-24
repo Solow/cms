@@ -1,0 +1,144 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+                      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
+    <title>Save Changes to PDF Documents - Zend Framework Manual</title>
+
+</head>
+<body>
+<table width="100%">
+    <tr valign="top">
+        <td width="85%">
+            <table width="100%">
+                <tr>
+                    <td width="25%" style="text-align: left;">
+                    <a href="zend.pdf.create.html">Creating and Loading PDF Documents</a>
+                    </td>
+
+                    <td width="50%" style="text-align: center;">
+                        <div class="up"><span class="up"><a href="zend.pdf.html">Zend_Pdf</a></span><br />
+                        <span class="home"><a href="manual.html">Programmer's Reference Guide</a></span></div>
+                    </td>
+
+                    <td width="25%" style="text-align: right;">
+                        <div class="next" style="text-align: right; float: right;"><a href="zend.pdf.pages.html">Working with Pages</a></div>
+                    </td>
+                </tr>
+            </table>
+<hr />
+<div id="zend.pdf.save" class="section"><div class="info"><h1 class="title">Save Changes to PDF Documents</h1></div>
+    
+
+    <p class="para">
+        There are two methods that save changes to <acronym class="acronym">PDF</acronym> documents: the
+         <span class="methodname">Zend_Pdf::save()</span> and  <span class="methodname">Zend_Pdf::render()</span>
+        methods.
+    </p>
+
+    <p class="para">
+         <span class="methodname">Zend_Pdf::save($filename, $updateOnly = false)</span> saves the
+        <acronym class="acronym">PDF</acronym> document to a file. If $updateOnly is <b><tt>TRUE</tt></b>,
+        then only the new <acronym class="acronym">PDF</acronym> file segment is appended to a file. Otherwise, the
+        file is overwritten.
+    </p>
+
+    <p class="para">
+         <span class="methodname">Zend_Pdf::render($newSegmentOnly = false)</span> returns the
+        <acronym class="acronym">PDF</acronym> document as a string. If $newSegmentOnly is
+        <b><tt>TRUE</tt></b>, then only the new <acronym class="acronym">PDF</acronym> file segment is
+        returned.
+    </p>
+
+    <div class="example"><div class="info"><p><b>Example #1 Saving PDF Documents</b></p></div>
+        
+
+        <div class="programlisting php"><div class="phpcode"><div class="php" style="font-family: monospace;"><ol><li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;">...</div></li>
+<li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;"><span style="color: #808080; font-style: italic;">// Load the PDF document</span></div></li>
+<li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;"><span style="color: #0000ff;">$pdf</span> = Zend_Pdf::<span style="color: #006600;">load</span><span style="color: #66cc66;">&#40;</span><span style="color: #0000ff;">$fileName</span><span style="color: #66cc66;">&#41;</span>;</div></li>
+<li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;">...</div></li>
+<li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;"><span style="color: #808080; font-style: italic;">// Update the PDF document</span></div></li>
+<li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;"><span style="color: #0000ff;">$pdf</span>-&gt;<span style="color: #006600;">save</span><span style="color: #66cc66;">&#40;</span><span style="color: #0000ff;">$fileName</span>, <span style="color: #000000; font-weight: bold;">true</span><span style="color: #66cc66;">&#41;</span>;</div></li>
+<li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;"><span style="color: #808080; font-style: italic;">// Save document as a new file</span></div></li>
+<li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;"><span style="color: #0000ff;">$pdf</span>-&gt;<span style="color: #006600;">save</span><span style="color: #66cc66;">&#40;</span><span style="color: #0000ff;">$newFileName</span><span style="color: #66cc66;">&#41;</span>;</div></li>
+<li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;">&nbsp;</div></li>
+<li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;"><span style="color: #808080; font-style: italic;">// Return the PDF document as a string</span></div></li>
+<li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;"><span style="color: #0000ff;">$pdfString</span> = <span style="color: #0000ff;">$pdf</span>-&gt;<span style="color: #006600;">render</span><span style="color: #66cc66;">&#40;</span><span style="color: #66cc66;">&#41;</span>;</div></li>
+<li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;">&nbsp;</div></li>
+<li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;">...</div></li></ol></div></div></div>
+
+    </div>
+</div>
+        <hr />
+
+            <table width="100%">
+                <tr>
+                    <td width="25%" style="text-align: left;">
+                    <a href="zend.pdf.create.html">Creating and Loading PDF Documents</a>
+                    </td>
+
+                    <td width="50%" style="text-align: center;">
+                        <div class="up"><span class="up"><a href="zend.pdf.html">Zend_Pdf</a></span><br />
+                        <span class="home"><a href="manual.html">Programmer's Reference Guide</a></span></div>
+                    </td>
+
+                    <td width="25%" style="text-align: right;">
+                        <div class="next" style="text-align: right; float: right;"><a href="zend.pdf.pages.html">Working with Pages</a></div>
+                    </td>
+                </tr>
+            </table>
+</td>
+        <td style="font-size: smaller;" width="15%"> <style type="text/css">
+#leftbar {
+	float: left;
+	width: 186px;
+	padding: 5px;
+	font-size: smaller;
+}
+ul.toc {
+	margin: 0px 5px 5px 5px;
+	padding: 0px;
+}
+ul.toc li {
+	font-size: 85%;
+	margin: 1px 0 1px 1px;
+	padding: 1px 0 1px 11px;
+	list-style-type: none;
+	background-repeat: no-repeat;
+	background-position: center left;
+}
+ul.toc li.header {
+	font-size: 115%;
+	padding: 5px 0px 5px 11px;
+	border-bottom: 1px solid #cccccc;
+	margin-bottom: 5px;
+}
+ul.toc li.active {
+	font-weight: bold;
+}
+ul.toc li a {
+	text-decoration: none;
+}
+ul.toc li a:hover {
+	text-decoration: underline;
+}
+</style>
+ <ul class="toc">
+  <li class="header home"><a href="manual.html">Programmer's Reference Guide</a></li>
+  <li class="header up"><a href="manual.html">Programmer's Reference Guide</a></li>
+  <li class="header up"><a href="reference.html">Zend Framework Reference</a></li>
+  <li class="header up"><a href="zend.pdf.html">Zend_Pdf</a></li>
+  <li><a href="zend.pdf.introduction.html">Introduction</a></li>
+  <li><a href="zend.pdf.create.html">Creating and Loading PDF Documents</a></li>
+  <li class="active"><a href="zend.pdf.save.html">Save Changes to PDF Documents</a></li>
+  <li><a href="zend.pdf.pages.html">Working with Pages</a></li>
+  <li><a href="zend.pdf.drawing.html">Drawing</a></li>
+  <li><a href="zend.pdf.interactive-features.html">Interactive Features</a></li>
+  <li><a href="zend.pdf.info.html">Document Info and Metadata</a></li>
+  <li><a href="zend.pdf.usage.html">Zend_Pdf module usage example</a></li>
+ </ul>
+ </td>
+    </tr>
+</table>
+</body>
+</html>

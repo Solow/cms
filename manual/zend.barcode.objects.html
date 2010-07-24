@@ -1,0 +1,1292 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+                      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
+    <title>Zend_Barcode Objects - Zend Framework Manual</title>
+
+</head>
+<body>
+<table width="100%">
+    <tr valign="top">
+        <td width="85%">
+            <table width="100%">
+                <tr>
+                    <td width="25%" style="text-align: left;">
+                    <a href="zend.barcode.creation.html">Barcode creation using Zend_Barcode class</a>
+                    </td>
+
+                    <td width="50%" style="text-align: center;">
+                        <div class="up"><span class="up"><a href="zend.barcode.html">Zend_Barcode</a></span><br />
+                        <span class="home"><a href="manual.html">Programmer's Reference Guide</a></span></div>
+                    </td>
+
+                    <td width="25%" style="text-align: right;">
+                        <div class="next" style="text-align: right; float: right;"><a href="zend.barcode.renderers.html">Zend_Barcode Renderers</a></div>
+                    </td>
+                </tr>
+            </table>
+<hr />
+<div id="zend.barcode.objects" class="section"><div class="info"><h1 class="title">Zend_Barcode Objects</h1></div>
+    
+
+    <p class="para">
+        Barcode objects allow you to generate barcodes independently of the rendering support. After
+        generation, you can retrieve the barcode as an array of drawing instructions that you can
+        provide to a renderer.
+    </p>
+
+    <p class="para">
+        Objects have a large number of options. Most of them are common to all objects. These
+        options can be set in four ways:
+    </p>
+
+    <ul class="itemizedlist">
+        <li class="listitem">
+            <p class="para">
+                As an array or a <span class="classname">Zend_Config</span> object passed to the
+                constructor.
+            </p>
+        </li>
+
+        <li class="listitem">
+            <p class="para">
+                As an array passed to the  <span class="methodname">setOptions()</span> method.
+            </p>
+        </li>
+
+        <li class="listitem">
+            <p class="para">
+                As a <span class="classname">Zend_Config</span> object passed to the
+                 <span class="methodname">setConfig()</span> method.
+            </p>
+        </li>
+
+        <li class="listitem">
+            <p class="para">Via individual setters for each configuration type.</p>
+        </li>
+    </ul>
+
+    <div class="example"><div class="info"><p><b>Example #1 Different ways to parameterize a barcode object</b></p></div>
+        
+
+        <div class="programlisting php"><div class="phpcode"><div class="php" style="font-family: monospace;"><ol><li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;"><span style="color: #0000ff;">$options</span> = <a href="http://www.php.net/array"><span style="color: #000066;">array</span></a><span style="color: #66cc66;">&#40;</span><span style="color: #ff0000;">'text'</span> =&gt; <span style="color: #ff0000;">'ZEND-FRAMEWORK'</span>, <span style="color: #ff0000;">'barHeight'</span> =&gt; <span style="color: #cc66cc;">40</span><span style="color: #66cc66;">&#41;</span>;</div></li>
+<li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;">&nbsp;</div></li>
+<li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;"><span style="color: #808080; font-style: italic;">// Case 1: constructor</span></div></li>
+<li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;"><span style="color: #0000ff;">$barcode</span> = <span style="color: #000000; font-weight: bold;">new</span> Zend_Barcode_Object_Code39<span style="color: #66cc66;">&#40;</span><span style="color: #0000ff;">$options</span><span style="color: #66cc66;">&#41;</span>;</div></li>
+<li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;">&nbsp;</div></li>
+<li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;"><span style="color: #808080; font-style: italic;">// Case 2: setOptions()</span></div></li>
+<li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;"><span style="color: #0000ff;">$barcode</span> = <span style="color: #000000; font-weight: bold;">new</span> Zend_Barcode_Object_Code39<span style="color: #66cc66;">&#40;</span><span style="color: #66cc66;">&#41;</span>;</div></li>
+<li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;"><span style="color: #0000ff;">$barcode</span>-&gt;<span style="color: #006600;">setOptions</span><span style="color: #66cc66;">&#40;</span><span style="color: #0000ff;">$options</span><span style="color: #66cc66;">&#41;</span>;</div></li>
+<li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;">&nbsp;</div></li>
+<li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;"><span style="color: #808080; font-style: italic;">// Case 3: setConfig()</span></div></li>
+<li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;"><span style="color: #0000ff;">$config</span>&nbsp; = <span style="color: #000000; font-weight: bold;">new</span> Zend_Config<span style="color: #66cc66;">&#40;</span><span style="color: #0000ff;">$options</span><span style="color: #66cc66;">&#41;</span>;</div></li>
+<li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;"><span style="color: #0000ff;">$barcode</span> = <span style="color: #000000; font-weight: bold;">new</span> Zend_Barcode_Object_Code39<span style="color: #66cc66;">&#40;</span><span style="color: #66cc66;">&#41;</span>;</div></li>
+<li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;"><span style="color: #0000ff;">$barcode</span>-&gt;<span style="color: #006600;">setConfig</span><span style="color: #66cc66;">&#40;</span><span style="color: #0000ff;">$config</span><span style="color: #66cc66;">&#41;</span>;</div></li>
+<li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;">&nbsp;</div></li>
+<li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;"><span style="color: #808080; font-style: italic;">// Case 4: individual setters</span></div></li>
+<li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;"><span style="color: #0000ff;">$barcode</span> = <span style="color: #000000; font-weight: bold;">new</span> Zend_Barcode_Object_Code39<span style="color: #66cc66;">&#40;</span><span style="color: #66cc66;">&#41;</span>;</div></li>
+<li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;"><span style="color: #0000ff;">$barcode</span>-&gt;<span style="color: #006600;">setText</span><span style="color: #66cc66;">&#40;</span><span style="color: #ff0000;">'ZEND-FRAMEWORK'</span><span style="color: #66cc66;">&#41;</span></div></li>
+<li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;">&nbsp; &nbsp; &nbsp; &nbsp; -&gt;<span style="color: #006600;">setBarHeight</span><span style="color: #66cc66;">&#40;</span><span style="color: #cc66cc;">40</span><span style="color: #66cc66;">&#41;</span>;</div></li></ol></div></div></div>
+
+    </div>
+
+    <div class="section" id="zend.barcode.objects.common.options" name="zend.barcode.objects.common.options"><div class="info"><h1 class="title">Common Options</h1></div>
+        
+
+        <p class="para">
+            In the following list, the values have no units; we will use the term &quot;unit.&quot; For
+            example, the default value of the &quot;thin bar&quot; is &quot;1 unit&quot;. The real units depend on the
+            rendering support (see <a href="zend.barcode.renderers.html" class="link">the renderers
+                documentation</a> for more information). Setters are each named by uppercasing
+            the initial letter of the option and prefixing the name with &quot;set&quot; (e.g. &quot;barHeight&quot;
+            becomes &quot;setBarHeight&quot;). All options have a corresponding getter prefixed with &quot;get&quot;
+            (e.g. &quot;getBarHeight&quot;). Available options are:
+        </p>
+
+        <table class="doctable table"><div class="info"><caption><b>Common Options</b></caption></div>
+            
+
+            
+                <thead valign="middle">
+                    <tr valign="middle">
+                        <th>Option</th>
+                        <th>Data Type</th>
+                        <th>Default Value</th>
+                        <th>Description</th>
+                    </tr>
+
+                </thead>
+
+
+                <tbody valign="middle" class="tbody">
+                    <tr valign="middle">
+                        <td align="left"><em class="emphasis">barcodeNamespace</em></td>
+                        <td align="left"> <span class="type">String</span> </td>
+                        <td align="left"><span class="classname">Zend_Barcode_Object</span></td>
+
+                        <td align="left">
+                            Namespace of the barcode; for example, if you need to extend the
+                            embedding objects
+                        </td>
+                    </tr>
+
+
+                    <tr valign="middle">
+                        <td align="left"><em class="emphasis">barHeight</em></td>
+                        <td align="left"> <span class="type">Integer</span> </td>
+                        <td align="left">50</td>
+                        <td align="left">Height of the bars</td>
+                    </tr>
+
+                    <tr valign="middle">
+                        <td align="left"><em class="emphasis">barThickWidth</em></td>
+                        <td align="left"> <span class="type">Integer</span> </td>
+                        <td align="left">3</td>
+                        <td align="left">Width of the thick bar</td>
+                    </tr>
+
+
+                    <tr valign="middle">
+                        <td align="left"><em class="emphasis">barThinWidth</em></td>
+                        <td align="left"> <span class="type">Integer</span> </td>
+                        <td align="left">1</td>
+                        <td align="left">Width of the thin</td>
+                    </tr>
+
+
+                    <tr valign="middle">
+                        <td align="left"><em class="emphasis">factor</em></td>
+                        <td align="left"> <span class="type">Integer</span> </td>
+                        <td align="left">1</td>
+                        <td align="left">Factor by which to multiply bar widths and font sizes</td>
+                    </tr>
+
+
+                    <tr valign="middle">
+                        <td align="left"><em class="emphasis">foreColor</em></td>
+                        <td align="left"> <span class="type">Integer</span> </td>
+                        <td align="left">0 (black)</td>
+
+                        <td align="left">
+                            Color of the bar and the text. Could be provided as an integer
+                            or as a <acronym class="acronym">HTML</acronym> value (e.g. &quot;#333333&quot;)
+                        </td>
+                    </tr>
+
+
+                    <tr valign="middle">
+                        <td align="left"><em class="emphasis">backgroundColor</em></td>
+                        <td align="left"> <span class="type">Integer</span>  or  <span class="type">String</span> </td>
+                        <td align="left">16777125 (white)</td>
+
+                        <td align="left">
+                            Color of the background. Could be provided as an integer
+                            or as a <acronym class="acronym">HTML</acronym> value (e.g. &quot;#333333&quot;)
+                        </td>
+                    </tr>
+
+
+                    <tr valign="middle">
+                        <td align="left"><em class="emphasis">reverseColor</em></td>
+                        <td align="left"> <span class="type">Boolean</span> </td>
+                        <td align="left"><b><tt>FALSE</tt></b></td>
+                        <td align="left">Allow switching the color of the bar and the background</td>
+                    </tr>
+
+
+                    <tr valign="middle">
+                        <td align="left"><em class="emphasis">orientation</em></td>
+                        <td align="left"> <span class="type">Integer</span> </td>
+                        <td align="left">0</td>
+                        <td align="left">Orientation of the barcode</td>
+                    </tr>
+
+
+                    <tr valign="middle">
+                        <td align="left"><em class="emphasis">font</em></td>
+                        <td align="left"> <span class="type">String</span>  or  <span class="type">Integer</span> </td>
+                        <td align="left"><b><tt>NULL</tt></b></td>
+
+                        <td align="left">
+                            Font path to a <acronym class="acronym">TTF</acronym> font or a number between 1 and 5
+                            if using image generation with GD (internal fonts)
+                        </td>
+                    </tr>
+
+
+                    <tr valign="middle">
+                        <td align="left"><em class="emphasis">fontSize</em></td>
+                        <td align="left"> <span class="type">Integer</span> </td>
+                        <td align="left">10</td>
+                        <td align="left">Size of the font (not applicable with numeric fonts)</td>
+                    </tr>
+
+
+                    <tr valign="middle">
+                        <td align="left"><em class="emphasis">withBorder</em></td>
+                        <td align="left"> <span class="type">Boolean</span> </td>
+                        <td align="left"><b><tt>FALSE</tt></b></td>
+                        <td align="left">Draw a border around the barcode and the quiet zones</td>
+                    </tr>
+
+
+                    <tr valign="middle">
+                        <td align="left"><em class="emphasis">withQuietZones</em></td>
+                        <td align="left"> <span class="type">Boolean</span> </td>
+                        <td align="left"><b><tt>TRUE</tt></b></td>
+                        <td align="left">Leave a quiet zone before and after the barcode</td>
+                    </tr>
+
+
+                    <tr valign="middle">
+                        <td align="left"><em class="emphasis">drawText</em></td>
+                        <td align="left"> <span class="type">Boolean</span> </td>
+                        <td align="left"><b><tt>TRUE</tt></b></td>
+                        <td align="left">Set if the text is displayed below the barcode</td>
+                    </tr>
+
+
+                    <tr valign="middle">
+                        <td align="left"><em class="emphasis">stretchText</em></td>
+                        <td align="left"> <span class="type">Boolean</span> </td>
+                        <td align="left"><b><tt>FALSE</tt></b></td>
+                        <td align="left">Specify if the text is stretched all along the barcode</td>
+                    </tr>
+
+
+                    <tr valign="middle">
+                        <td align="left"><em class="emphasis">withChecksum</em></td>
+                        <td align="left"> <span class="type">Boolean</span> </td>
+                        <td align="left"><b><tt>FALSE</tt></b></td>
+
+                        <td align="left">
+                            Indicate whether or not the checksum is automatically added to
+                            the barcode
+                        </td>
+                    </tr>
+
+
+                    <tr valign="middle">
+                        <td align="left"><em class="emphasis">withChecksumInText</em></td>
+                        <td align="left"> <span class="type">Boolean</span> </td>
+                        <td align="left"><b><tt>FALSE</tt></b></td>
+
+                        <td align="left">
+                            Indicate whether or not the checksum is displayed in the textual
+                            representation
+                        </td>
+                    </tr>
+
+
+                    <tr valign="middle">
+                        <td align="left"><em class="emphasis">text</em></td>
+                        <td align="left"> <span class="type">String</span> </td>
+                        <td align="left"><b><tt>NULL</tt></b></td>
+                        <td align="left">The text to represent as a barcode</td>
+                    </tr>
+
+                </tbody>
+            
+        </table>
+
+
+        <div class="section" id="zend.barcode.objects.common.options.barcodefont" name="zend.barcode.objects.common.options.barcodefont"><div class="info"><h1 class="title">Particular case of static setBarcodeFont()</h1></div>
+            
+
+            <p class="para">
+                You can set a commont font for all your objects by using the static method
+                 <span class="methodname">Zend_Barcode_Object::setBarcodeFont()</span>. This value
+                can be always be overridden for individual objects by using the
+                 <span class="methodname">setFont()</span> method.
+            </p>
+
+            <div class="programlisting php"><div class="phpcode"><div class="php" style="font-family: monospace;"><ol><li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;"><span style="color: #808080; font-style: italic;">// In your bootstrap:</span></div></li>
+<li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;">Zend_Barcode_Object::<span style="color: #006600;">setBarcodeFont</span><span style="color: #66cc66;">&#40;</span><span style="color: #ff0000;">'my_font.ttf'</span><span style="color: #66cc66;">&#41;</span>;</div></li>
+<li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;">&nbsp;</div></li>
+<li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;"><span style="color: #808080; font-style: italic;">// Later in your code:</span></div></li>
+<li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;">Zend_Barcode::<span style="color: #006600;">render</span><span style="color: #66cc66;">&#40;</span></div></li>
+<li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;">&nbsp; &nbsp; <span style="color: #ff0000;">'code39'</span>,</div></li>
+<li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;">&nbsp; &nbsp; <span style="color: #ff0000;">'pdf'</span>,</div></li>
+<li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;">&nbsp; &nbsp; <a href="http://www.php.net/array"><span style="color: #000066;">array</span></a><span style="color: #66cc66;">&#40;</span><span style="color: #ff0000;">'text'</span> =&gt; <span style="color: #ff0000;">'ZEND-FRAMEWORK'</span><span style="color: #66cc66;">&#41;</span></div></li>
+<li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;"><span style="color: #66cc66;">&#41;</span>; <span style="color: #808080; font-style: italic;">// will use 'my_font.ttf'</span></div></li>
+<li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;">&nbsp;</div></li>
+<li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;"><span style="color: #808080; font-style: italic;">// or:</span></div></li>
+<li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;">Zend_Barcode::<span style="color: #006600;">render</span><span style="color: #66cc66;">&#40;</span></div></li>
+<li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;">&nbsp; &nbsp; <span style="color: #ff0000;">'code39'</span>,</div></li>
+<li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;">&nbsp; &nbsp; <span style="color: #ff0000;">'image'</span>,</div></li>
+<li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;">&nbsp; &nbsp; <a href="http://www.php.net/array"><span style="color: #000066;">array</span></a><span style="color: #66cc66;">&#40;</span></div></li>
+<li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;">&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #ff0000;">'text'</span> =&gt; <span style="color: #ff0000;">'ZEND-FRAMEWORK'</span>,</div></li>
+<li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;">&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #ff0000;">'font'</span> =&gt; <span style="color: #cc66cc;">3</span></div></li>
+<li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;">&nbsp; &nbsp; <span style="color: #66cc66;">&#41;</span></div></li>
+<li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;"><span style="color: #66cc66;">&#41;</span>; <span style="color: #808080; font-style: italic;">// will use the 3rd GD internal font</span></div></li></ol></div></div></div>
+
+        </div>
+    </div>
+
+    <div class="section" id="zend.barcode.objects.common.getters" name="zend.barcode.objects.common.getters"><div class="info"><h1 class="title">Common Additional Getters</h1></div>
+        
+
+        <p class="para"/>
+
+        <table class="doctable table"><div class="info"><caption><b>Common Getters</b></caption></div>
+            
+
+            
+                <thead valign="middle">
+                    <tr valign="middle">
+                        <th>Getter</th>
+                        <th>Data Type</th>
+                        <th>Description</th>
+                    </tr>
+
+                </thead>
+
+
+                <tbody valign="middle" class="tbody">
+                    <tr valign="middle">
+                        <td align="left"> <span class="methodname">getType()</span></td>
+                        <td align="left"> <span class="type">String</span> </td>
+
+                        <td align="left">
+                            Return the name of the barcode class without the namespace (e.g.
+                            <span class="classname">Zend_Barcode_Object_Code39</span> returns simply
+                            &quot;code39&quot;)
+                        </td>
+                    </tr>
+
+
+                    <tr valign="middle">
+                        <td align="left"> <span class="methodname">getRawText()</span></td>
+                        <td align="left"> <span class="type">String</span> </td>
+                        <td align="left">Return the original text provided to the object</td>
+                    </tr>
+
+
+                    <tr valign="middle">
+                        <td align="left"> <span class="methodname">getTextToDisplay()</span></td>
+                        <td align="left"> <span class="type">String</span> </td>
+
+                        <td align="left">
+                            Return the text to display, including, if activated, the checksum value
+                        </td>
+                    </tr>
+
+
+                    <tr valign="middle">
+                        <td align="left"> <span class="methodname">getQuietZone()</span></td>
+                        <td align="left"> <span class="type">Integer</span> </td>
+
+                        <td align="left">
+                            Return the size of the space needed before and after the barcode
+                            without any drawing
+                        </td>
+                    </tr>
+
+
+                    <tr valign="middle">
+                        <td align="left"> <span class="methodname">getInstructions()</span></td>
+                        <td align="left"> <span class="type">Array</span> </td>
+                        <td align="left">Return drawing instructions as an array.</td>
+                    </tr>
+
+
+                    <tr valign="middle">
+                        <td align="left"> <span class="methodname">getHeight($recalculate = false)</span></td>
+                        <td align="left"> <span class="type">Integer</span> </td>
+
+                        <td align="left">
+                            Return the height of the barcode calculated after possible rotation
+                        </td>
+                    </tr>
+
+
+                    <tr valign="middle">
+                        <td align="left"> <span class="methodname">getWidth($recalculate = false)</span></td>
+                        <td align="left"> <span class="type">Integer</span> </td>
+
+                        <td align="left">
+                            Return the width of the barcode calculated after possible rotation
+                        </td>
+                    </tr>
+
+
+                    <tr valign="middle">
+                        <td align="left"> <span class="methodname">getOffsetTop($recalculate = false)</span></td>
+                        <td align="left"> <span class="type">Integer</span> </td>
+
+                        <td align="left">
+                            Return the position of the top of the barcode calculated after
+                            possible rotation
+                        </td>
+                    </tr>
+
+
+                    <tr valign="middle">
+                        <td align="left"> <span class="methodname">getOffsetLeft($recalculate = false)</span></td>
+                        <td align="left"> <span class="type">Integer</span> </td>
+
+                        <td align="left">
+                            Return the position of the left of the barcode calculated after
+                            possible rotation
+                        </td>
+                    </tr>
+
+                </tbody>
+            
+        </table>
+
+    </div>
+
+    <div class="section" id="zend.barcode.objects.details" name="zend.barcode.objects.details"><div class="info"><h1 class="title">Description of shipped barcodes</h1></div>
+    
+
+    <p class="para">
+        You will find below detailed information about all barcode types shipped by default with
+        Zend Framework.
+    </p>
+
+    <div class="section" id="zend.barcode.objects.details.error" name="zend.barcode.objects.details.error"><div class="info"><h1 class="title">Zend_Barcode_Object_Error</h1></div>
+        
+
+        <p class="para">
+            <div class="inlinemediaobject"><div class="imageobject"><img src="images/d481d625821a97b9a5eb2cec99dca50e-zend.barcode.objects.details.error.png" alt="zend.barcode.objects.details.error.png" width="400" height="40" /></div></div>
+        </p>
+
+        <p class="para">
+            This barcode is a special case. It is internally used to automatically render
+            an exception caught by the <span class="classname">Zend_Barcode</span> component.
+        </p>
+    </div>
+
+    <div class="section" id="zend.barcode.objects.details.code25" name="zend.barcode.objects.details.code25"><div class="info"><h1 class="title">Zend_Barcode_Object_Code25</h1></div>
+        
+
+        <p class="para">
+            <div class="inlinemediaobject"><div class="imageobject"><img src="images/d481d625821a97b9a5eb2cec99dca50e-zend.barcode.objects.details.code25.png" alt="zend.barcode.objects.details.code25.png" width="152" height="61" /></div></div>
+        </p>
+
+        <ul class="itemizedlist">
+            <li class="listitem">
+                <p class="para">
+                    <em class="emphasis">Name:</em> Code 25 (or Code 2 of 5 or Code 25 Industrial)
+                </p>
+            </li>
+
+            <li class="listitem">
+                <p class="para">
+                    <em class="emphasis">Allowed characters:</em> &#039;0123456789&#039;
+                </p>
+            </li>
+
+            <li class="listitem">
+                <p class="para">
+                    <em class="emphasis">Checksum:</em> optional (modulo 10)
+                </p>
+            </li>
+
+            <li class="listitem">
+                <p class="para">
+                    <em class="emphasis">Length:</em> variable
+                </p>
+            </li>
+        </ul>
+
+        <p class="para">
+            There are no particular options for this barcode.
+        </p>
+    </div>
+
+    <div class="section" id="zend.barcode.objects.details.code25interleaved" name="zend.barcode.objects.details.code25interleaved"><div class="info"><h1 class="title">Zend_Barcode_Object_Code25interleaved</h1></div>
+        
+
+        <p class="para">
+            <div class="inlinemediaobject"><div class="imageobject"><img src="images/d481d625821a97b9a5eb2cec99dca50e-zend.barcode.objects.details.int25.png" alt="zend.barcode.objects.details.int25.png" width="101" height="61" /></div></div>
+        </p>
+
+        <p class="para">
+            This barcode extends <span class="classname">Zend_Barcode_Object_Code25</span>
+            (Code 2 of 5), and has the same particulars and options, and adds the following:
+        </p>
+
+        <ul class="itemizedlist">
+            <li class="listitem">
+                <p class="para">
+                    <em class="emphasis">Name:</em> Code 2 of 5 Interleaved
+                </p>
+            </li>
+
+            <li class="listitem">
+                <p class="para">
+                    <em class="emphasis">Allowed characters:</em> &#039;0123456789&#039;
+                </p>
+            </li>
+
+            <li class="listitem">
+                <p class="para">
+                    <em class="emphasis">Checksum:</em> optional (modulo 10)
+                </p>
+            </li>
+
+            <li class="listitem">
+                <p class="para">
+                    <em class="emphasis">Length:</em> variable (always even number of characters)
+                </p>
+            </li>
+        </ul>
+
+        <p class="para">
+            Available options include:
+        </p>
+
+        <table class="doctable table"><div class="info"><caption><b>Zend_Barcode_Object_Code25interleaved Options</b></caption></div>
+            
+
+            
+                <thead valign="middle">
+                    <tr valign="middle">
+                        <th>Option</th>
+                        <th>Data Type</th>
+                        <th>Default Value</th>
+                        <th>Description</th>
+                    </tr>
+
+                </thead>
+
+
+                <tbody valign="middle" class="tbody">
+                    <tr valign="middle">
+                        <td align="left"><em class="emphasis">withBearerBars</em></td>
+                        <td align="left"> <span class="type">Boolean</span> </td>
+                        <td align="left"><b><tt>FALSE</tt></b></td>
+                        <td align="left">Draw a thick bar at the top and the bottom of the barcode.</td>
+                    </tr>
+
+                </tbody>
+            
+        </table>
+
+
+        <blockquote><p><b class="note">Note</b>: 
+            
+                If the number of characters is not even,
+                <span class="classname">Zend_Barcode_Object_Code25interleaved</span> will automatically
+                prepend the missing zero to the barcode text.
+            <br />
+        </p></blockquote>
+    </div>
+
+    <div class="section" id="zend.barcode.objects.details.ean2" name="zend.barcode.objects.details.ean2"><div class="info"><h1 class="title">Zend_Barcode_Object_Ean2</h1></div>
+        
+
+        <p class="para">
+            <div class="inlinemediaobject"><div class="imageobject"><img src="images/d481d625821a97b9a5eb2cec99dca50e-zend.barcode.objects.details.ean2.png" alt="zend.barcode.objects.details.ean2.png" width="41" height="62" /></div></div>
+        </p>
+
+        <p class="para">
+            This barcode extends <span class="classname">Zend_Barcode_Object_Ean5</span>
+            (<acronym class="acronym">EAN</acronym> 5), and has the same particulars and options, and adds the
+            following:
+        </p>
+
+        <ul class="itemizedlist">
+            <li class="listitem">
+                <p class="para">
+                    <em class="emphasis">Name:</em> <acronym class="acronym">EAN</acronym>-2
+                </p>
+            </li>
+
+            <li class="listitem">
+                <p class="para">
+                    <em class="emphasis">Allowed characters:</em> &#039;0123456789&#039;
+                </p>
+            </li>
+
+            <li class="listitem">
+                <p class="para">
+                    <em class="emphasis">Checksum:</em> only use internally but not displayed
+                </p>
+            </li>
+
+            <li class="listitem">
+                <p class="para">
+                    <em class="emphasis">Length:</em> 2 characters
+                </p>
+            </li>
+        </ul>
+
+        <p class="para">
+            There are no particular options for this barcode.
+        </p>
+
+        <blockquote><p><b class="note">Note</b>: 
+            
+                If the number of characters is lower than 2,
+                <span class="classname">Zend_Barcode_Object_Ean2</span> will automatically
+                prepend the missing zero to the barcode text.
+            <br />
+        </p></blockquote>
+    </div>
+
+    <div class="section" id="zend.barcode.objects.details.ean5" name="zend.barcode.objects.details.ean5"><div class="info"><h1 class="title">Zend_Barcode_Object_Ean5</h1></div>
+        
+
+        <p class="para">
+            <div class="inlinemediaobject"><div class="imageobject"><img src="images/d481d625821a97b9a5eb2cec99dca50e-zend.barcode.objects.details.ean5.png" alt="zend.barcode.objects.details.ean5.png" width="68" height="62" /></div></div>
+        </p>
+
+        <p class="para">
+            This barcode extends <span class="classname">Zend_Barcode_Object_Ean13</span>
+            (<acronym class="acronym">EAN</acronym> 13), and has the same particulars and options, and adds the
+            following:
+        </p>
+
+        <ul class="itemizedlist">
+            <li class="listitem">
+                <p class="para">
+                    <em class="emphasis">Name:</em> <acronym class="acronym">EAN</acronym>-5
+                </p>
+            </li>
+
+            <li class="listitem">
+                <p class="para">
+                    <em class="emphasis">Allowed characters:</em> &#039;0123456789&#039;
+                </p>
+            </li>
+
+            <li class="listitem">
+                <p class="para">
+                    <em class="emphasis">Checksum:</em> only use internally but not displayed
+                </p>
+            </li>
+
+            <li class="listitem">
+                <p class="para">
+                    <em class="emphasis">Length:</em> 5 characters
+                </p>
+            </li>
+        </ul>
+
+        <p class="para">
+            There are no particular options for this barcode.
+        </p>
+
+        <blockquote><p><b class="note">Note</b>: 
+            
+                If the number of characters is lower than 5,
+                <span class="classname">Zend_Barcode_Object_Ean5</span> will automatically
+                prepend the missing zero to the barcode text.
+            <br />
+        </p></blockquote>
+    </div>
+
+    <div class="section" id="zend.barcode.objects.details.ean8" name="zend.barcode.objects.details.ean8"><div class="info"><h1 class="title">Zend_Barcode_Object_Ean8</h1></div>
+        
+
+        <p class="para">
+            <div class="inlinemediaobject"><div class="imageobject"><img src="images/d481d625821a97b9a5eb2cec99dca50e-zend.barcode.objects.details.ean8.png" alt="zend.barcode.objects.details.ean8.png" width="82" height="62" /></div></div>
+        </p>
+
+        <p class="para">
+            This barcode extends <span class="classname">Zend_Barcode_Object_Ean13</span>
+            (<acronym class="acronym">EAN</acronym> 13), and has the same particulars and options, and adds the
+            following:
+        </p>
+
+        <ul class="itemizedlist">
+            <li class="listitem">
+                <p class="para">
+                    <em class="emphasis">Name:</em> <acronym class="acronym">EAN</acronym>-8
+                </p>
+            </li>
+
+            <li class="listitem">
+                <p class="para">
+                    <em class="emphasis">Allowed characters:</em> &#039;0123456789&#039;
+                </p>
+            </li>
+
+            <li class="listitem">
+                <p class="para">
+                    <em class="emphasis">Checksum:</em> mandatory (modulo 10)
+                </p>
+            </li>
+
+            <li class="listitem">
+                <p class="para">
+                    <em class="emphasis">Length:</em> 8 characters (including checksum)
+                </p>
+            </li>
+        </ul>
+
+        <p class="para">
+            There are no particular options for this barcode.
+        </p>
+
+        <blockquote><p><b class="note">Note</b>: 
+            
+                If the number of characters is lower than 8,
+                <span class="classname">Zend_Barcode_Object_Ean8</span> will automatically
+                prepend the missing zero to the barcode text.
+            <br />
+        </p></blockquote>
+    </div>
+
+    <div class="section" id="zend.barcode.objects.details.ean13" name="zend.barcode.objects.details.ean13"><div class="info"><h1 class="title">Zend_Barcode_Object_Ean13</h1></div>
+        
+
+        <p class="para">
+            <div class="inlinemediaobject"><div class="imageobject"><img src="images/d481d625821a97b9a5eb2cec99dca50e-zend.barcode.objects.details.ean13.png" alt="zend.barcode.objects.details.ean13.png" width="115" height="62" /></div></div>
+        </p>
+
+        <ul class="itemizedlist">
+            <li class="listitem">
+                <p class="para">
+                    <em class="emphasis">Name:</em> <acronym class="acronym">EAN</acronym>-13
+                </p>
+            </li>
+
+            <li class="listitem">
+                <p class="para">
+                    <em class="emphasis">Allowed characters:</em> &#039;0123456789&#039;
+                </p>
+            </li>
+
+            <li class="listitem">
+                <p class="para">
+                    <em class="emphasis">Checksum:</em> mandatory (modulo 10)
+                </p>
+            </li>
+
+            <li class="listitem">
+                <p class="para">
+                    <em class="emphasis">Length:</em> 13 characters (including checksum)
+                </p>
+            </li>
+        </ul>
+
+        <p class="para">
+            There are no particular options for this barcode.
+        </p>
+
+        <blockquote><p><b class="note">Note</b>: 
+            
+                If the number of characters is lower than 13,
+                <span class="classname">Zend_Barcode_Object_Ean13</span> will automatically
+                prepend the missing zero to the barcode text.
+            <br />
+
+            
+                The option <span class="property">withQuietZones</span> has no effect with this barcode.
+            <br />
+        </p></blockquote>
+    </div>
+
+    <div class="section" id="zend.barcode.objects.details.code39" name="zend.barcode.objects.details.code39"><div class="info"><h1 class="title">Zend_Barcode_Object_Code39</h1></div>
+        
+
+        <p class="para">
+            <div class="inlinemediaobject"><div class="imageobject"><img src="images/d481d625821a97b9a5eb2cec99dca50e-zend.barcode.introduction.example-1.png" alt="zend.barcode.introduction.example-1.png" width="275" height="61" /></div></div>
+        </p>
+
+        <ul class="itemizedlist">
+            <li class="listitem">
+                <p class="para">
+                    <em class="emphasis">Name:</em> Code 39
+                </p>
+            </li>
+
+            <li class="listitem">
+                <p class="para">
+                    <em class="emphasis">Allowed characters:</em>
+                    &#039;0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ -.$/+%&#039;
+                </p>
+            </li>
+
+            <li class="listitem">
+                <p class="para">
+                    <em class="emphasis">Checksum:</em> optional (modulo 43)
+                </p>
+            </li>
+
+            <li class="listitem">
+                <p class="para">
+                    <em class="emphasis">Length:</em> variable
+                </p>
+            </li>
+        </ul>
+
+        <blockquote><p><b class="note">Note</b>: 
+            
+                <span class="classname">Zend_Barcode_Object_Code39</span> will automatically add
+                the start and stop characters (&#039;*&#039;) for you.
+            <br />
+        </p></blockquote>
+
+        <p class="para">
+            There are no particular options for this barcode.
+        </p>
+    </div>
+
+    <div class="section" id="zend.barcode.objects.details.identcode" name="zend.barcode.objects.details.identcode"><div class="info"><h1 class="title">Zend_Barcode_Object_Identcode</h1></div>
+        
+
+        <p class="para">
+            <div class="inlinemediaobject"><div class="imageobject"><img src="images/d481d625821a97b9a5eb2cec99dca50e-zend.barcode.objects.details.identcode.png" alt="zend.barcode.objects.details.identcode.png" width="137" height="62" /></div></div>
+        </p>
+
+        <p class="para">
+            This barcode extends <span class="classname">Zend_Barcode_Object_Code25interleaved</span>
+            (Code 2 of 5 Interleaved), and inherits some of its capabilities; it also has a few
+            particulars of its own.
+        </p>
+
+        <ul class="itemizedlist">
+            <li class="listitem">
+                <p class="para">
+                    <em class="emphasis">Name:</em> Identcode (Deutsche Post Identcode)
+                </p>
+            </li>
+
+            <li class="listitem">
+                <p class="para">
+                    <em class="emphasis">Allowed characters:</em> &#039;0123456789&#039;
+                </p>
+            </li>
+
+            <li class="listitem">
+                <p class="para">
+                    <em class="emphasis">Checksum:</em> mandatory (modulo 10 different from Code25)
+                </p>
+            </li>
+
+            <li class="listitem">
+                <p class="para">
+                    <em class="emphasis">Length:</em> 12 characters (including checksum)
+                </p>
+            </li>
+        </ul>
+
+        <p class="para">
+            There are no particular options for this barcode.
+        </p>
+
+        <blockquote><p><b class="note">Note</b>: 
+            
+                If the number of characters is lower than 12,
+                <span class="classname">Zend_Barcode_Object_Identcode</span> will automatically prepend
+                missing zeros to the barcode text.
+            <br />
+        </p></blockquote>
+    </div>
+
+    <div class="section" id="zend.barcode.objects.details.itf14" name="zend.barcode.objects.details.itf14"><div class="info"><h1 class="title">Zend_Barcode_Object_Itf14</h1></div>
+        
+
+        <p class="para">
+            <div class="inlinemediaobject"><div class="imageobject"><img src="images/d481d625821a97b9a5eb2cec99dca50e-zend.barcode.objects.details.itf14.png" alt="zend.barcode.objects.details.itf14.png" width="155" height="61" /></div></div>
+        </p>
+
+        <p class="para">
+            This barcode extends <span class="classname">Zend_Barcode_Object_Code25interleaved</span>
+            (Code 2 of 5 Interleaved), and inherits some of its capabilities; it also has a few
+            particulars of its own.
+        </p>
+
+        <ul class="itemizedlist">
+            <li class="listitem">
+                <p class="para">
+                    <em class="emphasis">Name:</em> <acronym class="acronym">ITF</acronym>-14
+                </p>
+            </li>
+
+            <li class="listitem">
+                <p class="para">
+                    <em class="emphasis">Allowed characters:</em> &#039;0123456789&#039;
+                </p>
+            </li>
+
+            <li class="listitem">
+                <p class="para">
+                    <em class="emphasis">Checksum:</em> mandatory (modulo 10)
+                </p>
+            </li>
+
+            <li class="listitem">
+                <p class="para">
+                    <em class="emphasis">Length:</em> 14 characters (including checksum)
+                </p>
+            </li>
+        </ul>
+
+        <p class="para">
+            There are no particular options for this barcode.
+        </p>
+
+        <blockquote><p><b class="note">Note</b>: 
+            
+                If the number of characters is lower than 14,
+                <span class="classname">Zend_Barcode_Object_Itf14</span> will automatically prepend
+                missing zeros to the barcode text.
+            <br />
+        </p></blockquote>
+    </div>
+
+    <div class="section" id="zend.barcode.objects.details.leitcode" name="zend.barcode.objects.details.leitcode"><div class="info"><h1 class="title">Zend_Barcode_Object_Leitcode</h1></div>
+        
+
+        <p class="para">
+            <div class="inlinemediaobject"><div class="imageobject"><img src="images/d481d625821a97b9a5eb2cec99dca50e-zend.barcode.objects.details.leitcode.png" alt="zend.barcode.objects.details.leitcode.png" width="155" height="62" /></div></div>
+        </p>
+
+        <p class="para">
+            This barcode extends <span class="classname">Zend_Barcode_Object_Identcode</span>
+            (Deutsche Post Identcode), and inherits some of its capabilities; it also has a few
+            particulars of its own.
+        </p>
+
+        <ul class="itemizedlist">
+            <li class="listitem">
+                <p class="para">
+                    <em class="emphasis">Name:</em> Leitcode (Deutsche Post Leitcode)
+                </p>
+            </li>
+
+            <li class="listitem">
+                <p class="para">
+                    <em class="emphasis">Allowed characters:</em> &#039;0123456789&#039;
+                </p>
+            </li>
+
+            <li class="listitem">
+                <p class="para">
+                    <em class="emphasis">Checksum:</em> mandatory (modulo 10 different from Code25)
+                </p>
+            </li>
+
+            <li class="listitem">
+                <p class="para">
+                    <em class="emphasis">Length:</em> 14 characters (including checksum)
+                </p>
+            </li>
+        </ul>
+
+        <p class="para">
+            There are no particular options for this barcode.
+        </p>
+
+        <blockquote><p><b class="note">Note</b>: 
+            
+                If the number of characters is lower than 14,
+                <span class="classname">Zend_Barcode_Object_Leitcode</span> will automatically
+                prepend missing zeros to the barcode text.
+            <br />
+        </p></blockquote>
+    </div>
+
+    <div class="section" id="zend.barcode.objects.details.planet" name="zend.barcode.objects.details.planet"><div class="info"><h1 class="title">Zend_Barcode_Object_Planet</h1></div>
+        
+
+        <p class="para">
+            <div class="inlinemediaobject"><div class="imageobject"><img src="images/d481d625821a97b9a5eb2cec99dca50e-zend.barcode.objects.details.planet.png" alt="zend.barcode.objects.details.planet.png" width="286" height="20" /></div></div>
+        </p>
+
+        <ul class="itemizedlist">
+            <li class="listitem">
+                <p class="para">
+                    <em class="emphasis">Name:</em> Planet (PostaL Alpha Numeric Encoding Technique)
+                </p>
+            </li>
+
+            <li class="listitem">
+                <p class="para">
+                    <em class="emphasis">Allowed characters:</em> &#039;0123456789&#039;
+                </p>
+            </li>
+
+            <li class="listitem">
+                <p class="para">
+                    <em class="emphasis">Checksum:</em> mandatory (modulo 10)
+                </p>
+            </li>
+
+            <li class="listitem">
+                <p class="para">
+                    <em class="emphasis">Length:</em> 12 or 14 characters (including checksum)
+                </p>
+            </li>
+        </ul>
+
+        <p class="para">
+            There are no particular options for this barcode.
+        </p>
+    </div>
+
+    <div class="section" id="zend.barcode.objects.details.postnet" name="zend.barcode.objects.details.postnet"><div class="info"><h1 class="title">Zend_Barcode_Object_Postnet</h1></div>
+        
+
+        <p class="para">
+            <div class="inlinemediaobject"><div class="imageobject"><img src="images/d481d625821a97b9a5eb2cec99dca50e-zend.barcode.objects.details.postnet.png" alt="zend.barcode.objects.details.postnet.png" width="286" height="20" /></div></div>
+        </p>
+
+        <ul class="itemizedlist">
+            <li class="listitem">
+                <p class="para">
+                    <em class="emphasis">Name:</em> Postnet (POSTal Numeric Encoding Technique)
+                </p>
+            </li>
+
+            <li class="listitem">
+                <p class="para">
+                    <em class="emphasis">Allowed characters:</em> &#039;0123456789&#039;
+                </p>
+            </li>
+
+            <li class="listitem">
+                <p class="para">
+                    <em class="emphasis">Checksum:</em> mandatory (modulo 10)
+                </p>
+            </li>
+
+            <li class="listitem">
+                <p class="para">
+                    <em class="emphasis">Length:</em> 6, 7, 10 or 12 characters (including checksum)
+                </p>
+            </li>
+        </ul>
+
+        <p class="para">
+            There are no particular options for this barcode.
+        </p>
+    </div>
+
+    <div class="section" id="zend.barcode.objects.details.royalmail" name="zend.barcode.objects.details.royalmail"><div class="info"><h1 class="title">Zend_Barcode_Object_Royalmail</h1></div>
+        
+
+        <p class="para">
+            <div class="inlinemediaobject"><div class="imageobject"><img src="images/d481d625821a97b9a5eb2cec99dca50e-zend.barcode.objects.details.royalmail.png" alt="zend.barcode.objects.details.royalmail.png" width="158" height="20" /></div></div>
+        </p>
+
+        <ul class="itemizedlist">
+            <li class="listitem">
+                <p class="para">
+                    <em class="emphasis">Name:</em> Royal Mail or <acronym class="acronym">RM4SCC</acronym> (Royal Mail
+                    4-State Customer Code)
+                </p>
+            </li>
+
+            <li class="listitem">
+                <p class="para">
+                    <em class="emphasis">Allowed characters:</em> &#039;0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ&#039;
+                </p>
+            </li>
+
+            <li class="listitem">
+                <p class="para">
+                    <em class="emphasis">Checksum:</em> mandatory
+                </p>
+            </li>
+
+            <li class="listitem">
+                <p class="para">
+                    <em class="emphasis">Length:</em> variable
+                </p>
+            </li>
+        </ul>
+
+        <p class="para">
+            There are no particular options for this barcode.
+        </p>
+    </div>
+
+    <div class="section" id="zend.barcode.objects.details.upca" name="zend.barcode.objects.details.upca"><div class="info"><h1 class="title">Zend_Barcode_Object_Upca</h1></div>
+        
+
+        <p class="para">
+            <div class="inlinemediaobject"><div class="imageobject"><img src="images/d481d625821a97b9a5eb2cec99dca50e-zend.barcode.objects.details.upca.png" alt="zend.barcode.objects.details.upca.png" width="115" height="62" /></div></div>
+        </p>
+
+        <p class="para">
+            This barcode extends <span class="classname">Zend_Barcode_Object_Ean13</span>
+            (<acronym class="acronym">EAN</acronym>-13), and inherits some of its capabilities; it also has a few
+            particulars of its own.
+        </p>
+
+        <ul class="itemizedlist">
+            <li class="listitem">
+                <p class="para">
+                    <em class="emphasis">Name:</em> <acronym class="acronym">UPC</acronym>-A (Universal Product Code)
+                </p>
+            </li>
+
+            <li class="listitem">
+                <p class="para">
+                    <em class="emphasis">Allowed characters:</em> &#039;0123456789&#039;
+                </p>
+            </li>
+
+            <li class="listitem">
+                <p class="para">
+                    <em class="emphasis">Checksum:</em> mandatory (modulo 10)
+                </p>
+            </li>
+
+            <li class="listitem">
+                <p class="para">
+                    <em class="emphasis">Length:</em> 12 characters (including checksum)
+                </p>
+            </li>
+        </ul>
+
+        <p class="para">
+            There are no particular options for this barcode.
+        </p>
+
+        <blockquote><p><b class="note">Note</b>: 
+            
+                If the number of characters is lower than 12,
+                <span class="classname">Zend_Barcode_Object_Upca</span> will automatically
+                prepend missing zeros to the barcode text.
+            <br />
+
+            
+                The option <span class="property">withQuietZones</span> has no effect with this barcode.
+            <br />
+        </p></blockquote>
+    </div>
+
+    <div class="section" id="zend.barcode.objects.details.upce" name="zend.barcode.objects.details.upce"><div class="info"><h1 class="title">Zend_Barcode_Object_Upce</h1></div>
+        
+
+        <p class="para">
+            <div class="inlinemediaobject"><div class="imageobject"><img src="images/d481d625821a97b9a5eb2cec99dca50e-zend.barcode.objects.details.upce.png" alt="zend.barcode.objects.details.upce.png" width="71" height="62" /></div></div>
+        </p>
+
+        <p class="para">
+            This barcode extends <span class="classname">Zend_Barcode_Object_Upca</span>
+            (<acronym class="acronym">UPC</acronym>-A), and inherits some of its capabilities; it also has a few
+            particulars of its own. The first character of the text to encode
+            is the system (0 or 1).
+        </p>
+
+        <ul class="itemizedlist">
+            <li class="listitem">
+                <p class="para">
+                    <em class="emphasis">Name:</em> <acronym class="acronym">UPC</acronym>-E (Universal Product Code)
+                </p>
+            </li>
+
+            <li class="listitem">
+                <p class="para">
+                    <em class="emphasis">Allowed characters:</em> &#039;0123456789&#039;
+                </p>
+            </li>
+
+            <li class="listitem">
+                <p class="para">
+                    <em class="emphasis">Checksum:</em> mandatory (modulo 10)
+                </p>
+            </li>
+
+            <li class="listitem">
+                <p class="para">
+                    <em class="emphasis">Length:</em> 8 characters (including checksum)
+                </p>
+            </li>
+        </ul>
+
+        <p class="para">
+            There are no particular options for this barcode.
+        </p>
+
+        <blockquote><p><b class="note">Note</b>: 
+            
+                If the number of characters is lower than 8,
+                <span class="classname">Zend_Barcode_Object_Upce</span> will automatically
+                prepend missing zeros to the barcode text.
+            <br />
+        </p></blockquote>
+
+        <blockquote><p><b class="note">Note</b>: 
+            
+                If the first character of the text to encode is not 0 or 1,
+                <span class="classname">Zend_Barcode_Object_Upce</span> will automatically
+                replace it by 0.
+            <br />
+
+            
+                The option <span class="property">withQuietZones</span> has no effect with this barcode.
+            <br />
+        </p></blockquote>
+    </div>
+</div>
+</div>
+        <hr />
+
+            <table width="100%">
+                <tr>
+                    <td width="25%" style="text-align: left;">
+                    <a href="zend.barcode.creation.html">Barcode creation using Zend_Barcode class</a>
+                    </td>
+
+                    <td width="50%" style="text-align: center;">
+                        <div class="up"><span class="up"><a href="zend.barcode.html">Zend_Barcode</a></span><br />
+                        <span class="home"><a href="manual.html">Programmer's Reference Guide</a></span></div>
+                    </td>
+
+                    <td width="25%" style="text-align: right;">
+                        <div class="next" style="text-align: right; float: right;"><a href="zend.barcode.renderers.html">Zend_Barcode Renderers</a></div>
+                    </td>
+                </tr>
+            </table>
+</td>
+        <td style="font-size: smaller;" width="15%"> <style type="text/css">
+#leftbar {
+	float: left;
+	width: 186px;
+	padding: 5px;
+	font-size: smaller;
+}
+ul.toc {
+	margin: 0px 5px 5px 5px;
+	padding: 0px;
+}
+ul.toc li {
+	font-size: 85%;
+	margin: 1px 0 1px 1px;
+	padding: 1px 0 1px 11px;
+	list-style-type: none;
+	background-repeat: no-repeat;
+	background-position: center left;
+}
+ul.toc li.header {
+	font-size: 115%;
+	padding: 5px 0px 5px 11px;
+	border-bottom: 1px solid #cccccc;
+	margin-bottom: 5px;
+}
+ul.toc li.active {
+	font-weight: bold;
+}
+ul.toc li a {
+	text-decoration: none;
+}
+ul.toc li a:hover {
+	text-decoration: underline;
+}
+</style>
+ <ul class="toc">
+  <li class="header home"><a href="manual.html">Programmer's Reference Guide</a></li>
+  <li class="header up"><a href="manual.html">Programmer's Reference Guide</a></li>
+  <li class="header up"><a href="reference.html">Zend Framework Reference</a></li>
+  <li class="header up"><a href="zend.barcode.html">Zend_Barcode</a></li>
+  <li><a href="zend.barcode.introduction.html">Introduction</a></li>
+  <li><a href="zend.barcode.creation.html">Barcode creation using Zend_Barcode class</a></li>
+  <li class="active"><a href="zend.barcode.objects.html">Zend_Barcode Objects</a></li>
+  <li><a href="zend.barcode.renderers.html">Zend_Barcode Renderers</a></li>
+ </ul>
+ </td>
+    </tr>
+</table>
+</body>
+</html>

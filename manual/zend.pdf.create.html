@@ -1,0 +1,179 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+                      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
+    <title>Creating and Loading PDF Documents - Zend Framework Manual</title>
+
+</head>
+<body>
+<table width="100%">
+    <tr valign="top">
+        <td width="85%">
+            <table width="100%">
+                <tr>
+                    <td width="25%" style="text-align: left;">
+                    <a href="zend.pdf.introduction.html">Introduction</a>
+                    </td>
+
+                    <td width="50%" style="text-align: center;">
+                        <div class="up"><span class="up"><a href="zend.pdf.html">Zend_Pdf</a></span><br />
+                        <span class="home"><a href="manual.html">Programmer's Reference Guide</a></span></div>
+                    </td>
+
+                    <td width="25%" style="text-align: right;">
+                        <div class="next" style="text-align: right; float: right;"><a href="zend.pdf.save.html">Save Changes to PDF Documents</a></div>
+                    </td>
+                </tr>
+            </table>
+<hr />
+<div id="zend.pdf.create" class="section"><div class="info"><h1 class="title">Creating and Loading PDF Documents</h1></div>
+    
+
+    <p class="para">
+        The <span class="classname">Zend_Pdf</span> class represents <acronym class="acronym">PDF</acronym> documents and
+        provides document-level operations.
+    </p>
+
+    <p class="para">
+        To create a new document, a new <span class="classname">Zend_Pdf</span> object should first be
+        created.
+    </p>
+
+    <p class="para">
+        <span class="classname">Zend_Pdf</span> class also provides two static methods to load an existing
+        <acronym class="acronym">PDF</acronym> document. These are the  <span class="methodname">Zend_Pdf::load()</span> and
+         <span class="methodname">Zend_Pdf::parse()</span> methods. Both of them return
+        <span class="classname">Zend_Pdf</span> objects as a result or throw an exception if an error
+        occurs.
+    </p>
+
+    <div class="example"><div class="info"><p><b>Example #1 Create new or load existing PDF document</b></p></div>
+        
+
+        <div class="programlisting php"><div class="phpcode"><div class="php" style="font-family: monospace;"><ol><li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;">...</div></li>
+<li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;"><span style="color: #808080; font-style: italic;">// Create a new PDF document</span></div></li>
+<li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;"><span style="color: #0000ff;">$pdf1</span> = <span style="color: #000000; font-weight: bold;">new</span> Zend_Pdf<span style="color: #66cc66;">&#40;</span><span style="color: #66cc66;">&#41;</span>;</div></li>
+<li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;">&nbsp;</div></li>
+<li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;"><span style="color: #808080; font-style: italic;">// Load a PDF document from a file</span></div></li>
+<li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;"><span style="color: #0000ff;">$pdf2</span> = Zend_Pdf::<span style="color: #006600;">load</span><span style="color: #66cc66;">&#40;</span><span style="color: #0000ff;">$fileName</span><span style="color: #66cc66;">&#41;</span>;</div></li>
+<li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;">&nbsp;</div></li>
+<li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;"><span style="color: #808080; font-style: italic;">// Load a PDF document from a string</span></div></li>
+<li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;"><span style="color: #0000ff;">$pdf3</span> = Zend_Pdf::<span style="color: #006600;">parse</span><span style="color: #66cc66;">&#40;</span><span style="color: #0000ff;">$pdfString</span><span style="color: #66cc66;">&#41;</span>;</div></li>
+<li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;">...</div></li></ol></div></div></div>
+
+    </div>
+
+    <p class="para">
+        The <acronym class="acronym">PDF</acronym> file format supports incremental document update. Thus each time
+        a document is updated, then a new revision of the document is created.
+        <span class="classname">Zend_Pdf</span> component supports the retrieval of a specified revision.
+    </p>
+
+    <p class="para">
+        A revision can be specified as a second parameter to the
+         <span class="methodname">Zend_Pdf::load()</span> and  <span class="methodname">Zend_Pdf::parse()</span>
+        methods or requested by calling the  <span class="methodname">Zend_Pdf::rollback()</span> method.
+
+        <a href="#fnid1" name="fn1"><sup>[1]</sup></a>
+            
+                 <span class="methodname">Zend_Pdf::rollback()</span>
+        
+
+        call.
+    </p>
+
+    <div class="example"><div class="info"><p><b>Example #2 Requesting Specific Revisions of a PDF Document</b></p></div>
+        
+
+        <div class="programlisting php"><div class="phpcode"><div class="php" style="font-family: monospace;"><ol><li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;">...</div></li>
+<li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;"><span style="color: #808080; font-style: italic;">// Load the previous revision of the PDF document</span></div></li>
+<li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;"><span style="color: #0000ff;">$pdf1</span> = Zend_Pdf::<span style="color: #006600;">load</span><span style="color: #66cc66;">&#40;</span><span style="color: #0000ff;">$fileName</span>, <span style="color: #cc66cc;">1</span><span style="color: #66cc66;">&#41;</span>;</div></li>
+<li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;">&nbsp;</div></li>
+<li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;"><span style="color: #808080; font-style: italic;">// Load the previous revision of the PDF document</span></div></li>
+<li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;"><span style="color: #0000ff;">$pdf2</span> = Zend_Pdf::<span style="color: #006600;">parse</span><span style="color: #66cc66;">&#40;</span><span style="color: #0000ff;">$pdfString</span>, <span style="color: #cc66cc;">1</span><span style="color: #66cc66;">&#41;</span>;</div></li>
+<li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;">&nbsp;</div></li>
+<li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;"><span style="color: #808080; font-style: italic;">// Load the first revision of the PDF document</span></div></li>
+<li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;"><span style="color: #0000ff;">$pdf3</span> = Zend_Pdf::<span style="color: #006600;">load</span><span style="color: #66cc66;">&#40;</span><span style="color: #0000ff;">$fileName</span><span style="color: #66cc66;">&#41;</span>;</div></li>
+<li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;"><span style="color: #0000ff;">$revisions</span> = <span style="color: #0000ff;">$pdf3</span>-&gt;<span style="color: #006600;">revisions</span><span style="color: #66cc66;">&#40;</span><span style="color: #66cc66;">&#41;</span>;</div></li>
+<li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;"><span style="color: #0000ff;">$pdf3</span>-&gt;<span style="color: #006600;">rollback</span><span style="color: #66cc66;">&#40;</span><span style="color: #0000ff;">$revisions</span> - <span style="color: #cc66cc;">1</span><span style="color: #66cc66;">&#41;</span>;</div></li>
+<li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;">...</div></li></ol></div></div></div>
+
+    </div>
+<div class="footnote"><a name="fnid1" href="#fn1"><sup>[1]</sup></a><span class="para footnote"> method must be invoked before any
+                changes are applied to the document, otherwise the behavior is not defined.
+            </span></div>
+</div>
+        <hr />
+
+            <table width="100%">
+                <tr>
+                    <td width="25%" style="text-align: left;">
+                    <a href="zend.pdf.introduction.html">Introduction</a>
+                    </td>
+
+                    <td width="50%" style="text-align: center;">
+                        <div class="up"><span class="up"><a href="zend.pdf.html">Zend_Pdf</a></span><br />
+                        <span class="home"><a href="manual.html">Programmer's Reference Guide</a></span></div>
+                    </td>
+
+                    <td width="25%" style="text-align: right;">
+                        <div class="next" style="text-align: right; float: right;"><a href="zend.pdf.save.html">Save Changes to PDF Documents</a></div>
+                    </td>
+                </tr>
+            </table>
+</td>
+        <td style="font-size: smaller;" width="15%"> <style type="text/css">
+#leftbar {
+	float: left;
+	width: 186px;
+	padding: 5px;
+	font-size: smaller;
+}
+ul.toc {
+	margin: 0px 5px 5px 5px;
+	padding: 0px;
+}
+ul.toc li {
+	font-size: 85%;
+	margin: 1px 0 1px 1px;
+	padding: 1px 0 1px 11px;
+	list-style-type: none;
+	background-repeat: no-repeat;
+	background-position: center left;
+}
+ul.toc li.header {
+	font-size: 115%;
+	padding: 5px 0px 5px 11px;
+	border-bottom: 1px solid #cccccc;
+	margin-bottom: 5px;
+}
+ul.toc li.active {
+	font-weight: bold;
+}
+ul.toc li a {
+	text-decoration: none;
+}
+ul.toc li a:hover {
+	text-decoration: underline;
+}
+</style>
+ <ul class="toc">
+  <li class="header home"><a href="manual.html">Programmer's Reference Guide</a></li>
+  <li class="header up"><a href="manual.html">Programmer's Reference Guide</a></li>
+  <li class="header up"><a href="reference.html">Zend Framework Reference</a></li>
+  <li class="header up"><a href="zend.pdf.html">Zend_Pdf</a></li>
+  <li><a href="zend.pdf.introduction.html">Introduction</a></li>
+  <li class="active"><a href="zend.pdf.create.html">Creating and Loading PDF Documents</a></li>
+  <li><a href="zend.pdf.save.html">Save Changes to PDF Documents</a></li>
+  <li><a href="zend.pdf.pages.html">Working with Pages</a></li>
+  <li><a href="zend.pdf.drawing.html">Drawing</a></li>
+  <li><a href="zend.pdf.interactive-features.html">Interactive Features</a></li>
+  <li><a href="zend.pdf.info.html">Document Info and Metadata</a></li>
+  <li><a href="zend.pdf.usage.html">Zend_Pdf module usage example</a></li>
+ </ul>
+ </td>
+    </tr>
+</table>
+</body>
+</html>

@@ -1,0 +1,366 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+                      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
+    <title>Zend_Barcode Renderers - Zend Framework Manual</title>
+
+</head>
+<body>
+<table width="100%">
+    <tr valign="top">
+        <td width="85%">
+            <table width="100%">
+                <tr>
+                    <td width="25%" style="text-align: left;">
+                    <a href="zend.barcode.objects.html">Zend_Barcode Objects</a>
+                    </td>
+
+                    <td width="50%" style="text-align: center;">
+                        <div class="up"><span class="up"><a href="zend.barcode.html">Zend_Barcode</a></span><br />
+                        <span class="home"><a href="manual.html">Programmer's Reference Guide</a></span></div>
+                    </td>
+
+                    <td width="25%" style="text-align: right;">
+                        <div class="next" style="text-align: right; float: right;"><a href="zend.cache.html">Zend_Cache</a></div>
+                    </td>
+                </tr>
+            </table>
+<hr />
+<div id="zend.barcode.renderers" class="section"><div class="info"><h1 class="title">Zend_Barcode Renderers</h1></div>
+    
+
+    <p class="para">
+        Renderers have some common options. These options can be set in four ways:
+    </p>
+
+    <ul class="itemizedlist">
+        <li class="listitem">
+            <p class="para">
+                As an array or a <span class="classname">Zend_Config</span> object passed to the
+                constructor.
+            </p>
+        </li>
+
+        <li class="listitem">
+            <p class="para">
+                As an array passed to the  <span class="methodname">setOptions()</span> method.
+            </p>
+        </li>
+
+        <li class="listitem">
+            <p class="para">
+                As a <span class="classname">Zend_Config</span> object passed to the
+                 <span class="methodname">setConfig()</span> method.
+            </p>
+        </li>
+
+        <li class="listitem">
+            <p class="para">As discrete values passed to individual setters.</p>
+        </li>
+    </ul>
+
+    <div class="example"><div class="info"><p><b>Example #1 Different ways to parameterize a renderer object</b></p></div>
+        
+
+        <div class="programlisting php"><div class="phpcode"><div class="php" style="font-family: monospace;"><ol><li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;"><span style="color: #0000ff;">$options</span> = <a href="http://www.php.net/array"><span style="color: #000066;">array</span></a><span style="color: #66cc66;">&#40;</span><span style="color: #ff0000;">'topOffset'</span> =&gt; <span style="color: #cc66cc;">10</span><span style="color: #66cc66;">&#41;</span>;</div></li>
+<li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;">&nbsp;</div></li>
+<li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;"><span style="color: #808080; font-style: italic;">// Case 1</span></div></li>
+<li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;"><span style="color: #0000ff;">$renderer</span> = <span style="color: #000000; font-weight: bold;">new</span> Zend_Barcode_Renderer_Pdf<span style="color: #66cc66;">&#40;</span><span style="color: #0000ff;">$options</span><span style="color: #66cc66;">&#41;</span>;</div></li>
+<li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;">&nbsp;</div></li>
+<li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;"><span style="color: #808080; font-style: italic;">// Case 2</span></div></li>
+<li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;"><span style="color: #0000ff;">$renderer</span> = <span style="color: #000000; font-weight: bold;">new</span> Zend_Barcode_Renderer_Pdf<span style="color: #66cc66;">&#40;</span><span style="color: #66cc66;">&#41;</span>;</div></li>
+<li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;"><span style="color: #0000ff;">$renderer</span>-&gt;<span style="color: #006600;">setOptions</span><span style="color: #66cc66;">&#40;</span><span style="color: #0000ff;">$options</span><span style="color: #66cc66;">&#41;</span>;</div></li>
+<li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;">&nbsp;</div></li>
+<li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;"><span style="color: #808080; font-style: italic;">// Case 3</span></div></li>
+<li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;"><span style="color: #0000ff;">$config</span>&nbsp; &nbsp;= <span style="color: #000000; font-weight: bold;">new</span> Zend_Config<span style="color: #66cc66;">&#40;</span><span style="color: #0000ff;">$options</span><span style="color: #66cc66;">&#41;</span>;</div></li>
+<li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;"><span style="color: #0000ff;">$renderer</span> = <span style="color: #000000; font-weight: bold;">new</span> Zend_Barcode_Renderer_Pdf<span style="color: #66cc66;">&#40;</span><span style="color: #66cc66;">&#41;</span>;</div></li>
+<li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;"><span style="color: #0000ff;">$renderer</span>-&gt;<span style="color: #006600;">setConfig</span><span style="color: #66cc66;">&#40;</span><span style="color: #0000ff;">$config</span><span style="color: #66cc66;">&#41;</span>;</div></li>
+<li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;">&nbsp;</div></li>
+<li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;"><span style="color: #808080; font-style: italic;">// Case 4</span></div></li>
+<li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;"><span style="color: #0000ff;">$renderer</span> = <span style="color: #000000; font-weight: bold;">new</span> Zend_Barcode_Renderer_Pdf<span style="color: #66cc66;">&#40;</span><span style="color: #66cc66;">&#41;</span>;</div></li>
+<li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;"><span style="color: #0000ff;">$renderer</span>-&gt;<span style="color: #006600;">setTopOffset</span><span style="color: #66cc66;">&#40;</span><span style="color: #cc66cc;">10</span><span style="color: #66cc66;">&#41;</span>;</div></li></ol></div></div></div>
+
+    </div>
+
+    <div class="section" id="zend.barcode.renderers.common.options" name="zend.barcode.renderers.common.options"><div class="info"><h1 class="title">Common Options</h1></div>
+        
+
+        <p class="para">
+            In the following list, the values have no unit; we will use the term &quot;unit.&quot; For
+            example, the default value of the &quot;thin bar&quot; is &quot;1 unit.&quot; The real units depend on the
+            rendering support. The individual setters are obtained by uppercasing the initial
+            letter of the option and prefixing the name with &quot;set&quot; (e.g. &quot;barHeight&quot; =&gt;
+            &quot;setBarHeight&quot;). All options have a correspondant getter prefixed with &quot;get&quot; (e.g.
+            &quot;getBarHeight&quot;). Available options are:
+        </p>
+
+        <table class="doctable table"><div class="info"><caption><b>Common Options</b></caption></div>
+            
+
+            
+                <thead valign="middle">
+                    <tr valign="middle">
+                        <th>Option</th>
+                        <th>Data Type</th>
+                        <th>Default Value</th>
+                        <th>Description</th>
+                    </tr>
+
+                </thead>
+
+
+                <tbody valign="middle" class="tbody">
+                    <tr valign="middle">
+                        <td align="left"><em class="emphasis">rendererNamespace</em></td>
+                        <td align="left"> <span class="type">String</span> </td>
+                        <td align="left"><span class="classname">Zend_Barcode_Renderer</span></td>
+
+                        <td align="left">
+                            Namespace of the renderer; for example, if you need to extend the
+                            renderers
+                        </td>
+                    </tr>
+
+
+                    <tr valign="middle">
+                        <td align="left"><em class="emphasis">horizontalPosition</em></td>
+                        <td align="left"> <span class="type">String</span> </td>
+                        <td align="left">&quot;left&quot;</td>
+
+                        <td align="left">
+                            Can be &quot;left&quot;, &quot;center&quot; or &quot;right&quot;. Can be useful with
+                            <acronym class="acronym">PDF</acronym> or if the  <span class="methodname">setWidth()</span>
+                            method is used with an image renderer.
+                        </td>
+                    </tr>
+
+
+                    <tr valign="middle">
+                        <td align="left"><em class="emphasis">verticalPosition</em></td>
+                        <td align="left"> <span class="type">String</span> </td>
+                        <td align="left">&quot;top&quot;</td>
+
+                        <td align="left">
+                            Can be &quot;top&quot;, &quot;middle&quot; or &quot;bottom&quot;. Can be useful with
+                            <acronym class="acronym">PDF</acronym> or if the  <span class="methodname">setHeight()</span>
+                            method is used with an image renderer.
+                        </td>
+                    </tr>
+
+
+                    <tr valign="middle">
+                        <td align="left"><em class="emphasis">leftOffset</em></td>
+                        <td align="left"> <span class="type">Integer</span> </td>
+                        <td align="left">0</td>
+
+                        <td align="left">
+                            Top position of the barcode inside the renderer. If used, this value
+                            will override the &quot;horizontalPosition&quot; option.
+                        </td>
+                    </tr>
+
+
+                    <tr valign="middle">
+                        <td align="left"><em class="emphasis">topOffset</em></td>
+                        <td align="left"> <span class="type">Integer</span> </td>
+                        <td align="left">0</td>
+
+                        <td align="left">
+                            Top position of the barcode inside the renderer. If used, this value
+                            will override the &quot;verticalPosition&quot; option.
+                        </td>
+                    </tr>
+
+
+                    <tr valign="middle">
+                        <td align="left"><em class="emphasis">automaticRenderError</em></td>
+                        <td align="left"> <span class="type">Boolean</span> </td>
+                        <td align="left"><b><tt>TRUE</tt></b></td>
+
+                        <td align="left">
+                            Whether or not to automatically render errors. If an exception occurs,
+                            the provided barcode object will be replaced with an Error
+                            representation. Note that some errors (or exceptions) can not be
+                            rendered.
+                        </td>
+                    </tr>
+
+
+                    <tr valign="middle">
+                        <td align="left"><em class="emphasis">moduleSize</em></td>
+                        <td align="left"> <span class="type">Float</span> </td>
+                        <td align="left">1</td>
+                        <td align="left">Size of a rendering module in the support.</td>
+                    </tr>
+
+
+                    <tr valign="middle">
+                        <td align="left"><em class="emphasis">barcode</em></td>
+                        <td align="left"><span class="classname">Zend_Barcode_Object</span></td>
+                        <td align="left"><b><tt>NULL</tt></b></td>
+                        <td align="left">The barcode object to render.</td>
+                    </tr>
+
+                </tbody>
+            
+        </table>
+
+
+        <p class="para">
+            An additional getter exists:  <span class="methodname">getType()</span>. It returns the name of
+            the renderer class without the namespace (e.g.
+            <span class="classname">Zend_Barcode_Renderer_Image</span> returns &quot;image&quot;).
+        </p>
+    </div>
+
+    <div class="section" id="zend.barcode.renderers.image" name="zend.barcode.renderers.image"><div class="info"><h1 class="title">Zend_Barcode_Renderer_Image</h1></div>
+        
+
+        <p class="para">
+            The Image renderer will draw the instruction list of the barcode object in an image
+            resource. The component requires the GD extension.
+            The default width of a module is 1 pixel.
+        </p>
+
+        <p class="para">Available option are:</p>
+
+        <table class="doctable table"><div class="info"><caption><b>Zend_Barcode_Renderer_Image Options</b></caption></div>
+            
+
+            
+                <thead valign="middle">
+                    <tr valign="middle">
+                        <th>Option</th>
+                        <th>Data Type</th>
+                        <th>Default Value</th>
+                        <th>Description</th>
+                    </tr>
+
+                </thead>
+
+
+                <tbody valign="middle" class="tbody">
+                    <tr valign="middle">
+                        <td align="left"><em class="emphasis">height</em></td>
+                        <td align="left"> <span class="type">Integer</span> </td>
+                        <td align="left">0</td>
+
+                        <td align="left">
+                            Allow you to specify the height of the result image. If &quot;0&quot;,
+                            the height will be calculated by the barcode object.
+                        </td>
+                    </tr>
+
+
+                    <tr valign="middle">
+                        <td align="left"><em class="emphasis">width</em></td>
+                        <td align="left"> <span class="type">Integer</span> </td>
+                        <td align="left">0</td>
+
+                        <td align="left">
+                            Allow you to specify the width of the result image. If &quot;0&quot;,
+                            the width will be calculated by the barcode object.
+                        </td>
+                    </tr>
+
+
+                    <tr valign="middle">
+                        <td align="left"><em class="emphasis">imageType</em></td>
+                        <td align="left"> <span class="type">String</span> </td>
+                        <td align="left">&quot;png&quot;</td>
+
+                        <td align="left">
+                            Specify the image format. Can be &quot;png&quot;, &quot;jpeg&quot;, &quot;jpg&quot; or &quot;gif&quot;.
+                        </td>
+                    </tr>
+
+                </tbody>
+            
+        </table>
+
+    </div>
+
+    <div class="section" id="zend.barcode.renderers.pdf" name="zend.barcode.renderers.pdf"><div class="info"><h1 class="title">Zend_Barcode_Renderer_Pdf</h1></div>
+        
+
+        <p class="para">
+            The <acronym class="acronym">PDF</acronym> renderer will draw the instruction list of the barcode
+            object in a <acronym class="acronym">PDF</acronym> document.
+            The default width of a module is 0.5 point.
+        </p>
+
+        <p class="para">
+            There are no particular options for this renderer.
+        </p>
+    </div>
+</div>
+        <hr />
+
+            <table width="100%">
+                <tr>
+                    <td width="25%" style="text-align: left;">
+                    <a href="zend.barcode.objects.html">Zend_Barcode Objects</a>
+                    </td>
+
+                    <td width="50%" style="text-align: center;">
+                        <div class="up"><span class="up"><a href="zend.barcode.html">Zend_Barcode</a></span><br />
+                        <span class="home"><a href="manual.html">Programmer's Reference Guide</a></span></div>
+                    </td>
+
+                    <td width="25%" style="text-align: right;">
+                        <div class="next" style="text-align: right; float: right;"><a href="zend.cache.html">Zend_Cache</a></div>
+                    </td>
+                </tr>
+            </table>
+</td>
+        <td style="font-size: smaller;" width="15%"> <style type="text/css">
+#leftbar {
+	float: left;
+	width: 186px;
+	padding: 5px;
+	font-size: smaller;
+}
+ul.toc {
+	margin: 0px 5px 5px 5px;
+	padding: 0px;
+}
+ul.toc li {
+	font-size: 85%;
+	margin: 1px 0 1px 1px;
+	padding: 1px 0 1px 11px;
+	list-style-type: none;
+	background-repeat: no-repeat;
+	background-position: center left;
+}
+ul.toc li.header {
+	font-size: 115%;
+	padding: 5px 0px 5px 11px;
+	border-bottom: 1px solid #cccccc;
+	margin-bottom: 5px;
+}
+ul.toc li.active {
+	font-weight: bold;
+}
+ul.toc li a {
+	text-decoration: none;
+}
+ul.toc li a:hover {
+	text-decoration: underline;
+}
+</style>
+ <ul class="toc">
+  <li class="header home"><a href="manual.html">Programmer's Reference Guide</a></li>
+  <li class="header up"><a href="manual.html">Programmer's Reference Guide</a></li>
+  <li class="header up"><a href="reference.html">Zend Framework Reference</a></li>
+  <li class="header up"><a href="zend.barcode.html">Zend_Barcode</a></li>
+  <li><a href="zend.barcode.introduction.html">Introduction</a></li>
+  <li><a href="zend.barcode.creation.html">Barcode creation using Zend_Barcode class</a></li>
+  <li><a href="zend.barcode.objects.html">Zend_Barcode Objects</a></li>
+  <li class="active"><a href="zend.barcode.renderers.html">Zend_Barcode Renderers</a></li>
+ </ul>
+ </td>
+    </tr>
+</table>
+</body>
+</html>

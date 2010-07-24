@@ -1,0 +1,283 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+                      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
+    <title>Advanced - Zend Framework Manual</title>
+
+</head>
+<body>
+<table width="100%">
+    <tr valign="top">
+        <td width="85%">
+            <table width="100%">
+                <tr>
+                    <td width="25%" style="text-align: left;">
+                    <a href="zend.search.lucene.java-lucene.html">Interoperating with Java Lucene</a>
+                    </td>
+
+                    <td width="50%" style="text-align: center;">
+                        <div class="up"><span class="up"><a href="zend.search.lucene.html">Zend_Search_Lucene</a></span><br />
+                        <span class="home"><a href="manual.html">Programmer's Reference Guide</a></span></div>
+                    </td>
+
+                    <td width="25%" style="text-align: right;">
+                        <div class="next" style="text-align: right; float: right;"><a href="zend.search.lucene.best-practice.html">Best Practices</a></div>
+                    </td>
+                </tr>
+            </table>
+<hr />
+<div id="zend.search.lucene.advanced" class="section"><div class="info"><h1 class="title">Advanced</h1></div>
+    
+
+    <div class="section" id="zend.search.lucene.advanced.format_migration" name="zend.search.lucene.advanced.format_migration"><div class="info"><h1 class="title">Starting from 1.6, handling index format transformations</h1></div>
+        
+
+        <p class="para">
+            <span class="classname">Zend_Search_Lucene</span> component works with Java Lucene 1.4-1.9, 2.1
+            and 2.3 index formats.
+        </p>
+
+        <p class="para">
+            Current index format may be requested using <code class="code">$index-&gt;getFormatVersion()</code>
+            call. It returns one of the following values:
+
+            <ul class="itemizedlist">
+                <li class="listitem">
+                    <p class="para">
+                        <b><tt>Zend_Search_Lucene::FORMAT_PRE_2_1</tt></b> for Java Lucene
+                        1.4-1.9 index format.
+                    </p>
+                </li>
+
+                <li class="listitem">
+                    <p class="para">
+                        <b><tt>Zend_Search_Lucene::FORMAT_2_1</tt></b> for Java Lucene 2.1
+                        index format (also used for Lucene 2.2).
+                    </p>
+                </li>
+
+                <li class="listitem">
+                    <p class="para">
+                        <b><tt>Zend_Search_Lucene::FORMAT_2_3</tt></b> for Java Lucene 2.3
+                        index format.
+                    </p>
+                </li>
+            </ul>
+        </p>
+
+        <p class="para">
+            Index modifications are performed <em class="emphasis">only</em> if any index update is done.
+            That happens if a new document is added to an index or index optimization is started
+            manually by <code class="code">$index-&gt;optimize()</code> call.
+        </p>
+
+        <p class="para">
+            In a such case <span class="classname">Zend_Search_Lucene</span> may convert index to the higher
+            format version. That <em class="emphasis">always</em> happens for the indices in
+            <b><tt>Zend_Search_Lucene::FORMAT_PRE_2_1</tt></b> format, which are automatically
+            converted to 2.1 format.
+        </p>
+
+        <p class="para">
+            You may manage conversion process and assign target index format by
+            <code class="code">$index-&gt;setFormatVersion()</code> which takes
+            <b><tt>Zend_Search_Lucene::FORMAT_2_1</tt></b> or
+            <b><tt>Zend_Search_Lucene::FORMAT_2_3</tt></b> constant as a parameter:
+
+            <ul class="itemizedlist">
+                <li class="listitem">
+                    <p class="para">
+                        <b><tt>Zend_Search_Lucene::FORMAT_2_1</tt></b> actually does nothing
+                        since pre-2.1 indices are automatically converted to 2.1 format.
+                    </p>
+                </li>
+                <li class="listitem">
+                    <p class="para">
+                        <b><tt>Zend_Search_Lucene::FORMAT_2_3</tt></b> forces conversion to the
+                        2.3 format.
+                    </p>
+                </li>
+            </ul>
+        </p>
+
+        <p class="para">
+            Backward conversions are not supported.
+        </p>
+
+        <blockquote><p><b class="note">Note</b>: <span class="info"><b>Important!</b><br /></span>
+            
+
+            
+                Once index is converted to upper version it can&#039;t be converted back. So make a
+                backup of your index when you plan migration to upper version, but want to have
+                possibility to go back.
+            <br />
+        </p></blockquote>
+    </div>
+
+    <div class="section" id="zend.search.lucene.advanced.static" name="zend.search.lucene.advanced.static"><div class="info"><h1 class="title">Using the index as static property</h1></div>
+        
+
+        <p class="para">
+            The <span class="classname">Zend_Search_Lucene</span> object uses the destructor method to
+            commit changes and clean up resources.
+        </p>
+
+        <p class="para">
+            It stores added documents in memory and dumps new index segment to disk depending on
+            <code class="code">MaxBufferedDocs</code> parameter.
+        </p>
+
+        <p class="para">
+            If <code class="code">MaxBufferedDocs</code> limit is not reached then there are some &quot;unsaved&quot;
+            documents which are saved as a new segment in the object&#039;s destructor method. The index
+            auto-optimization procedure is invoked if necessary depending on the values of the
+            <code class="code">MaxBufferedDocs</code>, <code class="code">MaxMergeDocs</code> and <code class="code">MergeFactor</code>
+            parameters.
+        </p>
+
+        <p class="para">
+            Static object properties (see below) are destroyed <em class="emphasis">after</em> the last
+            line of the executed script.
+        </p>
+
+        <div class="programlisting php"><div class="phpcode"><div class="php" style="font-family: monospace;"><ol><li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;"><span style="color: #000000; font-weight: bold;">class</span> Searcher <span style="color: #66cc66;">&#123;</span></div></li>
+<li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;">&nbsp; &nbsp; <span style="color: #000000; font-weight: bold;">private</span> <a href="http://www.php.net/static"><span style="color: #000066;">static</span></a> <span style="color: #0000ff;">$_index</span>;</div></li>
+<li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;">&nbsp;</div></li>
+<li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;">&nbsp; &nbsp; <span style="color: #000000; font-weight: bold;">public</span> <a href="http://www.php.net/static"><span style="color: #000066;">static</span></a> <span style="color: #000000; font-weight: bold;">function</span> initIndex<span style="color: #66cc66;">&#40;</span><span style="color: #66cc66;">&#41;</span> <span style="color: #66cc66;">&#123;</span></div></li>
+<li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;">&nbsp; &nbsp; &nbsp; &nbsp; self::<span style="color: #0000ff;">$_index</span> = Zend_Search_Lucene::<span style="color: #006600;">open</span><span style="color: #66cc66;">&#40;</span><span style="color: #ff0000;">'path/to/index'</span><span style="color: #66cc66;">&#41;</span>;</div></li>
+<li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;">&nbsp; &nbsp; <span style="color: #66cc66;">&#125;</span></div></li>
+<li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;"><span style="color: #66cc66;">&#125;</span></div></li>
+<li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;">&nbsp;</div></li>
+<li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;">Searcher::<span style="color: #006600;">initIndex</span><span style="color: #66cc66;">&#40;</span><span style="color: #66cc66;">&#41;</span>;</div></li></ol></div></div></div>
+
+
+        <p class="para">
+            All the same, the destructor for static properties is correctly invoked at this point in
+            the program&#039;s execution.
+        </p>
+
+        <p class="para">
+            One potential problem is exception handling. Exceptions thrown by destructors of static
+            objects don&#039;t have context, because the destructor is executed after the script has
+            already completed.
+        </p>
+
+        <p class="para">
+            You might see a &quot;Fatal error: Exception thrown without a stack frame in Unknown on line
+            0&quot; error message instead of exception description in such cases.
+        </p>
+
+        <p class="para">
+            <span class="classname">Zend_Search_Lucene</span> provides a workaround to this problem with the
+             <span class="methodname">commit()</span> method. It saves all unsaved changes and frees memory
+            used for storing new segments. You are free to use the commit operation any time- or
+            even several times- during script execution. You can still use the
+            <span class="classname">Zend_Search_Lucene</span> object for searching, adding or deleting
+            document after the commit operation. But the  <span class="methodname">commit()</span> call
+            guarantees that if there are no document added or deleted after the call to
+             <span class="methodname">commit()</span>, then the <span class="classname">Zend_Search_Lucene</span>
+            destructor has nothing to do and will not throw exception:
+        </p>
+
+        <div class="programlisting php"><div class="phpcode"><div class="php" style="font-family: monospace;"><ol><li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;"><span style="color: #000000; font-weight: bold;">class</span> Searcher <span style="color: #66cc66;">&#123;</span></div></li>
+<li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;">&nbsp; &nbsp; <span style="color: #000000; font-weight: bold;">private</span> <a href="http://www.php.net/static"><span style="color: #000066;">static</span></a> <span style="color: #0000ff;">$_index</span>;</div></li>
+<li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;">&nbsp;</div></li>
+<li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;">&nbsp; &nbsp; <span style="color: #000000; font-weight: bold;">public</span> <a href="http://www.php.net/static"><span style="color: #000066;">static</span></a> <span style="color: #000000; font-weight: bold;">function</span> initIndex<span style="color: #66cc66;">&#40;</span><span style="color: #66cc66;">&#41;</span> <span style="color: #66cc66;">&#123;</span></div></li>
+<li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;">&nbsp; &nbsp; &nbsp; &nbsp; self::<span style="color: #0000ff;">$_index</span> = Zend_Search_Lucene::<span style="color: #006600;">open</span><span style="color: #66cc66;">&#40;</span><span style="color: #ff0000;">'path/to/index'</span><span style="color: #66cc66;">&#41;</span>;</div></li>
+<li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;">&nbsp; &nbsp; <span style="color: #66cc66;">&#125;</span></div></li>
+<li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;">&nbsp;</div></li>
+<li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;">&nbsp; &nbsp; ...</div></li>
+<li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;">&nbsp;</div></li>
+<li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;">&nbsp; &nbsp; <span style="color: #000000; font-weight: bold;">public</span> <a href="http://www.php.net/static"><span style="color: #000066;">static</span></a> <span style="color: #000000; font-weight: bold;">function</span> commit<span style="color: #66cc66;">&#40;</span><span style="color: #66cc66;">&#41;</span> <span style="color: #66cc66;">&#123;</span></div></li>
+<li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;">&nbsp; &nbsp; &nbsp; &nbsp; self::<span style="color: #0000ff;">$_index</span>-&gt;<span style="color: #006600;">commit</span><span style="color: #66cc66;">&#40;</span><span style="color: #66cc66;">&#41;</span>;</div></li>
+<li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;">&nbsp; &nbsp; <span style="color: #66cc66;">&#125;</span></div></li>
+<li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;"><span style="color: #66cc66;">&#125;</span></div></li>
+<li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;">&nbsp;</div></li>
+<li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;">Searcher::<span style="color: #006600;">initIndex</span><span style="color: #66cc66;">&#40;</span><span style="color: #66cc66;">&#41;</span>;</div></li>
+<li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;">&nbsp;</div></li>
+<li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;">...</div></li>
+<li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;">&nbsp;</div></li>
+<li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;"><span style="color: #808080; font-style: italic;">// Script shutdown routine</span></div></li>
+<li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;">...</div></li>
+<li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;">Searcher::<span style="color: #006600;">commit</span><span style="color: #66cc66;">&#40;</span><span style="color: #66cc66;">&#41;</span>;</div></li>
+<li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;">...</div></li></ol></div></div></div>
+
+    </div>
+</div>
+        <hr />
+
+            <table width="100%">
+                <tr>
+                    <td width="25%" style="text-align: left;">
+                    <a href="zend.search.lucene.java-lucene.html">Interoperating with Java Lucene</a>
+                    </td>
+
+                    <td width="50%" style="text-align: center;">
+                        <div class="up"><span class="up"><a href="zend.search.lucene.html">Zend_Search_Lucene</a></span><br />
+                        <span class="home"><a href="manual.html">Programmer's Reference Guide</a></span></div>
+                    </td>
+
+                    <td width="25%" style="text-align: right;">
+                        <div class="next" style="text-align: right; float: right;"><a href="zend.search.lucene.best-practice.html">Best Practices</a></div>
+                    </td>
+                </tr>
+            </table>
+</td>
+        <td style="font-size: smaller;" width="15%"> <style type="text/css">
+#leftbar {
+	float: left;
+	width: 186px;
+	padding: 5px;
+	font-size: smaller;
+}
+ul.toc {
+	margin: 0px 5px 5px 5px;
+	padding: 0px;
+}
+ul.toc li {
+	font-size: 85%;
+	margin: 1px 0 1px 1px;
+	padding: 1px 0 1px 11px;
+	list-style-type: none;
+	background-repeat: no-repeat;
+	background-position: center left;
+}
+ul.toc li.header {
+	font-size: 115%;
+	padding: 5px 0px 5px 11px;
+	border-bottom: 1px solid #cccccc;
+	margin-bottom: 5px;
+}
+ul.toc li.active {
+	font-weight: bold;
+}
+ul.toc li a {
+	text-decoration: none;
+}
+ul.toc li a:hover {
+	text-decoration: underline;
+}
+</style>
+ <ul class="toc">
+  <li class="header home"><a href="manual.html">Programmer's Reference Guide</a></li>
+  <li class="header up"><a href="manual.html">Programmer's Reference Guide</a></li>
+  <li class="header up"><a href="reference.html">Zend Framework Reference</a></li>
+  <li class="header up"><a href="zend.search.lucene.html">Zend_Search_Lucene</a></li>
+  <li><a href="zend.search.lucene.overview.html">Overview</a></li>
+  <li><a href="zend.search.lucene.index-creation.html">Building Indexes</a></li>
+  <li><a href="zend.search.lucene.searching.html">Searching an Index</a></li>
+  <li><a href="zend.search.lucene.query-language.html">Query Language</a></li>
+  <li><a href="zend.search.lucene.query-api.html">Query Construction API</a></li>
+  <li><a href="zend.search.lucene.charset.html">Character Set</a></li>
+  <li><a href="zend.search.lucene.extending.html">Extensibility</a></li>
+  <li><a href="zend.search.lucene.java-lucene.html">Interoperating with Java Lucene</a></li>
+  <li class="active"><a href="zend.search.lucene.advanced.html">Advanced</a></li>
+  <li><a href="zend.search.lucene.best-practice.html">Best Practices</a></li>
+ </ul>
+ </td>
+    </tr>
+</table>
+</body>
+</html>

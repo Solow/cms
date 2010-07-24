@@ -1,0 +1,434 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+                      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
+    <title>Building Indexes - Zend Framework Manual</title>
+
+</head>
+<body>
+<table width="100%">
+    <tr valign="top">
+        <td width="85%">
+            <table width="100%">
+                <tr>
+                    <td width="25%" style="text-align: left;">
+                    <a href="zend.search.lucene.overview.html">Overview</a>
+                    </td>
+
+                    <td width="50%" style="text-align: center;">
+                        <div class="up"><span class="up"><a href="zend.search.lucene.html">Zend_Search_Lucene</a></span><br />
+                        <span class="home"><a href="manual.html">Programmer's Reference Guide</a></span></div>
+                    </td>
+
+                    <td width="25%" style="text-align: right;">
+                        <div class="next" style="text-align: right; float: right;"><a href="zend.search.lucene.searching.html">Searching an Index</a></div>
+                    </td>
+                </tr>
+            </table>
+<hr />
+<div id="zend.search.lucene.index-creation" class="section"><div class="info"><h1 class="title">Building Indexes</h1></div>
+    
+
+    <div class="section" id="zend.search.lucene.index-creation.creating" name="zend.search.lucene.index-creation.creating"><div class="info"><h1 class="title">Creating a New Index</h1></div>
+        
+
+        <p class="para">
+            Index creation and updating capabilities are implemented within the
+            <span class="classname">Zend_Search_Lucene</span> component, as well as the Java Lucene project.
+            You can use either of these options to create indexes that
+            <span class="classname">Zend_Search_Lucene</span> can search.
+        </p>
+
+        <p class="para">
+            The <acronym class="acronym">PHP</acronym> code listing below provides an example of how to index a file
+            using <span class="classname">Zend_Search_Lucene</span> indexing <acronym class="acronym">API</acronym>:
+        </p>
+
+        <div class="programlisting php"><div class="phpcode"><div class="php" style="font-family: monospace;"><ol><li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;"><span style="color: #808080; font-style: italic;">// Create index</span></div></li>
+<li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;"><span style="color: #0000ff;">$index</span> = Zend_Search_Lucene::<span style="color: #006600;">create</span><span style="color: #66cc66;">&#40;</span><span style="color: #ff0000;">'/data/my-index'</span><span style="color: #66cc66;">&#41;</span>;</div></li>
+<li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;">&nbsp;</div></li>
+<li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;"><span style="color: #0000ff;">$doc</span> = <span style="color: #000000; font-weight: bold;">new</span> Zend_Search_Lucene_Document<span style="color: #66cc66;">&#40;</span><span style="color: #66cc66;">&#41;</span>;</div></li>
+<li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;">&nbsp;</div></li>
+<li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;"><span style="color: #808080; font-style: italic;">// Store document URL to identify it in the search results</span></div></li>
+<li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;"><span style="color: #0000ff;">$doc</span>-&gt;<span style="color: #006600;">addField</span><span style="color: #66cc66;">&#40;</span>Zend_Search_Lucene_Field::<span style="color: #006600;">Text</span><span style="color: #66cc66;">&#40;</span><span style="color: #ff0000;">'url'</span>, <span style="color: #0000ff;">$docUrl</span><span style="color: #66cc66;">&#41;</span><span style="color: #66cc66;">&#41;</span>;</div></li>
+<li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;">&nbsp;</div></li>
+<li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;"><span style="color: #808080; font-style: italic;">// Index document contents</span></div></li>
+<li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;"><span style="color: #0000ff;">$doc</span>-&gt;<span style="color: #006600;">addField</span><span style="color: #66cc66;">&#40;</span>Zend_Search_Lucene_Field::<span style="color: #006600;">UnStored</span><span style="color: #66cc66;">&#40;</span><span style="color: #ff0000;">'contents'</span>, <span style="color: #0000ff;">$docContent</span><span style="color: #66cc66;">&#41;</span><span style="color: #66cc66;">&#41;</span>;</div></li>
+<li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;">&nbsp;</div></li>
+<li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;"><span style="color: #808080; font-style: italic;">// Add document to the index</span></div></li>
+<li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;"><span style="color: #0000ff;">$index</span>-&gt;<span style="color: #006600;">addDocument</span><span style="color: #66cc66;">&#40;</span><span style="color: #0000ff;">$doc</span><span style="color: #66cc66;">&#41;</span>;</div></li></ol></div></div></div>
+
+
+        <p class="para">
+            Newly added documents are immediately searchable in the index.
+        </p>
+    </div>
+
+    <div class="section" id="zend.search.lucene.index-creation.updating" name="zend.search.lucene.index-creation.updating"><div class="info"><h1 class="title">Updating Index</h1></div>
+        
+
+        <p class="para">
+            The same procedure is used to update an existing index. The only difference
+            is that the open() method is called instead of the create() method:
+        </p>
+
+        <div class="programlisting php"><div class="phpcode"><div class="php" style="font-family: monospace;"><ol><li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;"><span style="color: #808080; font-style: italic;">// Open existing index</span></div></li>
+<li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;"><span style="color: #0000ff;">$index</span> = Zend_Search_Lucene::<span style="color: #006600;">open</span><span style="color: #66cc66;">&#40;</span><span style="color: #ff0000;">'/data/my-index'</span><span style="color: #66cc66;">&#41;</span>;</div></li>
+<li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;">&nbsp;</div></li>
+<li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;"><span style="color: #0000ff;">$doc</span> = <span style="color: #000000; font-weight: bold;">new</span> Zend_Search_Lucene_Document<span style="color: #66cc66;">&#40;</span><span style="color: #66cc66;">&#41;</span>;</div></li>
+<li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;"><span style="color: #808080; font-style: italic;">// Store document URL to identify it in search result.</span></div></li>
+<li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;"><span style="color: #0000ff;">$doc</span>-&gt;<span style="color: #006600;">addField</span><span style="color: #66cc66;">&#40;</span>Zend_Search_Lucene_Field::<span style="color: #006600;">Text</span><span style="color: #66cc66;">&#40;</span><span style="color: #ff0000;">'url'</span>, <span style="color: #0000ff;">$docUrl</span><span style="color: #66cc66;">&#41;</span><span style="color: #66cc66;">&#41;</span>;</div></li>
+<li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;"><span style="color: #808080; font-style: italic;">// Index document content</span></div></li>
+<li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;"><span style="color: #0000ff;">$doc</span>-&gt;<span style="color: #006600;">addField</span><span style="color: #66cc66;">&#40;</span>Zend_Search_Lucene_Field::<span style="color: #006600;">UnStored</span><span style="color: #66cc66;">&#40;</span><span style="color: #ff0000;">'contents'</span>,</div></li>
+<li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #0000ff;">$docContent</span><span style="color: #66cc66;">&#41;</span><span style="color: #66cc66;">&#41;</span>;</div></li>
+<li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;">&nbsp;</div></li>
+<li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;"><span style="color: #808080; font-style: italic;">// Add document to the index.</span></div></li>
+<li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;"><span style="color: #0000ff;">$index</span>-&gt;<span style="color: #006600;">addDocument</span><span style="color: #66cc66;">&#40;</span><span style="color: #0000ff;">$doc</span><span style="color: #66cc66;">&#41;</span>;</div></li></ol></div></div></div>
+
+    </div>
+
+    <div class="section" id="zend.search.lucene.index-creation.document-updating" name="zend.search.lucene.index-creation.document-updating"><div class="info"><h1 class="title">Updating Documents</h1></div>
+        
+
+        <p class="para">
+            The Lucene index file format doesn&#039;t support document updating.
+            Documents should be removed and re-added to the index to effectively update them.
+        </p>
+
+        <p class="para">
+             <span class="methodname">Zend_Search_Lucene::delete()</span> method operates with an internal
+            index document id. It can be retrieved from a query hit by &#039;id&#039; property:
+        </p>
+
+        <div class="programlisting php"><div class="phpcode"><div class="php" style="font-family: monospace;"><ol><li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;"><span style="color: #0000ff;">$removePath</span> = ...;</div></li>
+<li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;"><span style="color: #0000ff;">$hits</span> = <span style="color: #0000ff;">$index</span>-&gt;<span style="color: #006600;">find</span><span style="color: #66cc66;">&#40;</span><span style="color: #ff0000;">'path:'</span> . <span style="color: #0000ff;">$removePath</span><span style="color: #66cc66;">&#41;</span>;</div></li>
+<li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;"><span style="color: #b1b100;">foreach</span> <span style="color: #66cc66;">&#40;</span><span style="color: #0000ff;">$hits</span> <span style="color: #b1b100;">as</span> <span style="color: #0000ff;">$hit</span><span style="color: #66cc66;">&#41;</span> <span style="color: #66cc66;">&#123;</span></div></li>
+<li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;">&nbsp; &nbsp; <span style="color: #0000ff;">$index</span>-&gt;<span style="color: #006600;">delete</span><span style="color: #66cc66;">&#40;</span><span style="color: #0000ff;">$hit</span>-&gt;<span style="color: #006600;">id</span><span style="color: #66cc66;">&#41;</span>;</div></li>
+<li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;"><span style="color: #66cc66;">&#125;</span></div></li></ol></div></div></div>
+
+    </div>
+
+    <div class="section" id="zend.search.lucene.index-creation.counting" name="zend.search.lucene.index-creation.counting"><div class="info"><h1 class="title">Retrieving Index Size</h1></div>
+        
+
+        <p class="para">
+            There are two methods to retrieve the size of an index in
+            <span class="classname">Zend_Search_Lucene</span>.
+        </p>
+
+        <p class="para">
+              <span class="methodname">Zend_Search_Lucene::maxDoc()</span> returns one greater than the
+             largest possible document number. It&#039;s actually the overall number of the documents in
+             the index including deleted documents, so it has a synonym:
+              <span class="methodname">Zend_Search_Lucene::count()</span>.
+        </p>
+
+        <p class="para">
+              <span class="methodname">Zend_Search_Lucene::numDocs()</span> returns the total number of
+             non-deleted documents.
+        </p>
+
+        <div class="programlisting php"><div class="phpcode"><div class="php" style="font-family: monospace;"><ol><li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;"><span style="color: #0000ff;">$indexSize</span> = <span style="color: #0000ff;">$index</span>-&gt;<span style="color: #006600;">count</span><span style="color: #66cc66;">&#40;</span><span style="color: #66cc66;">&#41;</span>;</div></li>
+<li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;"><span style="color: #0000ff;">$documents</span> = <span style="color: #0000ff;">$index</span>-&gt;<span style="color: #006600;">numDocs</span><span style="color: #66cc66;">&#40;</span><span style="color: #66cc66;">&#41;</span>;</div></li></ol></div></div></div>
+
+
+        <p class="para">
+             <span class="methodname">Zend_Search_Lucene::isDeleted($id)</span> method may be used to check
+            if a document is deleted.
+        </p>
+
+        <div class="programlisting php"><div class="phpcode"><div class="php" style="font-family: monospace;"><ol><li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;"><span style="color: #b1b100;">for</span> <span style="color: #66cc66;">&#40;</span><span style="color: #0000ff;">$count</span> = <span style="color: #cc66cc;">0</span>; <span style="color: #0000ff;">$count</span> &lt; <span style="color: #0000ff;">$index</span>-&gt;<span style="color: #006600;">maxDoc</span><span style="color: #66cc66;">&#40;</span><span style="color: #66cc66;">&#41;</span>; <span style="color: #0000ff;">$count</span>++<span style="color: #66cc66;">&#41;</span> <span style="color: #66cc66;">&#123;</span></div></li>
+<li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;">&nbsp; &nbsp; <span style="color: #b1b100;">if</span> <span style="color: #66cc66;">&#40;</span><span style="color: #0000ff;">$index</span>-&gt;<span style="color: #006600;">isDeleted</span><span style="color: #66cc66;">&#40;</span><span style="color: #0000ff;">$count</span><span style="color: #66cc66;">&#41;</span><span style="color: #66cc66;">&#41;</span> <span style="color: #66cc66;">&#123;</span></div></li>
+<li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;">&nbsp; &nbsp; &nbsp; &nbsp; <a href="http://www.php.net/echo"><span style="color: #000066;">echo</span></a> <span style="color: #ff0000;">&quot;Document #$id is deleted.<span style="color: #000099; font-weight: bold;">\n</span>&quot;</span>;</div></li>
+<li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;">&nbsp; &nbsp; <span style="color: #66cc66;">&#125;</span></div></li>
+<li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;"><span style="color: #66cc66;">&#125;</span></div></li></ol></div></div></div>
+
+
+        <p class="para">
+            Index optimization removes deleted documents and squeezes documents&#039; IDs in to a smaller
+            range. A document&#039;s internal id may therefore change during index optimization.
+        </p>
+    </div>
+
+    <div class="section" id="zend.search.lucene.index-creation.optimization" name="zend.search.lucene.index-creation.optimization"><div class="info"><h1 class="title">Index optimization</h1></div>
+        
+
+        <p class="para">
+            A Lucene index consists of many segments. Each segment is a completely independent set
+            of data.
+        </p>
+
+        <p class="para">
+            Lucene index segment files can&#039;t be updated by design. A segment update needs full
+            segment reorganization. See Lucene index file formats for details (<a href="http://lucene.apache.org/java/2_3_0/fileformats.html" class="link external">&raquo; http://lucene.apache.org/java/2_3_0/fileformats.html</a>)
+
+            <a href="#fnid1" name="fn1"><sup>[1]</sup></a>
+                
+            .
+
+            New documents are added to the index by creating new segment.
+        </p>
+
+        <p class="para">
+            Increasing number of segments reduces quality of the index, but index optimization
+            restores it. Optimization essentially merges several segments into a new one. This
+            process also doesn&#039;t update segments. It generates one new large segment and updates
+            segment list (&#039;segments&#039; file).
+        </p>
+
+        <p class="para">
+            Full index optimization can be trigger by calling the
+             <span class="methodname">Zend_Search_Lucene::optimize()</span> method. It merges all index
+            segments into one new segment:
+        </p>
+
+        <div class="programlisting php"><div class="phpcode"><div class="php" style="font-family: monospace;"><ol><li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;"><span style="color: #808080; font-style: italic;">// Open existing index</span></div></li>
+<li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;"><span style="color: #0000ff;">$index</span> = Zend_Search_Lucene::<span style="color: #006600;">open</span><span style="color: #66cc66;">&#40;</span><span style="color: #ff0000;">'/data/my-index'</span><span style="color: #66cc66;">&#41;</span>;</div></li>
+<li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;">&nbsp;</div></li>
+<li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;"><span style="color: #808080; font-style: italic;">// Optimize index.</span></div></li>
+<li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;"><span style="color: #0000ff;">$index</span>-&gt;<span style="color: #006600;">optimize</span><span style="color: #66cc66;">&#40;</span><span style="color: #66cc66;">&#41;</span>;</div></li></ol></div></div></div>
+
+
+        <p class="para">
+            Automatic index optimization is performed to keep indexes in a consistent state.
+        </p>
+
+        <p class="para">
+            Automatic optimization is an iterative process managed by several index options. It
+            merges very small segments into larger ones, then merges these larger segments into even
+            larger segments and so on.
+        </p>
+
+        <div class="section" id="zend.search.lucene.index-creation.optimization.maxbuffereddocs" name="zend.search.lucene.index-creation.optimization.maxbuffereddocs"><div class="info"><h1 class="title">MaxBufferedDocs auto-optimization option</h1></div>
+            
+
+            <p class="para">
+                <em class="emphasis">MaxBufferedDocs</em> is a minimal number of documents required
+                before the buffered in-memory documents are written into a new segment.
+            </p>
+
+            <p class="para">
+                <em class="emphasis">MaxBufferedDocs</em> can be retrieved or set by
+                <code class="code">$index-&gt;getMaxBufferedDocs()</code> or
+                <code class="code">$index-&gt;setMaxBufferedDocs($maxBufferedDocs)</code> calls.
+            </p>
+
+            <p class="para">
+                Default value is 10.
+            </p>
+        </div>
+
+        <div class="section" id="zend.search.lucene.index-creation.optimization.maxmergedocs" name="zend.search.lucene.index-creation.optimization.maxmergedocs"><div class="info"><h1 class="title">MaxMergeDocs auto-optimization option</h1></div>
+            
+
+            <p class="para">
+                <em class="emphasis">MaxMergeDocs</em> is a largest number of documents ever merged by
+                addDocument(). Small values (e.g., less than 10.000) are best for interactive
+                indexing, as this limits the length of pauses while indexing to a few seconds.
+                Larger values are best for batched indexing and speedier searches.
+            </p>
+
+            <p class="para">
+                <em class="emphasis">MaxMergeDocs</em> can be retrieved or set by
+                <code class="code">$index-&gt;getMaxMergeDocs()</code> or
+                <code class="code">$index-&gt;setMaxMergeDocs($maxMergeDocs)</code> calls.
+            </p>
+
+            <p class="para">
+                Default value is PHP_INT_MAX.
+            </p>
+        </div>
+
+        <div class="section" id="zend.search.lucene.index-creation.optimization.mergefactor" name="zend.search.lucene.index-creation.optimization.mergefactor"><div class="info"><h1 class="title">MergeFactor auto-optimization option</h1></div>
+            
+
+            <p class="para">
+                <em class="emphasis">MergeFactor</em> determines how often segment indices are merged by
+                addDocument(). With smaller values, less <acronym class="acronym">RAM</acronym> is used while
+                indexing, and searches on unoptimized indices are faster, but indexing speed is
+                slower. With larger values, more <acronym class="acronym">RAM</acronym> is used during indexing, and
+                while searches on unoptimized indices are slower, indexing is faster. Thus larger
+                values (&gt; 10) are best for batch index creation, and smaller values (&lt; 10) for
+                indices that are interactively maintained.
+            </p>
+
+            <p class="para">
+                <em class="emphasis">MergeFactor</em> is a good estimation for average number of segments
+                merged by one auto-optimization pass. Too large values produce large number of
+                segments while they are not merged into new one. It may be a cause of &quot;failed to
+                open stream: Too many open files&quot; error message. This limitation is system
+                dependent.
+            </p>
+
+            <p class="para">
+                <em class="emphasis">MergeFactor</em> can be retrieved or set by
+                <code class="code">$index-&gt;getMergeFactor()</code> or
+                <code class="code">$index-&gt;setMergeFactor($mergeFactor)</code> calls.
+            </p>
+
+            <p class="para">
+                Default value is 10.
+            </p>
+
+            <p class="para">
+                Lucene Java and Luke (Lucene Index Toolbox - <a href="http://www.getopt.org/luke/" class="link external">&raquo; http://www.getopt.org/luke/</a>) can also
+                be used to optimize an index. Latest Luke release (v0.8) is based on Lucene v2.3 and
+                compatible with current implementation of <span class="classname">Zend_Search_Lucene</span>
+                component (Zend Framework 1.6). Earlier versions of
+                <span class="classname">Zend_Search_Lucene</span> implementations need another versions of
+                Java Lucene tools to be compatible:
+
+                <ul class="itemizedlist">
+                    <li class="listitem">
+                        <p class="para">
+                            Zend Framework 1.5 - Java Lucene 2.1 (Luke tool v0.7.1 - <tt class="uri">http://www.getopt.org/luke/luke-0.7.1/</tt>)
+                        </p>
+                    </li>
+
+                    <li class="listitem">
+                        <p class="para">
+                            Zend Framework 1.0 - Java Lucene 1.4 - 2.1 (Luke tool v0.6 - <tt class="uri">http://www.getopt.org/luke/luke-0.6/</tt>)
+                        </p>
+                    </li>
+                </ul>
+            </p>
+        </div>
+    </div>
+
+    <div class="section" id="zend.search.lucene.index-creation.permissions" name="zend.search.lucene.index-creation.permissions"><div class="info"><h1 class="title">Permissions</h1></div>
+        
+
+        <p class="para">
+            By default, index files are available for reading and writing by everyone.
+        </p>
+
+        <p class="para">
+            It&#039;s possible to override this with the
+             <span class="methodname">Zend_Search_Lucene_Storage_Directory_Filesystem::setDefaultFilePermissions()</span>
+            method:
+        </p>
+
+        <div class="programlisting php"><div class="phpcode"><div class="php" style="font-family: monospace;"><ol><li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;"><span style="color: #808080; font-style: italic;">// Get current default file permissions</span></div></li>
+<li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;"><span style="color: #0000ff;">$currentPermissions</span> =</div></li>
+<li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;">&nbsp; &nbsp; Zend_Search_Lucene_Storage_Directory_Filesystem::<span style="color: #006600;">getDefaultFilePermissions</span><span style="color: #66cc66;">&#40;</span><span style="color: #66cc66;">&#41;</span>;</div></li>
+<li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;">&nbsp;</div></li>
+<li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;"><span style="color: #808080; font-style: italic;">// Give read-writing permissions only for current user and group</span></div></li>
+<li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;">Zend_Search_Lucene_Storage_Directory_Filesystem::<span style="color: #006600;">setDefaultFilePermissions</span><span style="color: #66cc66;">&#40;</span><span style="color: #cc66cc;">0660</span><span style="color: #66cc66;">&#41;</span>;</div></li></ol></div></div></div>
+
+    </div>
+
+    <div class="section" id="zend.search.lucene.index-creation.limitations" name="zend.search.lucene.index-creation.limitations"><div class="info"><h1 class="title">Limitations</h1></div>
+        
+
+        <div class="section" id="zend.search.lucene.index-creation.limitations.index-size" name="zend.search.lucene.index-creation.limitations.index-size"><div class="info"><h1 class="title">Index size</h1></div>
+            
+
+            <p class="para">
+                Index size is limited by 2GB for 32-bit platforms.
+            </p>
+
+            <p class="para">
+                Use 64-bit platforms for larger indices.
+            </p>
+        </div>
+
+        <div class="section" id="zend.search.lucene.index-creation.limitations.filesystems" name="zend.search.lucene.index-creation.limitations.filesystems"><div class="info"><h1 class="title">Supported Filesystems</h1></div>
+            
+
+            <p class="para">
+                <span class="classname">Zend_Search_Lucene</span> uses  <span class="methodname">flock()</span> to
+                provide concurrent searching, index updating and optimization.
+            </p>
+
+            <p class="para">
+                According to the <acronym class="acronym">PHP</acronym> <a href="http://www.php.net/manual/en/function.flock.php" class="link external">&raquo; documentation</a>,
+                &quot; <span class="methodname">flock()</span> will not work on NFS and many other networked file
+                systems&quot;.
+            </p>
+
+            <p class="para">
+                Do not use networked file systems with <span class="classname">Zend_Search_Lucene</span>.
+            </p>
+        </div>
+    </div>
+<div class="footnote"><a name="fnid1" href="#fn1"><sup>[1]</sup></a><span class="para footnote">
+                    The currently supported Lucene index file format is version 2.3 (starting from
+                    Zend Framework 1.6).
+                </span></div>
+</div>
+        <hr />
+
+            <table width="100%">
+                <tr>
+                    <td width="25%" style="text-align: left;">
+                    <a href="zend.search.lucene.overview.html">Overview</a>
+                    </td>
+
+                    <td width="50%" style="text-align: center;">
+                        <div class="up"><span class="up"><a href="zend.search.lucene.html">Zend_Search_Lucene</a></span><br />
+                        <span class="home"><a href="manual.html">Programmer's Reference Guide</a></span></div>
+                    </td>
+
+                    <td width="25%" style="text-align: right;">
+                        <div class="next" style="text-align: right; float: right;"><a href="zend.search.lucene.searching.html">Searching an Index</a></div>
+                    </td>
+                </tr>
+            </table>
+</td>
+        <td style="font-size: smaller;" width="15%"> <style type="text/css">
+#leftbar {
+	float: left;
+	width: 186px;
+	padding: 5px;
+	font-size: smaller;
+}
+ul.toc {
+	margin: 0px 5px 5px 5px;
+	padding: 0px;
+}
+ul.toc li {
+	font-size: 85%;
+	margin: 1px 0 1px 1px;
+	padding: 1px 0 1px 11px;
+	list-style-type: none;
+	background-repeat: no-repeat;
+	background-position: center left;
+}
+ul.toc li.header {
+	font-size: 115%;
+	padding: 5px 0px 5px 11px;
+	border-bottom: 1px solid #cccccc;
+	margin-bottom: 5px;
+}
+ul.toc li.active {
+	font-weight: bold;
+}
+ul.toc li a {
+	text-decoration: none;
+}
+ul.toc li a:hover {
+	text-decoration: underline;
+}
+</style>
+ <ul class="toc">
+  <li class="header home"><a href="manual.html">Programmer's Reference Guide</a></li>
+  <li class="header up"><a href="manual.html">Programmer's Reference Guide</a></li>
+  <li class="header up"><a href="reference.html">Zend Framework Reference</a></li>
+  <li class="header up"><a href="zend.search.lucene.html">Zend_Search_Lucene</a></li>
+  <li><a href="zend.search.lucene.overview.html">Overview</a></li>
+  <li class="active"><a href="zend.search.lucene.index-creation.html">Building Indexes</a></li>
+  <li><a href="zend.search.lucene.searching.html">Searching an Index</a></li>
+  <li><a href="zend.search.lucene.query-language.html">Query Language</a></li>
+  <li><a href="zend.search.lucene.query-api.html">Query Construction API</a></li>
+  <li><a href="zend.search.lucene.charset.html">Character Set</a></li>
+  <li><a href="zend.search.lucene.extending.html">Extensibility</a></li>
+  <li><a href="zend.search.lucene.java-lucene.html">Interoperating with Java Lucene</a></li>
+  <li><a href="zend.search.lucene.advanced.html">Advanced</a></li>
+  <li><a href="zend.search.lucene.best-practice.html">Best Practices</a></li>
+ </ul>
+ </td>
+    </tr>
+</table>
+</body>
+</html>

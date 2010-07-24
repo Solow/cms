@@ -1,0 +1,179 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+                      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
+    <title>ZendX_Console_Process_Unix - Zend Framework Manual</title>
+
+</head>
+<body>
+<table width="100%">
+    <tr valign="top">
+        <td width="85%">
+            <table width="100%">
+                <tr>
+                    <td width="25%" style="text-align: left;">
+                    <a href="zendx.console.process.unix.html">ZendX_Console_Process_Unix</a>
+                    </td>
+
+                    <td width="50%" style="text-align: center;">
+                        <div class="up"><span class="up"><a href="zendx.console.process.unix.html">ZendX_Console_Process_Unix</a></span><br />
+                        <span class="home"><a href="manual.html">Programmer's Reference Guide</a></span></div>
+                    </td>
+
+                    <td width="25%" style="text-align: right;">
+                        <div class="next" style="text-align: right; float: right;"><a href="zendx.jquery.html">ZendX_JQuery</a></div>
+                    </td>
+                </tr>
+            </table>
+<hr />
+<div id="zendx.console.process.unix.overview" class="section"><div class="info"><h1 class="title">ZendX_Console_Process_Unix</h1></div>
+    
+
+    <div class="section" id="zendx.console.process.unix.introduction" name="zendx.console.process.unix.introduction"><div class="info"><h1 class="title">Introduction</h1></div>
+        
+        <p class="para">
+            <span class="classname">ZendX_Console_Process_Unix</span> allows developers to spawn
+            an object as a new process, and so do multiple tasks in parallel on
+            console environments. Through its specific nature, it is only
+            working on *nix based systems like Linux, Solaris, Mac/OSx and such.
+            Additionally, the <code class="code">shmop_*</code>, <code class="code">pcntl_*</code> and
+            <code class="code">posix_*</code> modules are required for this component to
+            run. If one of the requirements is not met, it will throw an
+            exception after instantiating the component.
+        </p>
+    </div>
+
+    <div class="section" id="zendx.console.process.unix.basic" name="zendx.console.process.unix.basic"><div class="info"><h1 class="title">Basic usage of ZendX_Console_Process_Unix</h1></div>
+        
+        <p class="para">
+            <span class="classname">ZendX_Console_Process_Unix</span> is an abstract class, which
+            requires the user to extend it. It has a single abstract method
+            called  <span class="methodname">_run()</span> which has to be implemented to create a
+            working process. It also comes with multiple methods for checking
+            the alive status and share variables between the parent and the
+            child process.
+        </p>
+
+        <p class="para">
+            The  <span class="methodname">_run()</span> method and every method which is called
+            by it is executed by the child process. Every other method which is
+            called directly by the parent is executed by the parent process.
+        </p>
+
+        <p class="para">
+             <span class="methodname">setVariable()</span> and  <span class="methodname">getVariable()</span> can be
+            used from both the parent- and the child process to share variables.
+            To observe the alive status, the child process should call
+             <span class="methodname">_setAlive()</span> in a frequent interval, so that the parent
+            process can check the last alive time via  <span class="methodname">getLastAlive()</span>.
+            To get the PID of the child process, the parent can call
+             <span class="methodname">getPid()</span>.
+        </p>
+
+        <div class="example"><div class="info"><p><b>Example #1 Basic example for processing</b></p></div>
+            
+            <div class="example-contents"><p>
+                This example illustrates a basic child process
+            </p></div>
+
+            <div class="programlisting php"><div class="phpcode"><div class="php" style="font-family: monospace;"><ol><li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;"><span style="color: #000000; font-weight: bold;">class</span> MyProcess <span style="color: #000000; font-weight: bold;">extends</span> ZendX_Console_Process_Unix</div></li>
+<li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;"><span style="color: #66cc66;">&#123;</span></div></li>
+<li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;">&nbsp; &nbsp; protected <span style="color: #000000; font-weight: bold;">function</span> _run<span style="color: #66cc66;">&#40;</span><span style="color: #66cc66;">&#41;</span></div></li>
+<li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;">&nbsp; &nbsp; <span style="color: #66cc66;">&#123;</span></div></li>
+<li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;">&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #b1b100;">for</span> <span style="color: #66cc66;">&#40;</span><span style="color: #0000ff;">$i</span> = <span style="color: #cc66cc;">0</span>; <span style="color: #0000ff;">$i</span> &lt; <span style="color: #cc66cc;">10</span>; <span style="color: #0000ff;">$i</span>++<span style="color: #66cc66;">&#41;</span> <span style="color: #66cc66;">&#123;</span></div></li>
+<li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #808080; font-style: italic;">// Doing something really important which can't wait: sleeping</span></div></li>
+<li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <a href="http://www.php.net/sleep"><span style="color: #000066;">sleep</span></a><span style="color: #66cc66;">&#40;</span><span style="color: #cc66cc;">1</span><span style="color: #66cc66;">&#41;</span>;</div></li>
+<li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;">&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #66cc66;">&#125;</span></div></li>
+<li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;">&nbsp; &nbsp; <span style="color: #66cc66;">&#125;</span></div></li>
+<li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;"><span style="color: #66cc66;">&#125;</span></div></li>
+<li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;">&nbsp;</div></li>
+<li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;"><span style="color: #808080; font-style: italic;">// This part should last about 10 seconds, not 20.</span></div></li>
+<li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;"><span style="color: #0000ff;">$process1</span> = <span style="color: #000000; font-weight: bold;">new</span> MyProcess<span style="color: #66cc66;">&#40;</span><span style="color: #66cc66;">&#41;</span>;</div></li>
+<li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;"><span style="color: #0000ff;">$process1</span>-&gt;<span style="color: #006600;">start</span><span style="color: #66cc66;">&#40;</span><span style="color: #66cc66;">&#41;</span>;</div></li>
+<li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;">&nbsp;</div></li>
+<li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;"><span style="color: #0000ff;">$process2</span> = <span style="color: #000000; font-weight: bold;">new</span> MyProcess<span style="color: #66cc66;">&#40;</span><span style="color: #66cc66;">&#41;</span>;</div></li>
+<li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;"><span style="color: #0000ff;">$process2</span>-&gt;<span style="color: #006600;">start</span><span style="color: #66cc66;">&#40;</span><span style="color: #66cc66;">&#41;</span>;</div></li>
+<li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;">&nbsp;</div></li>
+<li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;"><span style="color: #b1b100;">while</span> <span style="color: #66cc66;">&#40;</span><span style="color: #0000ff;">$process1</span>-&gt;<span style="color: #006600;">isRunning</span><span style="color: #66cc66;">&#40;</span><span style="color: #66cc66;">&#41;</span> &amp;&amp; <span style="color: #0000ff;">$process2</span>-&gt;<span style="color: #006600;">isRunning</span><span style="color: #66cc66;">&#40;</span><span style="color: #66cc66;">&#41;</span><span style="color: #66cc66;">&#41;</span> <span style="color: #66cc66;">&#123;</span></div></li>
+<li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;">&nbsp; &nbsp; <a href="http://www.php.net/sleep"><span style="color: #000066;">sleep</span></a><span style="color: #66cc66;">&#40;</span><span style="color: #cc66cc;">1</span><span style="color: #66cc66;">&#41;</span>;</div></li>
+<li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;"><span style="color: #66cc66;">&#125;</span></div></li>
+<li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;">&nbsp;</div></li>
+<li style="font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;"><div style="font-family: 'Courier New', Courier, monospace; font-weight: normal;"><a href="http://www.php.net/echo"><span style="color: #000066;">echo</span></a> <span style="color: #ff0000;">'All processes completed'</span>;</div></li></ol></div></div></div>
+
+
+            <div class="example-contents"><p>
+                In this example a process is forked twice and executed. As every
+                process runs 10 seconds, the parent process will be finished after
+                10 seconds (and not 20).
+            </p></div>
+        </div>
+
+    </div>
+</div>
+        <hr />
+
+            <table width="100%">
+                <tr>
+                    <td width="25%" style="text-align: left;">
+                    <a href="zendx.console.process.unix.html">ZendX_Console_Process_Unix</a>
+                    </td>
+
+                    <td width="50%" style="text-align: center;">
+                        <div class="up"><span class="up"><a href="zendx.console.process.unix.html">ZendX_Console_Process_Unix</a></span><br />
+                        <span class="home"><a href="manual.html">Programmer's Reference Guide</a></span></div>
+                    </td>
+
+                    <td width="25%" style="text-align: right;">
+                        <div class="next" style="text-align: right; float: right;"><a href="zendx.jquery.html">ZendX_JQuery</a></div>
+                    </td>
+                </tr>
+            </table>
+</td>
+        <td style="font-size: smaller;" width="15%"> <style type="text/css">
+#leftbar {
+	float: left;
+	width: 186px;
+	padding: 5px;
+	font-size: smaller;
+}
+ul.toc {
+	margin: 0px 5px 5px 5px;
+	padding: 0px;
+}
+ul.toc li {
+	font-size: 85%;
+	margin: 1px 0 1px 1px;
+	padding: 1px 0 1px 11px;
+	list-style-type: none;
+	background-repeat: no-repeat;
+	background-position: center left;
+}
+ul.toc li.header {
+	font-size: 115%;
+	padding: 5px 0px 5px 11px;
+	border-bottom: 1px solid #cccccc;
+	margin-bottom: 5px;
+}
+ul.toc li.active {
+	font-weight: bold;
+}
+ul.toc li a {
+	text-decoration: none;
+}
+ul.toc li a:hover {
+	text-decoration: underline;
+}
+</style>
+ <ul class="toc">
+  <li class="header home"><a href="manual.html">Programmer's Reference Guide</a></li>
+  <li class="header up"><a href="manual.html">Programmer's Reference Guide</a></li>
+  <li class="header up"><a href="reference.html">Zend Framework Reference</a></li>
+  <li class="header up"><a href="zendx.console.process.unix.html">ZendX_Console_Process_Unix</a></li>
+  <li class="active"><a href="zendx.console.process.unix.overview.html">ZendX_Console_Process_Unix</a></li>
+ </ul>
+ </td>
+    </tr>
+</table>
+</body>
+</html>
