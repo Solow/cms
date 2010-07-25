@@ -3,7 +3,7 @@ class Solow_Db_Mapper_Pages extends Solow_Db_Mapper_Abstract
 {
     public function init()
     {
-        $this->setDbTable('Solow_Db_Mapper_Table_Page');
+        $this->setDbTable('Solow_Db_Table_Page');
     }
 
     public function find($what, $where)
@@ -20,9 +20,13 @@ class Solow_Db_Mapper_Pages extends Solow_Db_Mapper_Abstract
         $resTables = $this->fetchAllSingle($fetchTable, 'Customers_Model_Customers');
 
         /*
+         *
+         * Gesprek met mezelf:
+         *
+         * Waar check ik de seperator/ type?
+         * - pages mapper
+         *
          * Wat sla ik op bij een pagina?
-         * - Controller
-         * - Action
          * - slug
          *
          * Waar match ik op?
@@ -37,6 +41,7 @@ class Solow_Db_Mapper_Pages extends Solow_Db_Mapper_Abstract
          * gebruik:
          * voor Zend_Navigation_Page, de uri.
          * http://framework.zend.com/manual/en/zend.navigation.pages.html#zend.navigation.pages.uri
+         * 
          */
     }
 }
