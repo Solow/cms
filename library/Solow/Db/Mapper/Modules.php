@@ -1,9 +1,9 @@
 <?php
-class Solow_Db_Mapper_Settings extends Solow_Db_Mapper_Abstract
+class Solow_Db_Mapper_Modules extends Solow_Db_Mapper_Abstract
 {
     public function init()
     {
-        $this->setDbTable('Solow_Db_Table_Settings');
+        $this->setDbTable('Solow_Db_Table_Modules');
     }
 
     public function getOption($option)

@@ -139,8 +139,6 @@ abstract class Solow_Db_Mapper_Abstract
         $db = $this->getDbTable()->getAdapter();
         $sql = "select $col from $table where id = ?";
         $result = ($result = $db->fetchOne($sql,$row))?$result:'error';
-        echo $result;
-        die();
         return $result;
     }
 
@@ -149,7 +147,7 @@ abstract class Solow_Db_Mapper_Abstract
         $table = $this->getDbTable()->info(Zend_Db_Table::NAME);
         $db = $this->getDbTable()->getAdapter();
         $sql = "select $col from $table where $col = ?";
-        $result = $db->fetchRow($sql,$rowID);
+        $result = $db->fetchRow($sql,$value);
         return (bool)$result;
     }
 }                                        
