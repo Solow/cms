@@ -133,21 +133,30 @@ abstract class Solow_Db_Mapper_Abstract
         return $entries;   
     }
 
-    protected function fetchValue($col, $row)
+    protected function fetchValue($col, $row, $table='default')
     {
-        $table = $this->getDbTable()->info(Zend_Db_Table::NAME);
+        $table = ($table == 'default') ? $this->getDbTable()->info(Zend_Db_Table::NAME) : $table;
         $db = $this->getDbTable()->getAdapter();
         $sql = "select $col from $table where id = ?";
         $result = ($result = $db->fetchOne($sql,$row))?$result:'error';
         return $result;
     }
 
-    protected function checkExistence($col, $value)
+    protected function checkExistence($col, $value, $table='default')
     {
-        $table = $this->getDbTable()->info(Zend_Db_Table::NAME);
+        $table = ($table == 'default') ? $this->getDbTable()->info(Zend_Db_Table::NAME) : $table;
         $db = $this->getDbTable()->getAdapter();
         $sql = "select $col from $table where $col = ?";
         $result = $db->fetchRow($sql,$value);
         return (bool)$result;
+    }
+
+    protected function fetchRow($col, $val, $table='default')
+    {
+        $table = ($table == 'default') ? $this->getDbTable()->info(Zend_Db_Table::NAME) : $table;
+        $db = $this->getDbTable()->getAdapter();
+        $sql = "select * from $table where $col = ?";
+        $result = $db->fetchRow($sql,$val);
+        return $result;
     }
 }                                        

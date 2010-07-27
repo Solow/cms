@@ -3,13 +3,12 @@ class Solow_Db_Mapper_Pages extends Solow_Db_Mapper_Abstract
 {
     public function init()
     {
-        $this->setDbTable('Solow_Db_Table_Page');
+        $this->setClassPrefix('Solow_Db_Table_');
+        $this->setDbTable('Page');
     }
 
     public function find($path)
     {
-    
-
         /*
          *
          * Gesprek met mezelf:
@@ -35,68 +34,60 @@ class Solow_Db_Mapper_Pages extends Solow_Db_Mapper_Abstract
          * 
          */
 
-         $uriFormat = Solow_Mapper::_('settings')->getOption('uriFormat');
-            $preSlug = trim($path->getPathInfo(), '/');
-            switch($uriFormat)
+        $uriFormat = Solow_Mapper::_('settings')->getOption('uriFormat');
+        $preSlug = trim($path->getPathInfo(), '/');
+        switch($uriFormat)
+        {
+            case '.html':
+                $preSlug = rtrim($preSlug, '.html');
+                $preSlug = explode('_', $preSlug);
+                $us = true;
+                break;
+            case '_':
+                $preSlug = explode('_', $preSlug);
+                $us = true;
+                break;
+            case '/':
+                $preSlug = explode('/', $preSlug);
+                $us = true;
+                break;
+            case 'id':
+                $preSlug = explode('/', $preSlug);
+                $id = array_shift($preSlug);
+                $us = false;
+                break;
+            default:
+                break;
+        }
+        if($us)
+        {
+            $slug = implode('/', $preSlug);
+            $slug = strtolower((empty($slug)) ? '/index' : '/'.$slug);
+            if($this->checkExistence('alias', $slug, 'alias'))
             {
-                case '.html':
-                    $preSlug = rtrim($preSlug, '.html');
-                    $preSlug = explode('_', $preSlug);
-                    $us = true;
-                    break;
-                case '_':
-                    $preSlug = explode('_', $preSlug);
-                    $us = true;
-                    break;
-                case '/':
-                    $preSlug = explode('/', $preSlug);
-                    $us = true;
-                    break;
-                case 'id':
-                    $preSlug = explode('/', $preSlug);
-                    $id = array_shift($preSlug);
-                    $us = false;
-                    break;
-                default:
-                    break;
-            }
-            if($us)
-            {
-
-                $slug = implode('/', $preSlug);
-                $slug = strtolower((empty($slug)) ? '/index' : '/'.$slug);
-                die($slug);
-                if($this->checkExistence('slug', $slug))
-                {
-                    $page = new Solow_Pages_Page();
-                    $page->setIdentifier('');
-                }
+                $page = new Solow_Pages_Page();
+                $row = $this->fetchRow('alias', $slug, 'alias');
+                $page->setPageDetails($row);
             }
             else
             {
-                echo $id;
-                //    /community/forum/view/topic/een-topic-title-hier
-
-                #Alle pagina's met modules opslaan, en inladen bij init, en matchen met url, alles erachter zijn params.
-                if($this->checkExistence('id', $id))
-                {
-
-                }
-
+                return false;
             }
-
-
-            /*echo "<pre>";
-            $uri =  trim($path->getPathInfo(),'/');
-            $params = explode('/', $uri);
-            $page = array_shift($params);
-            echo $page."<br />";
-            print_r($params);
-             * */
-
-            die();
-
-
+        }
+        else
+        {
+            if($this->checkExistence('id', $id))
+            {
+                $page = new Solow_Pages_Page();
+                $row = $this->fetchRow('id', $id);
+                $page->setPageDetails('page', $row);
+            }
+            else
+            {
+                return false;
+            }
+        }
+        return $page;
     }
 }
 ?>
