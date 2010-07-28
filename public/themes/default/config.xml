@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+    <widgets>
+        widgets
+    </widgets>
+    <content>
+        content
+    </content>
+    <footer>
+        footer
+    </footer>
+    <pageName>
+        pageName
+    </pageName>
+    <breadcrumbs>
+        false
+    </breadcrumbs>
+</config>

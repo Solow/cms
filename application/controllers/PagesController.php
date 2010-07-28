@@ -5,7 +5,10 @@ class PagesController extends Zend_Controller_Action
 
     public function init()
     {
-        /* Initialize action controller here */
+        echo "<pre>";
+        print_r($this->_getParam('page'));
+        die('you\'ve reached the pages controller init action!');
+        $layout = new Solow_Pages_Layout();
     }
 
     public function indexAction()

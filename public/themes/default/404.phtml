@@ -1,6 +1,5 @@
 <?php
     //view helper om aan te geven waar de layout gebruik van maakt.
-    $this->settings()->enableWidgets()->enableContent()->enableMenu()->enableSubMenu();
     echo $this->head()
         ->meta('Author', 'Wesley Overdijk')
         ->addCss($this->themePath.'/css/default.css')
@@ -13,19 +12,11 @@
 <body>
     <div id="pageWrapper">
         <div id="header">
-            <p><?php echo $this->pageName; ?></p>
-        </div>
-        <div id="nav">
-            <?php echo $this->navigation()->menu(); ?>
-        </div>
-        <div id="sidebar">
-            <div id="subNav">
-                <p><?php echo $this->subNav(); ?></p>
-            </div>
-            <?php echo $this->widgets; ?>
+            <h1>Page not found</h1>
         </div>
         <div id="main">
-                <?php echo $this->content; ?>
+            The page you were looking for was not found. You could try the search though!
+            <?php echo $this->search(); ?>
         </div>
         <div id="footer">
             <p><?php echo $this->footer; ?></p>
