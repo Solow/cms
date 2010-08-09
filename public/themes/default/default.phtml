@@ -1,35 +1,61 @@
 <?php
     //view helper om aan te geven waar de layout gebruik van maakt.
-    $this->settings()->enableWidgets()->enableContent()->enableMenu()->enableSubMenu();
+    #$this->settings()->enableWidgets()->enableContent()->enableMenu()->enableSubMenu();
     echo $this->head()
         ->meta('Author', 'Wesley Overdijk')
         ->addCss($this->themePath.'/css/default.css')
-        ->titleSeperator(' - ')
-        ->appendTitle('Some random page title.')
+        ->addCss($this->themePath.'/css/pro_dropdown_2.css')
+        ->addJs($this->themePath.'/js/stuHover.js')
         ->setContentType()
-        ->appendTitle('An adition to the page title')
         ->disableCache();
 ?>
 <body>
     <div id="pageWrapper">
         <div id="header">
-            <p><?php echo $this->pageName; ?></p>
+            <p>header</p>
         </div>
-        <div id="nav">
-            <?php echo $this->navigation()->menu(); ?>
+        <div id="navi">
+            <ul id="nav">
+            <?php
+                echo $this->partial('partials/_navigation.phtml', array('depth' => 'base', 'container' => $this->navigation()->menu()->getContainer()));
+            ?>
+            </ul>
         </div>
         <div id="sidebar">
-            <div id="subNav">
-                <p><?php echo $this->subNav(); ?></p>
-            </div>
-            <?php echo $this->widgets; ?>
+            widgets
         </div>
         <div id="main">
-                <?php echo $this->content; ?>
+            <?php
+                echo $this->page()->defineArea('content', 'idGoesHere', 'some crap', 'div', array('class'=>'mijnDoosjes', 'style'=>"border: 1px solid black;"));
+            ?>
+
         </div>
         <div id="footer">
-            <p><?php echo $this->footer; ?></p>
+            <p>footer</p>
         </div>
     </div>
 </body>
 </html>
+<?= $this->navigation()->sitemap()->setFormatOutput(); ?>
+
+<?php
+/*
+ * <ul id="navigation (or other id)"><?php echo $this->navigation()->menu()->renderPartial(null, '_navigation.phtml'); ?></ul>
+ *
+ *     <?php
+    foreach($this->container as $page):
+
+    if (! $this->navigation()->accept($page)) continue;
+    ?>
+    <li<?php echo $page->isActive(true) ? ' class="active"' : ''; ?>>
+        <a href="<?php echo $page->getHref(); ?>" class="nav_button">
+            <?php echo $page->getLabel(); ?>
+        </a>
+        <?php if(!empty($page->getPages())): ?>
+        <ul class="sub">
+            <?php echo $this->navigation()->menu($page->getPages())->renderPartial(null, '_navigation.phtml'); ?>
+        </ul>
+        <?php endif; ?>
+    </li>
+    <?php endforeach; ?>
+ */

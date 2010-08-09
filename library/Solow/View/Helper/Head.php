@@ -72,7 +72,7 @@ class Solow_View_Helper_Head
         return $this;
     }
 
-    public function setKeywords($keyWords)
+    public function setKeywords($keywords)
     {
         $this->view->headMeta()->appendName('keywords', $keywords);
         return $this;

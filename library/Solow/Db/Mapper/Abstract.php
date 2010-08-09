@@ -28,10 +28,8 @@ abstract class Solow_Db_Mapper_Abstract
             $this->validateTableSetDbTable($dbTable);
         }                                  
         else
-        {     
-            print_r($dbTable);
-            die();                     
-            #throw new Exception('Invalid data type for setDbTable().');  
+        {                        
+            throw new Exception('Invalid data type for setDbTable().');  
         }
         return $this;       
     }
@@ -109,17 +107,21 @@ abstract class Solow_Db_Mapper_Abstract
         if(array_key_exists('where', $value))
         {
             foreach($value['where'] as $where => $is)
-            {                                     
-                $select->where($where, $is);   
-            }                                               
-        }       
+            {
+                $select->where($where, $is);
+            }
+        }
+        if(array_key_exists('order', $value))
+        { 
+            $select->order($value['order']);
+        }
         $rowsPerPage = 20;
         $entries = array();       
         if(is_numeric($page) && $page > 0 && $page != false)
         {                                    
             $offset = ($page - 1) * $rowsPerPage;
             $select->limit($rowsPerPage, $offset);
-        } 
+        }
         $results = $this->getDbTable()->fetchAll($select); 
         foreach($results as $row)
         {      

@@ -1,14 +1,14 @@
 <?php
-
 class PagesController extends Zend_Controller_Action
 {
 
     public function init()
     {
-        echo "<pre>";
-        print_r($this->_getParam('page'));
-        die('you\'ve reached the pages controller init action!');
-        $layout = new Solow_Pages_Layout();
+        $nav = new Solow_Navigation_Container();
+        $this->view->navigation($nav->nav);
+        $layout = new Solow_Pages_Layout($this->_getParam('page'));
+        $components = new Solow_Components_Components($this->_getParam('page'));
+        $components->setComponents();
     }
 
     public function indexAction()

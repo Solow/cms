@@ -7,85 +7,80 @@ class Solow_Db_Mapper_Pages extends Solow_Db_Mapper_Abstract
         $this->setDbTable('Page');
     }
 
-    public function find($path)
+    public function getPages($where)
     {
-        /*
-         *
-         * Gesprek met mezelf:
-         *
-         * Waar check ik de seperator/ type?
-         * - pages mapper
-         *
-         * Wat sla ik op bij een pagina?
-         * - slug
-         *
-         * Waar match ik op?
-         * - slug OF page/sub/sub/sub, where the current used 'lets say _' is replaced by '/', so i can match.
-         * - id (ligt aan de settings)
-         *
-         * mogelijke methodes:
-         * - slug
-         * - parent/child/child/
-         * - /id
-         *
-         * gebruik:
-         * voor Zend_Navigation_Page, de uri.
-         * http://framework.zend.com/manual/en/zend.navigation.pages.html#zend.navigation.pages.uri
-         * 
-         */
+        $value = array
+        (
+            "table"=>"current",
+            "where"=>$where,
+            "order"=>"rank ASC"
+        );
+        return $this->fetchAllSingle($value, 'Solow_Pages_Page');
+    }
 
+    public function hasChildren($id)
+    {
+        return $this->checkExistence('parent', $id);
+    }
+
+    public function find($path, $error=false)
+    {
+        //500, ask for explanation, and send to bug tracker.
+        //In app, use 'uri' component to link within the website. When a page or alias gets removed, or changed, either change the uri component as well,
+        //Or set the uri component to status 404, so that the uri will become bold, with a stroke.
+        ////Also include language packages, and language page to page redirects with a message.
         $uriFormat = Solow_Mapper::_('settings')->getOption('uriFormat');
-        $preSlug = trim($path->getPathInfo(), '/');
+        $preSlug = (!$error) ? trim($path->getPathInfo(), '/') : trim($path, '/');
+
         switch($uriFormat)
         {
-            case '.html':
-                $preSlug = rtrim($preSlug, '.html');
-                $preSlug = explode('_', $preSlug);
-                $us = true;
-                break;
             case '_':
-                $preSlug = explode('_', $preSlug);
+                $preSlug = explode('_p_', $preSlug);
+                $params = (isset($preSlug[1])) ? explode('/',$preSlug[1]) : array();
+                $preSlug = explode('_', $preSlug[0]);
                 $us = true;
                 break;
             case '/':
-                $preSlug = explode('/', $preSlug);
+                $preSlug = explode('/p/', $preSlug);
+                $params = (isset($preSlug[1])) ? $preSlug[1] : '';
+                $preSlug = explode('/', $preSlug[0]);
                 $us = true;
-                break;
-            case 'id':
-                $preSlug = explode('/', $preSlug);
-                $id = array_shift($preSlug);
-                $us = false;
                 break;
             default:
                 break;
         }
-        if($us)
+        $slug = implode('/', $preSlug);
+        $slug = strtolower((empty($slug)) ? '/index' : '/'.$slug);
+        $db = $this->getDbTable()->getAdapter();
+        $sql = "SELECT * FROM `alias` where ? LIKE concat(alias, '%') AND LENGTH(alias)>1 ORDER BY LENGTH(alias) DESC LIMIT 1";
+        $result = $db->fetchRow($sql, $slug);
+        if($result)
         {
-            $slug = implode('/', $preSlug);
-            $slug = strtolower((empty($slug)) ? '/index' : '/'.$slug);
-            if($this->checkExistence('alias', $slug, 'alias'))
+            $row = $this->fetchRow('alias', $result['alias'], 'alias');
+            $page = new Solow_Pages_Page();
+            $page->setPageDetails($row);
+            $page->setPageDetails($this->fetchRow('id', $page->pageId));
+
+            if($result['alias'] != $slug)
             {
-                $page = new Solow_Pages_Page();
-                $row = $this->fetchRow('alias', $slug, 'alias');
-                $page->setPageDetails($row);
+                if(Solow_Mapper::_('settings')->getOption('smartBrowse') == 1)
+                {
+                    $page->smartBrowse = array('notFound'=>$slug, 'found'=>$result['alias']);
+                }
+                else
+                {
+                    return false;
+                }
             }
-            else
+            if(!empty($params))
             {
-                return false;
+                if (preg_match_all('/([^\/]+)(\/([^\/]+)+)?/', $params, $matches))
+                $page->params = array_combine($matches[1], $matches[3]);
             }
         }
         else
         {
-            if($this->checkExistence('id', $id))
-            {
-                $page = new Solow_Pages_Page();
-                $row = $this->fetchRow('id', $id);
-                $page->setPageDetails('page', $row);
-            }
-            else
-            {
-                return false;
-            }
+            return false;
         }
         return $page;
     }

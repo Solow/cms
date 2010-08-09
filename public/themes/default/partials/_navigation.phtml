@@ -1,0 +1,16 @@
+<?php
+foreach($this->container as $page):
+if (! $this->navigation()->accept($page) || !$page->isVisible()) continue;
+$pages = $page->getPages();
+?>
+<li<?php echo ($this->depth == 'base' ? ' class="top"' : (!empty($pages) ? ' class="mid"' : '')); ?>>
+    <a href="<?php echo $page->getHref(); ?>"<?php echo ($this->depth == 'base' ? ' class="top_link"' : (!empty($pages) ? ' class="fly"' : '')); ?>>
+        <span<?php echo ($this->depth == 'base' && !empty($pages)) ? ' class="down"' : ''; ?>><?php echo $page->getLabel(); ?></span>
+    </a>
+    <?php if(!empty($pages)): ?>
+    <ul<?php  echo (!$this->nav()->childrenHaveChildPages($page) && $this->depth != "base") ? '' : ' class="sub"' ?>>
+        <?php echo $this->navigation()->menu($page)->renderPartial(null, 'partials/_navigation.phtml'); ?>
+    </ul>
+    <?php endif; ?>
+</li>
+<?php endforeach; ?>
