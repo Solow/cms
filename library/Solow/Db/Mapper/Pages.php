@@ -18,6 +18,11 @@ class Solow_Db_Mapper_Pages extends Solow_Db_Mapper_Abstract
         return $this->fetchAllSingle($value, 'Solow_Pages_Page');
     }
 
+    public function addPage($pageDetails)
+    {
+        
+    }
+
     public function hasChildren($id)
     {
         return $this->checkExistence('parent', $id);
