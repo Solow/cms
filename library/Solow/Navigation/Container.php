@@ -4,16 +4,33 @@ class Solow_Navigation_Container
     public $nav;
     public $pages;
 
-    public function __construct()
+    public function __construct($renew=false)
     {
-        $this->initNavObject();
+        return $this->initNavObject();
     }
 
     protected function initNavObject()
     {
+        $pages = Solow_Cache::load('nav');
+        if($pages)
+        {
+            $this->nav = $pages->nav;
+            $this->pages = $pages->pages;
+            return $this;
+        }
+        else
+        {
+            return $this->renewCache();
+        }
+    }
+
+    public function renewCache()
+    {
         $this->nav = new Zend_Navigation();
         $this->getPages();
         $this->nav->addPages($this->pages);
+        Solow_Cache::save($this, 'nav');
+        return $this;
     }
 
     protected function getPages()

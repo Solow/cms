@@ -108,6 +108,7 @@ abstract class Zend_Cache
                 self::throwException('frontend must be a frontend name (string) or an object');
             }
         }
+
         $frontendObject->setBackend($backendObject);
         return $frontendObject;
     }
