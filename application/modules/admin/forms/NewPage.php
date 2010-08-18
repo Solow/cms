@@ -3,6 +3,7 @@ class Admin_Form_NewPage extends Zend_Form
 {
     public function init()
     {
+        //not finished yet!
         /*
          * [Required fields]
          * title
