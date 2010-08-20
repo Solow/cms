@@ -8,6 +8,10 @@ class Admin_PagesController extends Solow_Controller_Action
 
     public function indexAction()
     {
+        
+    }
+    public function newAction()
+    {
         $form = new Admin_Form_NewPage();
         $request = $this->getRequest();
         if ($request->isPost())
@@ -15,7 +19,7 @@ class Admin_PagesController extends Solow_Controller_Action
             if ($form->isValid($request->getPost()))
             {
                 $formValues = $form->getValues();
-                die($formValues['Pagename']);
+                #Array ( [uri] => /asasa [Pagename] => asasas [description] => asasas [Parent] => Homepage [keywords] => /asasas [changefreq] => always [priority] => 0.5 )
                 #$this->_helper->redirector('index', 'index');
             }
             else
@@ -23,6 +27,8 @@ class Admin_PagesController extends Solow_Controller_Action
                 echo "Proccesing failed.";
             }
         }
+
         $this->view->form = $form;
+
     }
 }

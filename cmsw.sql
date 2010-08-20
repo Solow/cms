@@ -1,13 +1,19 @@
 -- phpMyAdmin SQL Dump
--- version 3.1.2deb1ubuntu0.2
+-- version 3.3.2deb1
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Aug 16, 2010 at 11:50 PM
--- Server version: 5.0.75
--- PHP Version: 5.2.6-3ubuntu4.5
+-- Generation Time: Aug 20, 2010 at 06:07 PM
+-- Server version: 5.1.41
+-- PHP Version: 5.3.2-1ubuntu4.2
 
 SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
+
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8 */;
 
 --
 -- Database: `cmsw`
@@ -20,12 +26,12 @@ SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 --
 
 CREATE TABLE IF NOT EXISTS `alias` (
-  `id` int(11) NOT NULL auto_increment,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `alias` varchar(200) NOT NULL,
   `pageId` int(200) NOT NULL,
   `default` int(11) NOT NULL,
   `isBase` int(11) NOT NULL,
-  PRIMARY KEY  (`id`)
+  PRIMARY KEY (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=13 ;
 
 --
@@ -52,13 +58,13 @@ INSERT INTO `alias` (`id`, `alias`, `pageId`, `default`, `isBase`) VALUES
 --
 
 CREATE TABLE IF NOT EXISTS `content` (
-  `id` int(11) NOT NULL auto_increment,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `pageId` int(11) NOT NULL,
   `rank` int(11) NOT NULL COMMENT 'Position in the area',
   `area` varchar(200) NOT NULL COMMENT 'Where to put the content',
   `type` varchar(300) NOT NULL COMMENT 'e.g. text, widget etc.',
   `spec` varchar(300) NOT NULL COMMENT 'e.g. widget name, textcontent id',
-  PRIMARY KEY  (`id`)
+  PRIMARY KEY (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=5 ;
 
 --
@@ -78,10 +84,10 @@ INSERT INTO `content` (`id`, `pageId`, `rank`, `area`, `type`, `spec`) VALUES
 --
 
 CREATE TABLE IF NOT EXISTS `layouts` (
-  `id` int(11) NOT NULL auto_increment,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(200) NOT NULL,
   `path` varchar(200) NOT NULL,
-  PRIMARY KEY  (`id`)
+  PRIMARY KEY (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
 
 --
@@ -98,11 +104,11 @@ INSERT INTO `layouts` (`id`, `name`, `path`) VALUES
 --
 
 CREATE TABLE IF NOT EXISTS `modules` (
-  `id` int(11) NOT NULL auto_increment,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `class` varchar(200) NOT NULL,
   `active` int(11) NOT NULL,
   `page` varchar(200) NOT NULL COMMENT 'page slug',
-  PRIMARY KEY  (`id`)
+  PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 --
@@ -117,18 +123,18 @@ CREATE TABLE IF NOT EXISTS `modules` (
 --
 
 CREATE TABLE IF NOT EXISTS `pages` (
-  `id` int(11) NOT NULL auto_increment,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `title` varchar(65) NOT NULL,
   `keywords` varchar(160) NOT NULL,
   `description` varchar(160) NOT NULL,
-  `parent` int(11) NOT NULL default '0',
-  `locked` int(11) NOT NULL default '0',
-  `visible` int(11) NOT NULL default '1',
+  `parent` int(11) NOT NULL DEFAULT '0',
+  `locked` int(11) NOT NULL DEFAULT '0',
+  `visible` int(11) NOT NULL DEFAULT '1',
   `rank` int(11) NOT NULL COMMENT 'Rank in the menu',
   `lastmod` date NOT NULL,
-  `changefreq` varchar(50) NOT NULL default 'monthly',
+  `changefreq` varchar(50) NOT NULL DEFAULT 'monthly',
   `priority` varchar(20) NOT NULL,
-  PRIMARY KEY  (`id`)
+  PRIMARY KEY (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=12 ;
 
 --
@@ -153,18 +159,18 @@ INSERT INTO `pages` (`id`, `title`, `keywords`, `description`, `parent`, `locked
 --
 
 CREATE TABLE IF NOT EXISTS `settings` (
-  `id` int(11) NOT NULL auto_increment,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `websiteName` varchar(200) NOT NULL,
   `slogan` varchar(200) NOT NULL,
-  `uriFormat` varchar(5) NOT NULL default '/' COMMENT '/, _, ID',
+  `uriFormat` varchar(5) NOT NULL DEFAULT '/' COMMENT '/, _, ID',
   `layoutId` int(11) NOT NULL,
   `footer` varchar(500) NOT NULL,
-  `titleSeperator` varchar(10) NOT NULL default '-',
-  `titleOrder` varchar(10) NOT NULL default 'append',
+  `titleSeperator` varchar(10) NOT NULL DEFAULT '-',
+  `titleOrder` varchar(10) NOT NULL DEFAULT 'append',
   `fullUrl` varchar(250) NOT NULL,
-  `smartBrowse` int(11) NOT NULL default '1',
+  `smartBrowse` int(11) NOT NULL DEFAULT '1',
   `env` varchar(200) NOT NULL,
-  PRIMARY KEY  (`id`)
+  PRIMARY KEY (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
 
 --
@@ -181,10 +187,10 @@ INSERT INTO `settings` (`id`, `websiteName`, `slogan`, `uriFormat`, `layoutId`, 
 --
 
 CREATE TABLE IF NOT EXISTS `text` (
-  `id` int(11) NOT NULL auto_increment,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `title` varchar(200) NOT NULL,
   `content` text NOT NULL,
-  PRIMARY KEY  (`id`)
+  PRIMARY KEY (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=5 ;
 
 --
@@ -204,13 +210,13 @@ INSERT INTO `text` (`id`, `title`, `content`) VALUES
 --
 
 CREATE TABLE IF NOT EXISTS `users` (
-  `id` int(11) NOT NULL auto_increment,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `username` varchar(150) NOT NULL,
   `password` varchar(150) NOT NULL,
   `salt` varchar(10) NOT NULL,
   `email` varchar(150) NOT NULL,
   `role` varchar(20) NOT NULL,
-  PRIMARY KEY  (`id`)
+  PRIMARY KEY (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
 
 --

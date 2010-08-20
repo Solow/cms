@@ -3,24 +3,7 @@ class Admin_Form_NewPage extends Zend_Form
 {
     public function init()
     {
-        //not finished yet!
-        /*
-         * [Required fields]
-         * title
-         * description //A description about the page
-         * parent //none or {page}
-         * visible //Publish, or draft.
-         * rank //append {page} or prepand {page}
-         *
-         * [optional uri settings]
-         * alias //by default /parent/child/title-of-page
-         *
-         * [SEO settings (optional, set by default.)]
-         * keywords //Use description, and title by default.
-         * lastmod
-         * changefreq
-         * priority
-         */
+        $this->setAction('/admin/pages/new');
 
          //Uri of the page
         $uri = new Zend_Form_Element_Text('uri');
@@ -65,7 +48,52 @@ class Admin_Form_NewPage extends Zend_Form
         $this->addElement($description);
 
         //Choose parent page
-        $parent = $this->addZendFormElementSelect('parent', 'Parent page:');
+        $select = new Solow_Form_Element_SelectIterate('Parent');
+        $select->setLabel('Parent page: ');
+        $select->setOptionKeys('label', 'uri');
+        $select->setIterateOver($this->getPages());
+        $select->setIterateOn(new Solow_Validate_InArray('pages'));
+        $select->setChildrenIteratorKey('pages');
+        $select->buildElement();
+        $this->addElement($select);
+
+
+
+        //Keywords
+        $keywords = new Zend_Form_Element_Text('keywords');
+        $keywords->setValidators(array(
+            array('StringLength', false, array(3, 80))
+        ));
+        $keywords->setRequired(true);
+        $keywords->addFilter(new Zend_Filter_StringToLower());
+        $keywords->setLabel('keywords:');
+        $keywords->loadDefaultDecorators();
+        $keywords->setValue('/');
+        $this->addElement($keywords);
+
+
+
+        $changefreqArr = array('always', 'hourly', 'daily', 'weekly', 'monthly', 'yearly', 'never');
+        $changefreq = new Solow_Form_Element_SelectIterate('changefreq');
+        $changefreq->setLabel('Change frequenty: ');
+        $changefreq->setIterateOver($changefreqArr);
+        $changefreq->buildElement();
+        $this->addElement($changefreq);
+
+
+
+        $priortyArr = array('0.0', '0.1', '0.2', '0.3', '0.4', '0.5', '0.6', '0.7', '0.8', '0.9', '1.0');
+        $priority = new Solow_Form_Element_SelectIterate('priority');
+        $priority->setLabel('Priority: ');
+        $priority->setIterateOver($priortyArr);
+        $priority->setDefault('0.5');
+        $priority->buildElement();
+        $this->addElement($priority);
+
+        $elements = array('keywords', 'changefreq', 'priority');
+
+        $dpGroup = $this->addDisplayGroup($elements, 'optional');
+        $this->getDisplayGroup('optional')->setAttrib('id', 'optionalField');
 
 
         $login = $this->addElement('submit', 'login', array(
@@ -82,41 +110,10 @@ class Admin_Form_NewPage extends Zend_Form
         ));
     }
 
-    protected function addZendFormElementSelect($name, $label)
+    protected function getPages()
     {
         $navObject = new Solow_Navigation_Container();
-        $zendFormElementSelect = new Zend_Form_Element_Select($name);
-        $zendFormElementSelect = $this->getPages($navObject->pages, $zendFormElementSelect);
-
-        $zendFormElementSelect->setLabel($label);
-        $zendFormElementSelect->loadDefaultDecorators();
-        $this->addElement($zendFormElementSelect);
-    }
-
-    protected function getPages($pages, $object)
-    {
-        foreach($pages as $page)
-        {
-            $object->addMultiOption($page['label'], $page['uri']);
-            if (isset($page['pages']))
-            {
-                $this->getPages($page['pages'], $object);
-            }
-        }
-        return $object;
+        return $navObject->pages;
     }
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
