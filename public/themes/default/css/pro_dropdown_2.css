@@ -14,7 +14,7 @@ way to fit your requirements.
 
 #nav {padding:0; margin:0; list-style:none; height:38px; background:#fff url(../images/three_0.gif) repeat-x; position:relative; z-index:500; font-family:arial, verdana, sans-serif;}
 #nav li.top {display:block; float:left; height:38px;}
-#nav li a.top_link {display:block; float:left; height:35px; line-height:33px; color:#ccc; text-decoration:none; font-size:11px; font-weight:bold; padding:0 0 0 12px; cursor:pointer;background: url(three_0.gif);}
+#nav li a.top_link {display:block; float:left; height:35px; line-height:33px; color:#ccc; text-decoration:none; font-size:11px; font-weight:bold; padding:0 0 0 12px; cursor:pointer;background: url(../images/three_0.gif);}
 #nav li a.top_link span {float:left; display:block; padding:0 24px 0 12px; height:35px; background: url(../images/three_0.gif) right top no-repeat;}
 #nav li a.top_link span.down {float:left; display:block; padding:0 24px 0 12px; height:35px; background: url(../images/three_0a.gif) no-repeat right top;}
 

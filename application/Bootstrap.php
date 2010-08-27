@@ -18,5 +18,14 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
             new Solow_Controller_Router_Route_DbRoute()
         );
     }
-}
-
+    
+    protected function _initPrevUri()
+    {  
+        $strArr = explode('/', $_SERVER['REQUEST_URI']);
+        if($strArr[1] != 'auth')
+        {
+            $prevSession =  new Zend_Session_Namespace('prevUri');    
+            $prevSession->uri = $_SERVER['REQUEST_URI'];    
+        }
+    }
+}   

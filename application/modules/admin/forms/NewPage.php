@@ -96,10 +96,10 @@ class Admin_Form_NewPage extends Zend_Form
         $this->getDisplayGroup('optional')->setAttrib('id', 'optionalField');
 
 
-        $login = $this->addElement('submit', 'login', array(
+        $login = $this->addElement('submit', 'newpage', array(
             'required' => false,
             'ignore'   => true,
-            'label'    => 'Login',
+            'label'    => 'Create Page',
         ));
 
         $this->setDecorators(array(

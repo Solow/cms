@@ -7,6 +7,9 @@ class Admin_AuthController extends Solow_Controller_Action
 
     protected function _process($values)
     {
+        echo "<pre>";
+        print_r($values);
+        die();
         // Get our authentication adapter and check credentials
         $adapter = $this->_getAuthAdapter($values);
         $auth = Zend_Auth::getInstance();

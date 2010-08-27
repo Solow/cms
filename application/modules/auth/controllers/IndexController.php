@@ -1,12 +1,12 @@
 <?php                        
-class Admin_AuthController extends Solow_Controller_Action
+class Auth_IndexController extends Solow_Controller_Action
 {     
     public function _init()
-    {                   
+    {                              
     }
 
     protected function _process($values)
-    {
+    {                   
         // Get our authentication adapter and check credentials
         $adapter = $this->_getAuthAdapter($values);
         $auth = Zend_Auth::getInstance();
@@ -41,7 +41,7 @@ class Admin_AuthController extends Solow_Controller_Action
 
     public function indexAction()
     {
-        $form = new Admin_Form_Login();
+        $form = new Auth_Form_Login();
         $request = $this->getRequest();
         if ($request->isPost())
         {
@@ -50,19 +50,28 @@ class Admin_AuthController extends Solow_Controller_Action
                 if ($this->_process($form->getValues()))
                 {
                     $successLocation = $this->authConfig->auth->validate->onAuthentication->location->toArray();
+                    $successLocation = array_map('trim',$successLocation);
                     if(count($successLocation) > 1)
                     {
-                           $redirUri = "/admin/auth/success";
+                        $redirUri = "/auth/index/success";
                     }  
-                    else
-                    {
+                    else                                                  
+                    {                                             
                         if(in_array('previous', $successLocation))
-                        {       
+                        {              
                             $uriSessionCheck =  new Zend_Session_Namespace('prevUri');
                             if(isset($uriSessionCheck->uri))
-                            {
-                                $redirUri = $uriSessionCheck->uri;
-                                Zend_Session::namespaceUnset('prevUri');   
+                            {              
+                                $modUri = explode('/', $uriSessionCheck->uri);   
+                                if($modUri[1] != 'auth')
+                                {
+                                    $redirUri = $uriSessionCheck->uri;
+                                    Zend_Session::namespaceUnset('prevUri');   
+                                }
+                                else
+                                {
+                                    $redirUri = '/admin';   
+                                }                       
                             }
                             else
                             {
@@ -90,7 +99,7 @@ class Admin_AuthController extends Solow_Controller_Action
                 echo "Invalid password and/or username";
             }
         }
-        $this->view->form = $form;
+        $this->view->form = $form;                                                 
     }
     
     public function successAction()
@@ -100,6 +109,9 @@ class Admin_AuthController extends Solow_Controller_Action
     
     public function logoutAction()
     {
+        $this->getHelper('layout')->disableLayout();
+        $this->getHelper('viewRenderer')->setNoRender();
         Zend_Auth::getInstance()->clearIdentity();
+        return $this->_helper->redirector->goToUrl($this->authConfig->auth->validate->notValidated->location);
     }
 }                        
